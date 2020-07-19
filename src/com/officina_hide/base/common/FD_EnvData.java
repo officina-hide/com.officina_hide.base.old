@@ -43,6 +43,14 @@ public class FD_EnvData {
 	 * システムユーザーID
 	 */
 	private int systemUserID;
+	/**
+	 * モデルファイルパス
+	 */
+	private String modelPath;
+	/**
+	 * モデルURI
+	 */
+	private String modelURI;
 	
 	public String getDB_Name() {
 		return DB_Name;
@@ -86,6 +94,18 @@ public class FD_EnvData {
 	}
 	public void setSystemUserID(int systemUserID) {
 		this.systemUserID = systemUserID;
+	}
+	public String getModelPath() {
+		return modelPath;
+	}
+	public void setModelPath(String modelPath) {
+		this.modelPath = modelPath;
+	}
+	public String getModelURI() {
+		return modelURI;
+	}
+	public void setModelURI(String modelURI) {
+		this.modelURI = modelURI;
 	}
 
 }

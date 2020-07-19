@@ -37,8 +37,13 @@ public class CreateBaseTable {
 		createRefarence(env);
 		//採番情報生成
 		createNumbering(env);
+		//リファレンスパラメータ情報生成
+		createReferenceParameter(env);
 		//テーフル項目情報追加
 		entryTableColumnData(env);
+		//テーブル情報モデル生成
+		new CreateModel(env, "FD_Table");
+		
 	}
 
 	/**
@@ -137,8 +142,52 @@ public class CreateBaseTable {
 		DB.addReferenceData(1000004,"複数行テキスト");
 		DB.addReferenceData(1000005,"日時");
 		DB.addReferenceData(1000006,"YESNO");
+		DB.addReferenceData(1000006,"ClassName");
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Reference Information created.");
+	}
+
+	/**
+	 * リファレンス用パラメータ情報生成<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
+	 */
+	private void createReferenceParameter(FD_EnvData env) {
+		StringBuffer sql = new StringBuffer();
+		//既に登録されている採番情報を削除します。
+		sql.append("DROP TABLE IF EXISTS FD_RefParam");
+		DB.execute(sql.toString());
+		//リファレンス用パラメータ情報を生成する。
+		sql = new StringBuffer();
+		sql.append("CREATE TABLE IF NOT EXISTS FD_RefParam  (");
+		sql.append("FD_RefParam_ID INT UNSIGNED NOT NULL COMMENT 'リファレンス用パラメータ情報ID'").append(",");
+		sql.append("FD_Reference_ID INT UNSIGNED NOT NULL COMMENT 'リファレンス情報ID'").append(",");
+		sql.append("Parameter_Name Varchar(100) COMMENT 'パラメータ名'").append(",");
+		sql.append("Parameter_Type_ID INT UNSIGNED COMMENT 'パラメータ種別ID'").append(",");
+		sql.append("Parameter_Data Varchar(200) COMMENT 'パラメータ情報'").append(",");
+		sql.append("FD_Comment Text  COMMENT '説明'").append(",");
+		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
+		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
+		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
+		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
+		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
+		DB.execute(sql.toString());
+		//リファレンス用パラメータ情報をテーブル情報に登録する。
+		DB.addTableData(105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
+		//リファレンス用パラメータ情報登録
+		DB.addRefParamData(DB.getReferenceID(env, "テキスト"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_Text",
+				"テキストを扱うクラス");
+		DB.addRefParamData(DB.getReferenceID(env, "情報ID"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_ImformationID",
+				"情報IDを扱うクラス");
+		DB.addRefParamData(DB.getReferenceID(env, "複数行テキスト"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_FieldText",
+				"複数行テキストを扱うクラス");
+		DB.addRefParamData(DB.getReferenceID(env, "日時"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_Date",
+				"日時を扱うクラス");
+		DB.addRefParamData(DB.getReferenceID(env, "YESNO"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_YESNO",
+				"YESNO項目を扱うクラス");
+		DB.addRefParamData(DB.getReferenceID(env, "自然数"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_Number",
+				"自然数を扱うクラス");
 	}
 
 	/**
@@ -172,6 +221,7 @@ public class CreateBaseTable {
 		DB.addNumberingData(102, 102, 0, 1000001);	//テーブル項目情報
 		DB.addNumberingData(103, 103, 0, 1000001);	//リファレンス情報情報
 		DB.addNumberingData(104, 104, 0, 1000001);	//採番情報
+		DB.addNumberingData(105, 105, 0, 1000001);	//リファレンス用パラメータ情報
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Numbering Information created.");
 	}
@@ -184,7 +234,7 @@ public class CreateBaseTable {
 	 */
 	private void entryTableColumnData(FD_EnvData env) {
 		//テーフル情報
-		int tableId = DB.getTableID("FD_Table");
+		int tableId = DB.getTableID(env, "FD_Table");
 		DB.addTableColumnData(tableId, "OFN_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル情報を識別するためのID", 10, true);
 		DB.addTableColumnData(tableId, "Table_Name", "テキスト", 100, "テーブル物理名","テーブルの物理名", 20, false);
 		DB.addTableColumnData(tableId, "FD_Name", "テキスト", 100, "テーブル論理名","テーブルの論理名", 30, false);
@@ -194,7 +244,7 @@ public class CreateBaseTable {
 		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","テーブル情報の更新日", 920, false);
 		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル情報の更新者のID", 930, false);
 		//テーフル項目情報
-		tableId = DB.getTableID("FD_TableColumn");
+		tableId = DB.getTableID(env, "FD_TableColumn");
 		DB.addTableColumnData(tableId, "FD_TableColumn_ID", "情報ID", 0, "テーブル項目情報ID","テーブル項目情報を識別するためのID", 10, true);
 		DB.addTableColumnData(tableId, "OFN_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル項目を紐づけるテーブルのID", 20, false);
 		DB.addTableColumnData(tableId, "Column_Name", "テキスト", 100, "テーブル項目物理名","テーブル項目の物理名", 30, false);
@@ -209,7 +259,7 @@ public class CreateBaseTable {
 		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","テーブル項目情報の更新日", 920, false);
 		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル項目情報の更新者のID", 930, false);
 		//リファレンス情報
-		tableId = DB.getTableID("FD_Reference");
+		tableId = DB.getTableID(env, "FD_Reference");
 		DB.addTableColumnData(tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス情報を識別するためのID", 10, true);
 		DB.addTableColumnData(tableId, "Reference_Name", "テキスト", 100, "リファレンス名","リファレンス情報の名称", 20, false);
 		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","リファレンス情報の登録日", 900, false);
@@ -217,7 +267,7 @@ public class CreateBaseTable {
 		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","リファレンス情報の更新日", 920, false);
 		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス情報の更新者のID", 930, false);
 		//採番情報
-		tableId = DB.getTableID("FD_Numbering");
+		tableId = DB.getTableID(env, "FD_Numbering");
 		DB.addTableColumnData(tableId, "FD_Numbering_ID", "情報ID", 0, "採番情報ID","採番情報を識別するためのID", 10, true);
 		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","採番の対象となるテーブルの情報ID", 20, false);
 		DB.addTableColumnData(tableId, "Current_Number", "自然数", 0, "現在値","採番された値", 30, false);
@@ -226,6 +276,18 @@ public class CreateBaseTable {
 		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","採番情報の登録者のID", 910, false);
 		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","採番情報の更新日", 920, false);
 		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","採番情報の更新者のID", 930, false);
+		//リファレンス用パラメータ情報
+		tableId = DB.getTableID(env, "FD_RefParam");
+		DB.addTableColumnData(tableId, "FD_RefParam_ID", "情報ID", 0, "リファレンス用パラメータ情報ID","リファレンス用パラメータ情報を識別するためのID", 10, true);
+		DB.addTableColumnData(tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス用パラメータ情報を紐づけるリファレンス情報のID", 20, false);
+		DB.addTableColumnData(tableId, "Parameter_Name", "テキスト", 100, "パラメータ名","パラメータを識別するための名称", 30, false);
+		DB.addTableColumnData(tableId, "Parameter_Type_ID", "情報ID", 0, "パラメータ種別ID","パラメータの種別を表すID（リファレンス情報ID）", 40, false);
+		DB.addTableColumnData(tableId, "Parameter_Data", "テキスト", 200, "パラメータ情報","パラメータの情報", 50, false);
+		DB.addTableColumnData(tableId, "FD_Comment", "複数行テキスト", 0, "説明","パラメータの説明", 60, false);
+		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","リファレンス用パラメータ情報の登録日", 900, false);
+		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス用パラメータ情報の登録者のID", 910, false);
+		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","リファレンス用パラメータ情報の更新日", 920, false);
+		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス用パラメータ情報の更新者のID", 930, false);
 	}
 
 }

@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
@@ -19,8 +22,7 @@ import com.officina_hide.base.common.FD_Logging;
  * @version 1.20
  * @since 2020/07/15
  */
-public class FD_DB {
-
+public class FD_DB implements I_DB {
 	/**
 	 * 環境情報
 	 */
@@ -29,6 +31,9 @@ public class FD_DB {
 	 * データベース接続情報
 	 */
 	protected static Connection conn = null;
+	
+	public FD_DB() {
+	}
 	
 	/**
 	 * コンストラクタ－<br>
@@ -70,7 +75,7 @@ public class FD_DB {
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/15
 	 */
-	private void connection() {
+	public void connection() {
 		if(conn == null) {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -146,7 +151,7 @@ public class FD_DB {
 	 * @param tableName テーブル名
 	 * @return テーフル情報ID
 	 */
-	public int getTableID(String tableName) {
+	public int getTableID(FD_EnvData env, String tableName) {
 		int id = 0;
 		StringBuffer sql = new StringBuffer();
 		Statement stmt = null;
@@ -249,7 +254,7 @@ public class FD_DB {
 	 * @param referenceName リファレンス名
 	 * @return リファレンス情報ID
 	 */
-	private int getReferenceID(FD_EnvData env, String referenceName) {
+	public int getReferenceID(FD_EnvData env, String referenceName) {
 		int id = 0;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -307,7 +312,7 @@ public class FD_DB {
 		int number = 0;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
-		int tableId = getTableID(tableName);
+		int tableId = getTableID(env, tableName);
 		sql.append("SELECT Current_Number, Start_Number FROM FD_Numbering ");
 		sql.append("Where FD_Table_ID = ").append(tableId).append(" ");
 		Statement stmt = null;
@@ -340,6 +345,94 @@ public class FD_DB {
 			close(rs, stmt);
 		}
 		return number;
+	}
+
+	/**
+	 * JavaDoc生成<br>
+	 * @param title Docタイトル
+	 * @param tabCount ベースタブカウント
+	 * @return JavaDoc
+	 */
+	public String editComment(String title, int tabCount) {
+		StringBuffer source = new StringBuffer();
+		source.append(setTab(tabCount)).append("/**").append(FD_RETURN);
+		source.append(setTab(tabCount)).append(" * ").append(title).append(".<br>").append(FD_RETURN);
+
+		source.append(setTab(tabCount)).append(" */").append(FD_RETURN);
+		return source.toString();
+	}
+
+	public String setTab(int tabCount) {
+		StringBuffer source = new StringBuffer();
+		for(int ix = 0 ; ix < tabCount; ix++) {
+			source.append(FD_TAB);
+		}
+		return source.toString();
+	}
+
+	/**
+	 * リファレンス用パラメータ情報登録<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/16
+	 * @param referenceID リファレンス情報ID
+	 * @param paramName パラメータ名
+	 * @param paramType　パラメータ種別名
+	 * @param paramData パラメータ情報
+	 * @param comment 説明
+	 */
+	public void addRefParamData(int referenceID, String paramName, String paramType, String paramData, String comment) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO FD_RefParam SET ");
+		sql.append("FD_RefParam_ID = ").append(getNewID("FD_RefParam")).append(",");
+		sql.append("FD_Reference_ID = ").append(referenceID).append(",");
+		sql.append("Parameter_Name = ").append(FD_SQ).append(paramName).append(FD_SQ).append(",");
+		sql.append("Parameter_Type_ID = ").append(getReferenceID(env, paramType)).append(",");
+		sql.append("Parameter_Data  = ").append(FD_SQ).append(paramData).append(FD_SQ).append(",");
+		sql.append("FD_Comment = ").append(FD_SQ).append(paramData).append(FD_SQ).append(",");
+		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Updated = ").append(env.getSystemUserID());
+		execute(sql.toString());
+	}
+
+	/**
+	 * インポートクラスを追加する。<br>
+	 * @param importList インポートクラスリスト
+	 * @param className 追加クラス名
+	 */
+	public void addImportClass(List<String> importList, String className) {
+		boolean isSee = false;		//追加スイッチ
+		for(String clazz : importList) {
+			if(clazz.equals(className)) {
+				isSee = true;
+				break;
+			}
+		}
+		if(isSee == false) {
+			importList.add(className);
+		}
+	}
+
+	/**
+	 * インポートクラス編集<br>
+	 * <p>リストの対象クラスは昇順に並び替えて出力される。</p>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/16
+	 * @param importClassList　インサート対象クラスリスト
+	 * @return インサート文字列
+	 */
+	public StringBuffer editImportClass(List<String> importClassList) {
+		StringBuffer source = new StringBuffer();
+		Collections.sort(importClassList);
+		for(String clazz : importClassList) {
+			source.append("import ").append(clazz).append(";").append(FD_RETURN);
+		}
+		if(source.length() > 0) {
+			source.append(FD_RETURN);
+		}
+		return source;
 	}
 
 }

@@ -59,6 +59,8 @@ public class CreatePackageBase {
 		env.setDB_Password("kan2*Sin");
 		env.setLogFile_Path("C:\\Dev\\officinaWork\\com.officina_hide.base\\log");
 		env.setSystemUserID(1000001);
+		env.setModelPath("C:\\Dev\\officinaWork\\com.officina_hide.base\\src\\com\\officina_hide\\base\\model");
+		env.setModelURI("com.officina_hide.base.model");
 		return env;
 	}
 
