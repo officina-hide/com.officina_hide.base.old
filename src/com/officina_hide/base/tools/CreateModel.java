@@ -121,15 +121,19 @@ public class CreateModel extends FD_DB implements I_DB {
 					Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
 					Constructor<?> con = cl.getConstructor(new Class[] {List.class});
 					Object obj = con.newInstance(new Object[] {importClassList});
-					Method method = cl.getMethod("toVariableDefinitions", String.class, String.class);
 					//変数定義
+					Method method = cl.getMethod("toVariableDefinitions", String.class, String.class);
 					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("FD_Name").toString()).toString());
-
+					//getter定義
+					method = cl.getMethod("toGetterDefinition", String.class, String.class);
+					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("FD_Name").toString()).toString());
+					//setter定義
+					method = cl.getMethod("toSetterDefinition", String.class, String.class);
+					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("OFN_Name").toString()).toString());
 				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 						| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
-
 			}
 			
 			//クラス終了

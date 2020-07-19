@@ -1,5 +1,7 @@
 package com.officina_hide.base.tools;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -57,10 +59,15 @@ public class CreatePackageBase {
 		env.setDB_Name("datatest");
 		env.setDB_User("root");
 		env.setDB_Password("kan2*Sin");
-		env.setLogFile_Path("C:\\Dev\\officinaWork\\com.officina_hide.base\\log");
 		env.setSystemUserID(1000001);
-		env.setModelPath("C:\\Dev\\officinaWork\\com.officina_hide.base\\src\\com\\officina_hide\\base\\model");
 		env.setModelURI("com.officina_hide.base.model");
+		try {
+			String currentPath = new File(".").getCanonicalPath();
+			env.setLogFile_Path(currentPath + "\\log");
+			env.setModelPath(currentPath + "\\src\\com\\officina_hide\\base\\model");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return env;
 	}
 

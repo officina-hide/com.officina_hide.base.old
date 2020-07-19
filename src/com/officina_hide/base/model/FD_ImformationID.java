@@ -35,4 +35,23 @@ public class FD_ImformationID extends FD_DB implements I_DB {
 			.append(columnName.substring(1)).append(";").append(FD_RETURN);
 		return source.toString();
 	}
+	
+	/**
+	 * クラスのgetter定義用文字列を返す。
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/20
+	 * @param columnName 変数名
+	 * @param name 変数説明
+	 * @return 定義用文字列
+	 */
+	public String toGetterDefinition(String columnName, String name) {
+		StringBuffer source = new StringBuffer();
+		source.append(editComment(name+"を取得する。", 1));
+		source.append(setTab(1)).append("public int get").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("() {").append(FD_RETURN);
+		source.append(setTab(2)).append("return ").append(columnName.substring(0, 1).toLowerCase())
+			.append(columnName.substring(1)).append(";").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN);
+	return source.toString();		
+	}
 }

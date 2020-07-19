@@ -36,4 +36,28 @@ public class FD_Date extends FD_DB implements I_DB {
 		return source.toString();
 	}
 
+	/**
+	 * クラスのgetter定義用文字列を返す。
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/20
+	 * @param columnName 変数名
+	 * @param name 変数説明
+	 * @return 定義用文字列
+	 */
+	public String toGetterDefinition(String columnName, String name) {
+		StringBuffer source = new StringBuffer();
+		String variable = columnName.substring(0, 1).toLowerCase()+columnName.substring(1);
+		source.append(editComment(name+"を取得する。", 1));
+		source.append(setTab(1)).append("public Calendar get").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("() {").append(FD_RETURN);
+		source.append(setTab(2)).append("if(").append(variable).append(" == null) {").append(FD_RETURN);
+		source.append(setTab(3)).append(variable).append(" = new GregorianCalendar(new Locale(\"ja\", \"JP\"));").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		source.append(setTab(2)).append("return ").append(columnName.substring(0, 1).toLowerCase())
+			.append(columnName.substring(1)).append(";").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN);
+		addImportClass(importList, "java.util.GregorianCalendar");
+		addImportClass(importList, "java.util.Locale");
+		return source.toString();				
+	}
 }
