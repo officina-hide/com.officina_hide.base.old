@@ -54,4 +54,23 @@ public class FD_FieldText extends FD_DB implements I_DB {
 		source.append(setTab(1)).append("}").append(FD_RETURN);
 		return source.toString();				
 	}
+	
+	/**
+	 * クラスのsetter定義用文字列を編集する。
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/20
+	 * @param columnName テーフル項目名
+	 * @param name 説明
+	 * @return 定義用文字列
+	 */
+	public String toSetterDefinition(String columnName, String name) {
+		StringBuffer source = new StringBuffer();
+		String variable = columnName.substring(0, 1).toLowerCase()+columnName.substring(1);
+		source.append(editComment(name+"をセットする。", 1));
+		source.append(setTab(1)).append("public void set").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append(" (String ").append(variable).append(") {").append(FD_RETURN);
+		source.append(setTab(2)).append("this.").append(variable).append(" = ").append(variable).append(";").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN);
+		return source.toString();		
+	}
 }
