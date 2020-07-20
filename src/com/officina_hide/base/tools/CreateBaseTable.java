@@ -43,6 +43,10 @@ public class CreateBaseTable {
 		entryTableColumnData(env);
 		//テーブル情報モデル生成
 		new CreateModel(env, "FD_Table");
+		new CreateModel(env, "FD_TableColumn");
+		new CreateModel(env, "FD_Reference");
+		new CreateModel(env, "FD_RefParam");
+		new CreateModel(env, "FD_Numbering");
 		
 	}
 
@@ -142,7 +146,7 @@ public class CreateBaseTable {
 		DB.addReferenceData(1000004,"複数行テキスト");
 		DB.addReferenceData(1000005,"日時");
 		DB.addReferenceData(1000006,"YESNO");
-		DB.addReferenceData(1000006,"ClassName");
+		DB.addReferenceData(1000007,"ClassName");
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Reference Information created.");
 	}
