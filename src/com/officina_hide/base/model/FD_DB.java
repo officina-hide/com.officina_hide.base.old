@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
@@ -52,9 +51,10 @@ public class FD_DB implements I_DB {
 	 * <p>更新系のSQL文を実行します。</p>
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/15
+	 * @param env 環境情報
 	 * @param sql SQL文
 	 */
-	public int execute(String sql) {
+	public int execute(FD_EnvData env, String sql) {
 		int chk = 0;
 		Statement stmt = null;
 		try {
@@ -116,7 +116,7 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(sql.toString());
+		execute(env, sql.toString());
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(sql.toString());
+		execute(env, sql.toString());
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class FD_DB implements I_DB {
 	 */
 	public void addTableColumnData(int tableId, String culimnName, String columnType, int size, String name, String comment,
 			int order, boolean priKey) {
-		int columnId = getNewID("FD_TableColumn");
+		int columnId = getNewID(env, "FD_TableColumn");
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
@@ -245,7 +245,7 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(sql.toString());
+		execute(env, sql.toString());
 	}
 
 	/**
@@ -300,15 +300,16 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(sql.toString());
+		execute(env, sql.toString());
 	}
 
 	/**
 	 * 新規情報ID取得<br>
+	 * @param env 環境情報
 	 * @param tableName テーブル名
 	 * @return 情報ID
 	 */
-	private int getNewID(String tableName) {
+	public int getNewID(FD_EnvData env,  String tableName) {
 		int number = 0;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
@@ -338,7 +339,7 @@ public class FD_DB implements I_DB {
 			sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 			sql.append("FD_Updated = ").append(env.getSystemUserID()).append(" ");
 			sql.append("WHERE FD_Table_ID = ").append(tableId);
-			execute(sql.toString());
+			execute(env, sql.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -384,7 +385,7 @@ public class FD_DB implements I_DB {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_RefParam SET ");
-		sql.append("FD_RefParam_ID = ").append(getNewID("FD_RefParam")).append(",");
+		sql.append("FD_RefParam_ID = ").append(getNewID(env, "FD_RefParam")).append(",");
 		sql.append("FD_Reference_ID = ").append(referenceID).append(",");
 		sql.append("Parameter_Name = ").append(FD_SQ).append(paramName).append(FD_SQ).append(",");
 		sql.append("Parameter_Type_ID = ").append(getReferenceID(env, paramType)).append(",");
@@ -394,7 +395,7 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(sql.toString());
+		execute(env, sql.toString());
 	}
 
 	/**

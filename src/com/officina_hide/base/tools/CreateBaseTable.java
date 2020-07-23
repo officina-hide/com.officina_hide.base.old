@@ -60,7 +60,7 @@ public class CreateBaseTable {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されているテーフル情報を削除する。
 		sql.append("DROP TABLE IF EXISTS FD_Table");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//テーフル情報を生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS FD_Table  (");
@@ -73,7 +73,7 @@ public class CreateBaseTable {
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル情報'");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//テーブル情報の情報を登録する。
 		DB.addTableData(101, "FD_Table", "テーブル情報","テーブルに関する情報を管理する。");
 		
@@ -90,7 +90,7 @@ public class CreateBaseTable {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されているテーブル項目情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_TableColumn");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//テーブル項目情報を生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS FD_TableColumn  (");
@@ -108,7 +108,7 @@ public class CreateBaseTable {
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");			
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//テーブル項目情報をテーブル情報に登録する。
 		DB.addTableData(102, "FD_TableColumn","テーブル項目情報","テーブルで使用する項目に課する情報を管理する。");
 
@@ -125,7 +125,7 @@ public class CreateBaseTable {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されているリファレンス情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_Reference");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//リファレンス情報を生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS FD_Reference  (");
@@ -136,7 +136,7 @@ public class CreateBaseTable {
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='リファレンス情報'");			
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//リファレンス情報をテーブル情報に登録する。
 		DB.addTableData(103, "FD_Reference", "リファレンス情報","システムで管理する項目の辞書としての管理を行う。");
 		//リファレンス情報登録
@@ -161,7 +161,7 @@ public class CreateBaseTable {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されている採番情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_RefParam");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//リファレンス用パラメータ情報を生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS FD_RefParam  (");
@@ -176,7 +176,7 @@ public class CreateBaseTable {
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//リファレンス用パラメータ情報をテーブル情報に登録する。
 		DB.addTableData(105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
 		//リファレンス用パラメータ情報登録
@@ -204,7 +204,7 @@ public class CreateBaseTable {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されている採番情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_Numbering");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//採番情報を生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS FD_Numbering  (");
@@ -217,7 +217,7 @@ public class CreateBaseTable {
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
-		DB.execute(sql.toString());
+		DB.execute(env, sql.toString());
 		//採番情報をテーブル情報に登録する。
 		DB.addTableData(104, "FD_Numbering", "採番情報","テーブル毎に情報に対して付与する情報IDの採番を管理する。");
 		//採番情報登録
@@ -239,7 +239,7 @@ public class CreateBaseTable {
 	private void entryTableColumnData(FD_EnvData env) {
 		//テーフル情報
 		int tableId = DB.getTableID(env, "FD_Table");
-		DB.addTableColumnData(tableId, "OFN_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル情報を識別するためのID", 10, true);
+		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル情報を識別するためのID", 10, true);
 		DB.addTableColumnData(tableId, "Table_Name", "テキスト", 100, "テーブル物理名","テーブルの物理名", 20, false);
 		DB.addTableColumnData(tableId, "FD_Name", "テキスト", 100, "テーブル論理名","テーブルの論理名", 30, false);
 		DB.addTableColumnData(tableId, "FD_COMMENT", "複数行テキスト", 0, "説明","テーブルの説明", 30, false);
@@ -250,7 +250,7 @@ public class CreateBaseTable {
 		//テーフル項目情報
 		tableId = DB.getTableID(env, "FD_TableColumn");
 		DB.addTableColumnData(tableId, "FD_TableColumn_ID", "情報ID", 0, "テーブル項目情報ID","テーブル項目情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "OFN_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル項目を紐づけるテーブルのID", 20, false);
+		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル項目を紐づけるテーブルのID", 20, false);
 		DB.addTableColumnData(tableId, "Column_Name", "テキスト", 100, "テーブル項目物理名","テーブル項目の物理名", 30, false);
 		DB.addTableColumnData(tableId, "Column_Type_ID", "情報ID", 0, "種別ID（リファレンス情報ID）","テーブル項目の属性を表すリファレンス情報のID", 40, false);
 		DB.addTableColumnData(tableId, "Column_Size", "自然数", 0, "桁数","テーブル項目の桁数", 50, false);

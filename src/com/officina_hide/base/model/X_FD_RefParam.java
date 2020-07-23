@@ -1,10 +1,33 @@
 package com.officina_hide.base.model;
 
+import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_WhereData;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 public class X_FD_RefParam extends FD_DB implements I_DB, I_FD_RefParam {
+	private FD_EnvData env;
+
+	public X_FD_RefParam(FD_EnvData env) {
+		this.env = env;
+	}
+
+	public X_FD_RefParam(FD_EnvData env, FD_WhereData where) {
+		this.env = env;
+		List<Integer> ids = getIds(env, where);
+		if(ids.size() > 0) {
+			load(env, ids.get(0));
+		}
+	}
+
+	public X_FD_RefParam(FD_EnvData env, int id) {
+		this.env = env;
+		load(env, id);
+	}
+
 	/**
 	 * リファレンス用パラメータ情報ID.<br>
 	 */
@@ -171,5 +194,34 @@ public class X_FD_RefParam extends FD_DB implements I_DB, I_FD_RefParam {
 	public void setFD_Updated( int fD_Updated) {
 		this.fD_Updated = fD_Updated;
 	}
+	/**
+	 * FD_RefParamを保存する。.<br>
+	 */
+	public void save() {
+		StringBuffer sql = new StringBuffer();
+		boolean isNewData = false;
+		if(getFD_RefParam_ID() == 0 ) {
+			setFD_RefParam_ID(getNewID(env, getTableID(env, "FD_RefParam")));
+			isNewData = true;
+		}
+		if(isNewData) {
+			sql.append("INSERT INTO ").append(I_FD_RefParam.Table_Name);
+			getFD_Create().setTime(new Date());
+			getFD_Update().setTime(new Date());
+			setFD_Created(env.getLoginUserID());
+			setFD_Updated(env.getLoginUserID());
+		} else {
+			sql.append("UPDATE ").append(I_FD_RefParam.Table_Name);
+			getFD_Update().setTime(new Date());
+			setFD_Updated(env.getLoginUserID());
+		}
+		sql.append(" SET ");
+;
+		if(isNewData == false) {
+			sql.append(" WHERE ").append(I_FD_RefParam.COLUMNNAME_FD_REFPARAM_ID).append(" = ").append(getFD_RefParam_ID());
+		}
+		execute(env, sql.toString());
+	}
+
 }
 

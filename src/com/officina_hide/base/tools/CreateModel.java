@@ -113,6 +113,11 @@ public class CreateModel extends FD_DB implements I_DB {
 			//クラス開始
 			source.append("public class X_").append(tableName).append(" extends FD_DB implements I_DB").append(", ")
 				.append("I_").append(tableName).append(" ").append("{").append(FD_RETURN);
+			//共通変数定義
+			source.append(setTab(1)).append("private FD_EnvData env;").append(FD_RETURN);
+			source.append(FD_RETURN);
+			//コンストラクター(取得用)定義
+			source.append(createConstractor());
 			
 			//テーブル項目定義0
 			List<Map<String, String>> columns = getColumnData();
@@ -135,6 +140,8 @@ public class CreateModel extends FD_DB implements I_DB {
 					e.printStackTrace();
 				}
 			}
+			//saveメソッド定義
+			source.append(createSaveMethod());
 			
 			//クラス終了
 			source.append("}").append(FD_RETURN).append(FD_RETURN);
@@ -146,6 +153,122 @@ public class CreateModel extends FD_DB implements I_DB {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * コンストラクタ－定義<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/23
+	 * @return 定義文字列
+	 */
+	private String createConstractor() {
+		StringBuffer source = new StringBuffer();
+		//インスタンス化のみのコンストラクター
+		source.append(setTab(1)).append("public X_").append(tableName).append("(FD_EnvData env) {").append(FD_RETURN);
+		source.append(setTab(2)).append("this.env = env;").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+		addImportClass(importClassList, "com.officina_hide.base.common.FD_EnvData");
+		
+		//インスタンス化時に条件分で指定した情報を読取るコンストラクター生成
+		source.append(setTab(1)).append("public X_").append(tableName)
+			.append("(FD_EnvData env, FD_WhereData where) {").append(FD_RETURN);
+		source.append(setTab(2)).append("this.env = env;").append(FD_RETURN);
+		source.append(setTab(2)).append("List<Integer> ids = getIds(env, where);").append(FD_RETURN);
+		//idsの0件対応
+		// TODO idsが0件の時（条件らマッチした情報が抽出できなかった時）の対応について要検討(2020/06/15 ueno)
+		source.append(setTab(2)).append("if(ids.size() > 0) {").append(FD_RETURN);
+		source.append(setTab(3)).append("load(env, ids.get(0));").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+		
+		//インスタンス化時に情報IDで情報を取得するコンストラクター生成
+		source.append(setTab(1)).append("public X_").append(tableName).append("(FD_EnvData env, int id) {").append(FD_RETURN);
+		source.append(setTab(2)).append("this.env = env;").append(FD_RETURN);
+		source.append(setTab(2)).append("load(env, id);").append(FD_RETURN);
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+		
+		addImportClass(importClassList, "com.officina_hide.base.common.FD_WhereData");
+		addImportClass(importClassList, "java.util.List");
+		return source.toString();
+	}
+
+	/**
+	 * Saveメソッド定義<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/21
+	 * @return 定義文字列
+	 */
+	private String createSaveMethod() {
+		StringBuffer source = new StringBuffer();
+		source.append(editComment(tableName + "を保存する。", 1));
+		//メソッド開始
+		source.append(setTab(1)).append("public void save() {").append(FD_RETURN);
+		//SQL文字列変数定義
+		source.append(setTab(2)).append("StringBuffer sql = new StringBuffer();").append(FD_RETURN);
+		//新規登録判定
+		source.append(setTab(2)).append("boolean isNewData = false;").append(FD_RETURN);
+		//新規情報ID取得
+		source.append(setTab(2)).append("if(get").append(tableName.substring(0, 1))
+			.append(tableName.substring(1)).append("_ID() == 0 ) {").append(FD_RETURN);
+		source.append(setTab(3)).append("set").append(tableName.substring(0, 1).toUpperCase())
+			.append(tableName.substring(1)).append("_ID(")
+			.append("getNewID(env, getTableID(env, ").append(FD_DQ).append(tableName).append(FD_DQ)
+			.append(")));").append(FD_RETURN);
+		source.append(setTab(3)).append("isNewData = true;").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		//追加・更新SQL分ヘッダー
+		source.append(setTab(2)).append("if(isNewData) {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(").append(FD_DQ).append("INSERT INTO ").append(FD_DQ)
+			.append(").append(I_").append(tableName).append(".Table_Name);").append(FD_RETURN);
+		source.append(setTab(3)).append("getFD_Create().setTime(new Date());").append(FD_RETURN);
+		source.append(setTab(3)).append("getFD_Update().setTime(new Date());").append(FD_RETURN);
+		source.append(setTab(3)).append("setFD_Created(").append("env.getLoginUserID()").append(");").append(FD_RETURN);
+		source.append(setTab(3)).append("setFD_Updated(").append("env.getLoginUserID()").append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("} else {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(").append(FD_DQ).append("UPDATE ").append(FD_DQ)
+			.append(").append(I_").append(tableName).append(".Table_Name);").append(FD_RETURN);
+		source.append(setTab(3)).append("getFD_Update().setTime(new Date());").append(FD_RETURN);
+		source.append(setTab(3)).append("setFD_Updated(").append("env.getLoginUserID()").append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		addImportClass(importClassList, "java.util.Date");
+		//項目セット
+		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append(" SET ").append(FD_DQ).append(");").append(FD_RETURN);
+		List<Map<String, String>> columns = getColumnData();
+		StringBuffer setItems = new StringBuffer();
+		for(Map<String, String> map : columns) {
+			if(setItems.length() > 0) {
+				setItems.append(".append(").append(FD_DQ).append(",").append(FD_DQ).append(");").append(FD_RETURN);
+			}
+			//項目の該当する属性クラスから保存用のSQL文字列を取得する。
+			try {
+				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
+				Object obj = con.newInstance(new Object[] {importClassList});
+				Method method = cl.getMethod("toSaveSQL", String.class, String.class);
+				setItems.append(method.invoke(obj, tableName, map.get("Column_Name").toString()));
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		source.append(setItems.toString()).append(";").append(FD_RETURN);
+
+		//更新時の条件セット
+		source.append(setTab(2)).append("if(isNewData == false) {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(").append(FD_DQ).append(" WHERE ").append(FD_DQ).append(")")
+			.append(".append(I_").append(tableName).append(".").append("COLUMNNAME_").append(tableName.toUpperCase())
+			.append("_ID)").append(".append(").append(FD_DQ).append(" = ").append(FD_DQ).append(")")
+			.append(".append(").append("get").append(tableName.substring(0, 1).toUpperCase())
+			.append(tableName.substring(1)).append("_ID").append("());").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		
+		//SQL実行
+		source.append(setTab(2)).append("execute(env, sql.toString());").append(FD_RETURN);
+
+		//メソッド終了
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+
+		return source.toString();
 	}
 
 	/**

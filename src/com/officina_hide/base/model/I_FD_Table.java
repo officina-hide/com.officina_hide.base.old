@@ -14,7 +14,7 @@ public interface I_FD_Table {
 	/**
 	 * テーブル情報ID.<br>
 	 */
-	public final String COLUMNNAME_OFN_TABLE_ID = "OFN_Table_ID";
+	public final String COLUMNNAME_FD_TABLE_ID = "FD_Table_ID";
 
 	/**
 	 * テーブル物理名.<br>
