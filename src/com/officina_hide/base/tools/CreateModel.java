@@ -142,6 +142,8 @@ public class CreateModel extends FD_DB implements I_DB {
 			}
 			//saveメソッド定義
 			source.append(createSaveMethod());
+			//loadメソッド定義
+			source.append(createLoadMethod());
 			
 			//クラス終了
 			source.append("}").append(FD_RETURN).append(FD_RETURN);
@@ -212,8 +214,8 @@ public class CreateModel extends FD_DB implements I_DB {
 			.append(tableName.substring(1)).append("_ID() == 0 ) {").append(FD_RETURN);
 		source.append(setTab(3)).append("set").append(tableName.substring(0, 1).toUpperCase())
 			.append(tableName.substring(1)).append("_ID(")
-			.append("getNewID(env, getTableID(env, ").append(FD_DQ).append(tableName).append(FD_DQ)
-			.append(")));").append(FD_RETURN);
+			.append("getNewID(env, ").append(FD_DQ).append(tableName).append(FD_DQ)
+			.append("));").append(FD_RETURN);
 		source.append(setTab(3)).append("isNewData = true;").append(FD_RETURN);
 		source.append(setTab(2)).append("}").append(FD_RETURN);
 		//追加・更新SQL分ヘッダー
@@ -268,6 +270,66 @@ public class CreateModel extends FD_DB implements I_DB {
 		//メソッド終了
 		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
 
+		return source.toString();
+	}
+
+	/**
+	 * データ取得(Load)メソッド定義<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/24
+	 * @return 定義文字列
+	 */
+	private Object createLoadMethod() {
+		StringBuilder source = new StringBuilder();
+		source.append(editComment("指定された情報IDを持つ情報を抽出する。<br>", 1));
+		//メソッド開始
+		source.append(setTab(1)).append("public boolean load(FD_EnvData env, int id) {").append(FD_RETURN);
+		//取得判定用
+		source.append(setTab(2)).append("boolean chk = false;").append(FD_RETURN);
+		//SQL編集
+		source.append(setTab(2)).append("StringBuffer sql = new StringBuffer();").append(FD_RETURN);
+		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append("SELECT * FROM ").append(FD_DQ).append(")")
+			.append(".append(Table_Name);").append(FD_RETURN);
+		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append(" WHERE ").append(FD_DQ).append(")")
+			.append(".append(COLUMNNAME_").append(tableName.toUpperCase()).append("_ID)")
+			.append(".append(").append(FD_DQ).append(" = ").append(FD_DQ).append(")")
+			.append(".append(id);").append(FD_RETURN);
+		//SQL実行
+		source.append(setTab(2)).append("try {").append(FD_RETURN);
+		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
+		source.append(setTab(3)).append("if(rs.next()) {").append(FD_RETURN);
+
+		//項目セット
+		List<Map<String, String>> columns = getColumnData();
+		StringBuilder setItems = new StringBuilder();
+		for(Map<String, String> map : columns) {
+			try {
+				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
+				Object obj = con.newInstance(new Object[] {importClassList});
+				Method method = cl.getMethod("toLoadSQL",  Map.class, int.class);
+				setItems.append(method.invoke(obj, map, 4));
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		source.append(setItems.toString());
+		
+		source.append(setTab(3)).append("}").append(FD_RETURN);
+		source.append(setTab(2)).append("} catch (SQLException e) {").append(FD_RETURN);
+		//エラー処理
+		source.append(setTab(3)).append("env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, ")
+			.append(FD_DQ).append("SQL Execution Error !!").append(FD_DQ).append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		//return
+		source.append(setTab(2)).append("return chk;").append(FD_RETURN);
+		//メソッド終了
+		source.append(setTab(1)).append("}").append(FD_RETURN);
+
+		addImportClass(importClassList, "java.sql.ResultSet");
+		addImportClass(importClassList, "java.sql.SQLException");
+		addImportClass(importClassList, "com.officina_hide.base.common.FD_Logging");
 		return source.toString();
 	}
 

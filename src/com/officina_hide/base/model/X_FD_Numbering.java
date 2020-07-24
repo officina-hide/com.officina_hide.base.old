@@ -1,7 +1,10 @@
 package com.officina_hide.base.model;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -169,7 +172,7 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		StringBuffer sql = new StringBuffer();
 		boolean isNewData = false;
 		if(getFD_Numbering_ID() == 0 ) {
-			setFD_Numbering_ID(getNewID(env, getTableID(env, "FD_Numbering")));
+			setFD_Numbering_ID(getNewID(env, "FD_Numbering"));
 			isNewData = true;
 		}
 		if(isNewData) {
@@ -184,12 +187,36 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 			setFD_Updated(env.getLoginUserID());
 		}
 		sql.append(" SET ");
-;
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(getFD_Numbering_ID()).append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID()).append(",");
+.append(",");
+.append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
 		if(isNewData == false) {
 			sql.append(" WHERE ").append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(getFD_Numbering_ID());
 		}
 		execute(env, sql.toString());
 	}
 
+	/**
+	 * 指定された情報IDを持つ情報を抽出する。<br>.<br>
+	 */
+	public boolean load(FD_EnvData env, int id) {
+		boolean chk = false;
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM ").append(Table_Name);
+		sql.append(" WHERE ").append(COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(id);
+		try {
+			ResultSet rs = queryDB(env, sql.toString());
+			if(rs.next()) {
+			}
+		} catch (SQLException e) {
+			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");
+		}
+		return chk;
+	}
 }
 

@@ -30,6 +30,10 @@ public class FD_DB implements I_DB {
 	 * データベース接続情報
 	 */
 	protected static Connection conn = null;
+	/**
+	 * 日付フォーマット
+	 */
+	protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	public FD_DB() {
 	}

@@ -60,6 +60,7 @@ public class CreatePackageBase {
 		env.setDB_User("root");
 		env.setDB_Password("kan2*Sin");
 		env.setSystemUserID(1000001);
+		env.setLoginUserID(1000001);
 		env.setModelURI("com.officina_hide.base.model");
 		try {
 			String currentPath = new File(".").getCanonicalPath();

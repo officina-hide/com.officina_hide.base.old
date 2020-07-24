@@ -73,4 +73,23 @@ public class FD_FieldText extends FD_DB implements I_DB {
 		source.append(setTab(1)).append("}").append(FD_RETURN);
 		return source.toString();		
 	}
+	
+	/**
+	 * 保存メソッドSQL用項目セット文字列を使うと返す。<br>
+	 * @author ueno hideo
+	 * @since 2020-04-25 
+	 * @param tableName テーブル名
+	 * @param columnName テーブル項目名
+	 * @return 定義用文字列
+	 */
+	public String toSaveSQL (String tableName, String columnName) {
+		StringBuffer source = new StringBuffer();
+		source.append(setTab(2)).append("sql.append(I_").append(tableName).append(".")
+			.append("COLUMNNAME_").append(columnName.toUpperCase()).append(")")
+			.append(".append(").append(FD_DQ).append(" = ").append(FD_SQ).append(FD_DQ).append(")")
+			.append(".append(").append("get").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("()")
+			.append(")").append(".append(").append(FD_DQ).append(FD_SQ).append(FD_DQ).append(")");
+		return source.toString();
+	}
 }

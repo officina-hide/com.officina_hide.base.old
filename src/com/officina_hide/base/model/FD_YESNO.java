@@ -73,4 +73,28 @@ public class FD_YESNO extends FD_DB implements I_DB {
 		source.append(setTab(1)).append("}").append(FD_RETURN);
 		return source.toString();
 	}
+
+	/**
+	 * 保存メソッドSQL用項目セット文字列を使うと返す。<br>
+	 * @author ueno hideo
+	 * @since 2020-04-25 
+	 * @param tableName テーブル名
+	 * @param columnName テーブル項目名
+	 * @return 定義用文字列
+	 */
+	public String toSaveSQL (String tableName, String columnName) {
+		StringBuffer source = new StringBuffer();
+		source.append(setTab(2)).append("if(is").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("() == true) {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(DIF_").append(tableName).append(".")
+			.append("COLUMNNAME_").append(columnName.toUpperCase()).append(")")
+			.append(".append(").append(FD_DQ).append(" = 1").append(FD_DQ).append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("} else {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(DIF_").append(tableName).append(".")
+			.append("COLUMNNAME_").append(columnName.toUpperCase()).append(")")
+			.append(".append(").append(FD_DQ).append(" = 0").append(FD_DQ).append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		source.append(setTab(2)).append("sql");
+		return source.toString();
+	}
 }

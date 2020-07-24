@@ -51,6 +51,10 @@ public class FD_EnvData {
 	 * モデルURI
 	 */
 	private String modelURI;
+	/**
+	 * ログインユーザーID
+	 */
+	private int loginUserID;
 	
 	public String getDB_Name() {
 		return DB_Name;
@@ -106,6 +110,18 @@ public class FD_EnvData {
 	}
 	public void setModelURI(String modelURI) {
 		this.modelURI = modelURI;
+	}
+	/**
+	 * @return loginUserID
+	 */
+	public int getLoginUserID() {
+		return loginUserID;
+	}
+	/**
+	 * @param loginUserID セットする loginUserID
+	 */
+	public void setLoginUserID(int loginUserID) {
+		this.loginUserID = loginUserID;
 	}
 
 }
