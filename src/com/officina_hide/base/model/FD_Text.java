@@ -92,5 +92,27 @@ public class FD_Text extends FD_DB implements I_DB {
 			.append(")").append(".append(").append(FD_DQ).append(FD_SQ).append(FD_DQ).append(")");
 		return source.toString();
 	}
+	
+	/**
+	 * テーブルからの情報取得用SQL文を返す<br>
+	 * @author ueno hideo
+	 * @since 2020/05/04
+	 * @param map テーブル項目情報
+	 * @param tabCnt タブ数
+	 * @return Load用定義文
+	 */
+	public String toLoadSQL(Map<String, String>  map, int tabCnt) {
+		StringBuilder source = new StringBuilder();
+		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString();
+		source.append(setTab(tabCnt)).append("if(rs.getString(").append("COLUMNNAME_"+columnName.toUpperCase()).append(") != null) {").append(FD_RETURN);
+		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("(")
+			.append("rs.getString(").append("COLUMNNAME_"+columnName.toUpperCase()).append("));").append(FD_RETURN);
+		source.append(setTab(tabCnt)).append("} else {").append(FD_RETURN);
+		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("(").append(FD_DQ).append(FD_DQ).append(");").append(FD_RETURN);
+		source.append(setTab(tabCnt)).append("}").append(FD_RETURN);
+		return source.toString();
+	}
 }
 	

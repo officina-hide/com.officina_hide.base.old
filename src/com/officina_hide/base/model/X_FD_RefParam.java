@@ -246,6 +246,32 @@ public class X_FD_RefParam extends FD_DB implements I_DB, I_FD_RefParam {
 		try {
 			ResultSet rs = queryDB(env, sql.toString());
 			if(rs.next()) {
+				setFD_RefParam_ID(rs.getInt(COLUMNNAME_FD_REFPARAM_ID));
+				setFD_Reference_ID(rs.getInt(COLUMNNAME_FD_REFERENCE_ID));
+				if(rs.getString(COLUMNNAME_PARAMETER_NAME) != null) {
+					setParameter_Name(rs.getString(COLUMNNAME_PARAMETER_NAME));
+				} else {
+					setParameter_Name("");
+				}
+				setParameter_Type_ID(rs.getInt(COLUMNNAME_PARAMETER_TYPE_ID));
+				if(rs.getString(COLUMNNAME_PARAMETER_DATA) != null) {
+					setParameter_Data(rs.getString(COLUMNNAME_PARAMETER_DATA));
+				} else {
+					setParameter_Data("");
+				}
+				if(rs.getString(COLUMNNAME_FD_COMMENT) != null) {
+					setFD_Comment(rs.getString(COLUMNNAME_FD_COMMENT));
+				} else {
+					setFD_Comment("");
+				}
+				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
+					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));
+				}
+				setFD_Created(rs.getInt(COLUMNNAME_FD_CREATED));
+				if(rs.getDate(COLUMNNAME_FD_UPDATE) != null) {
+					getFD_Update().setTime(rs.getDate(COLUMNNAME_FD_UPDATE));
+				}
+				setFD_Updated(rs.getInt(COLUMNNAME_FD_UPDATED));
 			}
 		} catch (SQLException e) {
 			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");

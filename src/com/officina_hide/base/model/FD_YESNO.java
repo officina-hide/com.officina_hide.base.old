@@ -97,4 +97,25 @@ public class FD_YESNO extends FD_DB implements I_DB {
 		source.append(setTab(2)).append("sql");
 		return source.toString();
 	}
+	
+	/**
+	 * テーブルからの情報取得用SQL文を返す<br>
+	 * @author ueno hideo
+	 * @since 2020/05/04
+	 * @param map テーブル項目情報
+	 * @param tabCnt タブ数
+	 * @return Load用定義文
+	 */
+	public String toLoadSQL(Map<String, String>  map, int tabCnt) {
+		StringBuilder source = new StringBuilder();
+		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString();
+		source.append(setTab(tabCnt)).append("if(rs.getInt(").append("COLUMNNAME_"+columnName.toUpperCase()).append(") != 0) {").append(FD_RETURN);
+		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("(true);").append(FD_RETURN);
+		source.append(setTab(tabCnt)).append("} else {").append(FD_RETURN);
+		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
+			.append(columnName.substring(1)).append("(false);").append(FD_RETURN);
+		source.append(setTab(tabCnt)).append("}").append(FD_RETURN);
+		return source.toString();
+	}
 }

@@ -271,7 +271,7 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID()).append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).append(" = '").append(getColumn_Name()).append("'").append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_COLUMN_TYPE_ID).append(" = ").append(getColumn_Type_ID()).append(",");
-.append(",");
+		sql.append(I_FD_TableColumn.COLUMNNAME_COLUMN_SIZE).append(" = ").append(getColumn_Size()).append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_COMMENT).append(" = '").append(getFD_Comment()).append("'").append(",");
 		if(isPrimary_Key_Check() == true) {
@@ -280,7 +280,7 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 			sql.append(DIF_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).append(" = 0");
 		}
 		sql.append(",");
-.append(",");
+		sql.append(I_FD_TableColumn.COLUMNNAME_COLUMN_SORT_ORDER).append(" = ").append(getColumn_Sort_Order()).append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
@@ -302,6 +302,39 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 		try {
 			ResultSet rs = queryDB(env, sql.toString());
 			if(rs.next()) {
+				setFD_TableColumn_ID(rs.getInt(COLUMNNAME_FD_TABLECOLUMN_ID));
+				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));
+				if(rs.getString(COLUMNNAME_COLUMN_NAME) != null) {
+					setColumn_Name(rs.getString(COLUMNNAME_COLUMN_NAME));
+				} else {
+					setColumn_Name("");
+				}
+				setColumn_Type_ID(rs.getInt(COLUMNNAME_COLUMN_TYPE_ID));
+				setColumn_Size(rs.getInt(COLUMNNAME_COLUMN_SIZE));
+				if(rs.getString(COLUMNNAME_FD_NAME) != null) {
+					setFD_Name(rs.getString(COLUMNNAME_FD_NAME));
+				} else {
+					setFD_Name("");
+				}
+				if(rs.getString(COLUMNNAME_FD_COMMENT) != null) {
+					setFD_Comment(rs.getString(COLUMNNAME_FD_COMMENT));
+				} else {
+					setFD_Comment("");
+				}
+				if(rs.getInt(COLUMNNAME_PRIMARY_KEY_CHECK) != 0) {
+					setPrimary_Key_Check(true);
+				} else {
+					setPrimary_Key_Check(false);
+				}
+				setColumn_Sort_Order(rs.getInt(COLUMNNAME_COLUMN_SORT_ORDER));
+				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
+					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));
+				}
+				setFD_Created(rs.getInt(COLUMNNAME_FD_CREATED));
+				if(rs.getDate(COLUMNNAME_FD_UPDATE) != null) {
+					getFD_Update().setTime(rs.getDate(COLUMNNAME_FD_UPDATE));
+				}
+				setFD_Updated(rs.getInt(COLUMNNAME_FD_UPDATED));
 			}
 		} catch (SQLException e) {
 			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");

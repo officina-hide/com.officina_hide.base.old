@@ -212,6 +212,30 @@ public class X_FD_Table extends FD_DB implements I_DB, I_FD_Table {
 		try {
 			ResultSet rs = queryDB(env, sql.toString());
 			if(rs.next()) {
+				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));
+				if(rs.getString(COLUMNNAME_TABLE_NAME) != null) {
+					setTable_Name(rs.getString(COLUMNNAME_TABLE_NAME));
+				} else {
+					setTable_Name("");
+				}
+				if(rs.getString(COLUMNNAME_FD_NAME) != null) {
+					setFD_Name(rs.getString(COLUMNNAME_FD_NAME));
+				} else {
+					setFD_Name("");
+				}
+				if(rs.getString(COLUMNNAME_FD_COMMENT) != null) {
+					setFD_COMMENT(rs.getString(COLUMNNAME_FD_COMMENT));
+				} else {
+					setFD_COMMENT("");
+				}
+				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
+					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));
+				}
+				setFD_Created(rs.getInt(COLUMNNAME_FD_CREATED));
+				if(rs.getDate(COLUMNNAME_FD_UPDATE) != null) {
+					getFD_Update().setTime(rs.getDate(COLUMNNAME_FD_UPDATE));
+				}
+				setFD_Updated(rs.getInt(COLUMNNAME_FD_UPDATED));
 			}
 		} catch (SQLException e) {
 			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");

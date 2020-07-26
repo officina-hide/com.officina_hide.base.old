@@ -189,8 +189,8 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		sql.append(" SET ");
 		sql.append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(getFD_Numbering_ID()).append(",");
 		sql.append(I_FD_Numbering.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID()).append(",");
-.append(",");
-.append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_CURRENT_NUMBER).append(" = ").append(getCurrent_Number()).append(",");
+		sql.append(I_FD_Numbering.COLUMNNAME_START_NUMBER).append(" = ").append(getStart_Number()).append(",");
 		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
 		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
 		sql.append(I_FD_Numbering.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
@@ -212,6 +212,18 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		try {
 			ResultSet rs = queryDB(env, sql.toString());
 			if(rs.next()) {
+				setFD_Numbering_ID(rs.getInt(COLUMNNAME_FD_NUMBERING_ID));
+				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));
+				setCurrent_Number(rs.getInt(COLUMNNAME_CURRENT_NUMBER));
+				setStart_Number(rs.getInt(COLUMNNAME_START_NUMBER));
+				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
+					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));
+				}
+				setFD_Created(rs.getInt(COLUMNNAME_FD_CREATED));
+				if(rs.getDate(COLUMNNAME_FD_UPDATE) != null) {
+					getFD_Update().setTime(rs.getDate(COLUMNNAME_FD_UPDATE));
+				}
+				setFD_Updated(rs.getInt(COLUMNNAME_FD_UPDATED));
 			}
 		} catch (SQLException e) {
 			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");
