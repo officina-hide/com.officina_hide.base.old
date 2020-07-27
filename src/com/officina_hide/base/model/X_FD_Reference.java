@@ -5,6 +5,8 @@ import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -168,15 +170,53 @@ public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 	}
 
 	/**
+	 * 条件文に該当する情報のIDリストを取得する。<br>.<br>
+	 * @paramenv 環境情報
+	 * @paramwhere 抽出条件
+	 * @paramorder 並び順
+	 */
+	public List<Integer> getIds(FD_EnvData env, FD_WhereData where, FD_OrderData order) {
+		List<Integer> ids = new ArrayList<Integer>();
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ").append(I_FD_Reference.COLUMNNAME_FD_REFERENCE_ID).append(" FROM ").append(I_FD_Reference.Table_Name);
+		sql.append(" WHERE ").append(where.toString());
+		if(order != null) {
+			sql.append(" ORDER BY ").append(order.toString());
+		}
+		try {
+			ResultSet rs = queryDB(env, sql.toString());
+			while(rs.next()) {
+				ids.add(rs.getInt(DIF_FD_Reference.COLUMNNAME_FD_REFERENCE_ID));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ids;
+	}
+
+	/**
+	 * 条件文に該当する情報のIDリストを取得する。<br>.<br>
+	 * @paramenv 環境情報
+	 * @paramwhere 抽出条件
+	 */
+	public List<Integer> getIds(FD_EnvData env, FD_WhereData where) {
+		return getIds(env, where, null);
+	}
+
+	/**
 	 * 指定された情報IDを持つ情報を抽出する。<br>.<br>
 	 */
 	public boolean load(FD_EnvData env, int id) {
 		boolean chk = false;
+		Statement stmt = null;
+		ResultSet rs = null;
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ").append(Table_Name);
 		sql.append(" WHERE ").append(COLUMNNAME_FD_REFERENCE_ID).append(" = ").append(id);
 		try {
-			ResultSet rs = queryDB(env, sql.toString());
+			connection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
 				setFD_Reference_ID(rs.getInt(COLUMNNAME_FD_REFERENCE_ID));
 				if(rs.getString(COLUMNNAME_REFERENCE_NAME) != null) {

@@ -17,6 +17,7 @@ import java.util.Map;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.FD_JavaDocParam;
 import com.officina_hide.base.model.I_DB;
 
 /**
@@ -142,6 +143,8 @@ public class CreateModel extends FD_DB implements I_DB {
 			}
 			//saveメソッド定義
 			source.append(createSaveMethod());
+			//id取得メソッド定義
+			source.append(createIdsMethod());
 			//loadメソッド定義
 			source.append(createLoadMethod());
 			
@@ -286,6 +289,9 @@ public class CreateModel extends FD_DB implements I_DB {
 		source.append(setTab(1)).append("public boolean load(FD_EnvData env, int id) {").append(FD_RETURN);
 		//取得判定用
 		source.append(setTab(2)).append("boolean chk = false;").append(FD_RETURN);
+		//データベース関連変数設定
+		source.append(setTab(2)).append("Statement stmt = null;").append(FD_RETURN);
+		source.append(setTab(2)).append("ResultSet rs = null;").append(FD_RETURN);
 		//SQL編集
 		source.append(setTab(2)).append("StringBuffer sql = new StringBuffer();").append(FD_RETURN);
 		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append("SELECT * FROM ").append(FD_DQ).append(")")
@@ -296,7 +302,10 @@ public class CreateModel extends FD_DB implements I_DB {
 			.append(".append(id);").append(FD_RETURN);
 		//SQL実行
 		source.append(setTab(2)).append("try {").append(FD_RETURN);
-		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
+//		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
+		source.append(setTab(3)).append("connection();").append(FD_RETURN);
+		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
+		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
 		source.append(setTab(3)).append("if(rs.next()) {").append(FD_RETURN);
 
 		//項目セット
@@ -330,6 +339,78 @@ public class CreateModel extends FD_DB implements I_DB {
 		addImportClass(importClassList, "java.sql.ResultSet");
 		addImportClass(importClassList, "java.sql.SQLException");
 		addImportClass(importClassList, "com.officina_hide.base.common.FD_Logging");
+		addImportClass(importClassList, "java.sql.Statement");
+		return source.toString();
+	}
+
+	/**
+	 * ID取得メソッド定義<br>
+	 * @author ueno hideo
+	 * @since 1.10 2020/05/02
+	 * @return 定義文字列
+	 */
+	private String createIdsMethod() {
+		StringBuffer source = new StringBuffer();
+		/*
+		 * 1.11追加事項
+		 * getIds(EnvData, OFN_WhereData)の従来版に
+		 * getIds(EnvData, OFN_WhereData, OFN_OrderData)の並び順付きメソッドを追加する。
+		 * 注) ディフォルトは並び順付きとし、従来版はOFN_OrderDataをnullにして新規版を呼び出す。
+		 */
+		//メソッド開始(条件、並び順)
+		FD_JavaDocParam param = new FD_JavaDocParam();
+		param.add("env", "環境情報");
+		param.add("where", "抽出条件");
+		param.add("order", "並び順");
+		source.append(editComment("条件文に該当する情報のIDリストを取得する。<br>", 1, param));
+		source.append(setTab(1)).append("public List<Integer> "
+				+ "getIds(FD_EnvData env, FD_WhereData where, FD_OrderData order) {").append(FD_RETURN);
+		//ID配列定義
+		source.append(setTab(2)).append("List<Integer> ids = new ArrayList<Integer>();").append(FD_RETURN);
+		//SQL文編集
+		source.append(setTab(2)).append("StringBuffer sql = new StringBuffer();").append(FD_RETURN);
+		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append("SELECT ").append(FD_DQ).append(")")
+			.append(".append(I_").append(tableName).append(".").append("COLUMNNAME_").append(tableName.toUpperCase()).append("_ID)")
+			.append(".append(").append(FD_DQ).append(" FROM ").append(FD_DQ).append(")")
+			.append(".append(I_").append(tableName).append(".Table_Name);").append(FD_RETURN);
+		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append(" WHERE ").append(FD_DQ).append(")")
+			.append(".append(where.toString())").append(";").append(FD_RETURN);
+		//Order文追条件
+		source.append(setTab(2)).append("if(order != null) {").append(FD_RETURN);
+		source.append(setTab(3)).append("sql.append(").append(FD_DQ).append(" ORDER BY ").append(FD_DQ).append(")")
+			.append(".append(order.toString())").append(";").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		//SQL実行
+		source.append(setTab(2)).append("try {").append(FD_RETURN);
+		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
+		source.append(setTab(3)).append("while(rs.next()) {").append(FD_RETURN);
+		source.append(setTab(4)).append("ids.add(rs.getInt(DIF_").append(tableName).append(".")
+			.append("COLUMNNAME_").append(tableName.toUpperCase()).append("_ID));").append(FD_RETURN);
+		source.append(setTab(3)).append("}").append(FD_RETURN);
+		source.append(setTab(2)).append("} catch (SQLException e) {").append(FD_RETURN);
+		source.append(setTab(3)).append("e.printStackTrace();").append(FD_RETURN);
+		source.append(setTab(2)).append("}").append(FD_RETURN);
+		//return
+		source.append(setTab(2)).append("return ids;").append(FD_RETURN);
+		//メソッド終了
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+		
+		//メソッド開始(条件)
+		param = new FD_JavaDocParam();
+		param.add("env", "環境情報");
+		param.add("where", "抽出条件");
+		source.append(editComment("条件文に該当する情報のIDリストを取得する。<br>", 1, param));
+		source.append(setTab(1)).append("public List<Integer> "
+				+ "getIds(FD_EnvData env, FD_WhereData where) {").append(FD_RETURN);
+		//return
+		source.append(setTab(2)).append("return getIds(env, where, null);").append(FD_RETURN);
+		//メソッド終了
+		source.append(setTab(1)).append("}").append(FD_RETURN).append(FD_RETURN);
+		
+		addImportClass(importClassList, "java.util.List");
+		addImportClass(importClassList, "java.util.ArrayList");
+		addImportClass(importClassList, "java.sql.ResultSet");
+		addImportClass(importClassList, "java.sql.SQLException");
 		return source.toString();
 	}
 

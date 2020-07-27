@@ -353,16 +353,34 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
-	 * JavaDoc生成<br>
-	 * @param title Docタイトル
-	 * @param tabCount ベースタブカウント
-	 * @return JavaDoc
+	 * コメント編集<br>
+	 * @author ueno hideo
+	 * @since 1.10 2020-04-12
+	 * @param title タイトル
+	 * @param tabCount タブ位置
+	 * @return コメント文字列
 	 */
 	public String editComment(String title, int tabCount) {
+		return editComment(title, tabCount, null);
+	}
+
+	/**
+	 * コメント編集<br>
+	 * @author ueno hideo
+	 * @since 1.11 2020/07/02
+	 * @param title タイトル
+	 * @param tabCount タブ位置
+	 * @param param パラメータ
+	 * @return コメント文字列
+	 */
+	public String editComment(String title, int tabCount, FD_JavaDocParam param) {
 		StringBuffer source = new StringBuffer();
 		source.append(setTab(tabCount)).append("/**").append(FD_RETURN);
 		source.append(setTab(tabCount)).append(" * ").append(title).append(".<br>").append(FD_RETURN);
-
+		//パラメータ追加
+		if(param != null && param.length() > 0) {
+			source.append(param.getJavadocOfParam(tabCount));
+		}
 		source.append(setTab(tabCount)).append(" */").append(FD_RETURN);
 		return source.toString();
 	}
