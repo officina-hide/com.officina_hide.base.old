@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_JavaDocParam;
 import com.officina_hide.base.common.FD_Logging;
 
 /**

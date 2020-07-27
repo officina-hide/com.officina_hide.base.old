@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_JavaDocParam;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
-import com.officina_hide.base.model.FD_JavaDocParam;
 import com.officina_hide.base.model.I_DB;
 
 /**
@@ -302,7 +302,6 @@ public class CreateModel extends FD_DB implements I_DB {
 			.append(".append(id);").append(FD_RETURN);
 		//SQL実行
 		source.append(setTab(2)).append("try {").append(FD_RETURN);
-//		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
 		source.append(setTab(3)).append("connection();").append(FD_RETURN);
 		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
 		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
@@ -330,6 +329,8 @@ public class CreateModel extends FD_DB implements I_DB {
 		//エラー処理
 		source.append(setTab(3)).append("env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, ")
 			.append(FD_DQ).append("SQL Execution Error !!").append(FD_DQ).append(");").append(FD_RETURN);
+		source.append(setTab(2)).append("} finally {").append(FD_RETURN);
+		source.append(setTab(3)).append("close(rs, stmt);").append(FD_RETURN);
 		source.append(setTab(2)).append("}").append(FD_RETURN);
 		//return
 		source.append(setTab(2)).append("return chk;").append(FD_RETURN);
@@ -367,6 +368,10 @@ public class CreateModel extends FD_DB implements I_DB {
 				+ "getIds(FD_EnvData env, FD_WhereData where, FD_OrderData order) {").append(FD_RETURN);
 		//ID配列定義
 		source.append(setTab(2)).append("List<Integer> ids = new ArrayList<Integer>();").append(FD_RETURN);
+		//データベース関連変数設定
+		source.append(setTab(2)).append("Statement stmt = null;").append(FD_RETURN);
+		source.append(setTab(2)).append("ResultSet rs = null;").append(FD_RETURN);
+		source.append(FD_RETURN);
 		//SQL文編集
 		source.append(setTab(2)).append("StringBuffer sql = new StringBuffer();").append(FD_RETURN);
 		source.append(setTab(2)).append("sql.append(").append(FD_DQ).append("SELECT ").append(FD_DQ).append(")")
@@ -382,13 +387,18 @@ public class CreateModel extends FD_DB implements I_DB {
 		source.append(setTab(2)).append("}").append(FD_RETURN);
 		//SQL実行
 		source.append(setTab(2)).append("try {").append(FD_RETURN);
-		source.append(setTab(3)).append("ResultSet rs = queryDB(env, sql.toString());").append(FD_RETURN);
+		source.append(setTab(3)).append("connection();").append(FD_RETURN);
+		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
+		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
+
 		source.append(setTab(3)).append("while(rs.next()) {").append(FD_RETURN);
-		source.append(setTab(4)).append("ids.add(rs.getInt(DIF_").append(tableName).append(".")
+		source.append(setTab(4)).append("ids.add(rs.getInt(I_").append(tableName).append(".")
 			.append("COLUMNNAME_").append(tableName.toUpperCase()).append("_ID));").append(FD_RETURN);
 		source.append(setTab(3)).append("}").append(FD_RETURN);
 		source.append(setTab(2)).append("} catch (SQLException e) {").append(FD_RETURN);
 		source.append(setTab(3)).append("e.printStackTrace();").append(FD_RETURN);
+		source.append(setTab(2)).append("} finally {").append(FD_RETURN);
+		source.append(setTab(3)).append("close(rs, stmt);").append(FD_RETURN);
 		source.append(setTab(2)).append("}").append(FD_RETURN);
 		//return
 		source.append(setTab(2)).append("return ids;").append(FD_RETURN);
@@ -450,5 +460,4 @@ public class CreateModel extends FD_DB implements I_DB {
 			}
 			return list;
 		}
-
 }

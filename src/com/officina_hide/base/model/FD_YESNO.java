@@ -86,11 +86,11 @@ public class FD_YESNO extends FD_DB implements I_DB {
 		StringBuffer source = new StringBuffer();
 		source.append(setTab(2)).append("if(is").append(columnName.substring(0, 1).toUpperCase())
 			.append(columnName.substring(1)).append("() == true) {").append(FD_RETURN);
-		source.append(setTab(3)).append("sql.append(DIF_").append(tableName).append(".")
+		source.append(setTab(3)).append("sql.append(I_").append(tableName).append(".")
 			.append("COLUMNNAME_").append(columnName.toUpperCase()).append(")")
 			.append(".append(").append(FD_DQ).append(" = 1").append(FD_DQ).append(");").append(FD_RETURN);
 		source.append(setTab(2)).append("} else {").append(FD_RETURN);
-		source.append(setTab(3)).append("sql.append(DIF_").append(tableName).append(".")
+		source.append(setTab(3)).append("sql.append(I_").append(tableName).append(".")
 			.append("COLUMNNAME_").append(columnName.toUpperCase()).append(")")
 			.append(".append(").append(FD_DQ).append(" = 0").append(FD_DQ).append(");").append(FD_RETURN);
 		source.append(setTab(2)).append("}").append(FD_RETURN);

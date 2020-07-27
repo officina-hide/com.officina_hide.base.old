@@ -277,9 +277,9 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_FD_COMMENT).append(" = '").append(getFD_Comment()).append("'").append(",");
 		if(isPrimary_Key_Check() == true) {
-			sql.append(DIF_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).append(" = 1");
+			sql.append(I_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).append(" = 1");
 		} else {
-			sql.append(DIF_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).append(" = 0");
+			sql.append(I_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).append(" = 0");
 		}
 		sql.append(",");
 		sql.append(I_FD_TableColumn.COLUMNNAME_COLUMN_SORT_ORDER).append(" = ").append(getColumn_Sort_Order()).append(",");
@@ -301,6 +301,9 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 	 */
 	public List<Integer> getIds(FD_EnvData env, FD_WhereData where, FD_OrderData order) {
 		List<Integer> ids = new ArrayList<Integer>();
+		Statement stmt = null;
+		ResultSet rs = null;
+
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID).append(" FROM ").append(I_FD_TableColumn.Table_Name);
 		sql.append(" WHERE ").append(where.toString());
@@ -308,12 +311,16 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 			sql.append(" ORDER BY ").append(order.toString());
 		}
 		try {
-			ResultSet rs = queryDB(env, sql.toString());
+			connection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {
-				ids.add(rs.getInt(DIF_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID));
+				ids.add(rs.getInt(I_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
 		}
 		return ids;
 	}
@@ -378,6 +385,8 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 			}
 		} catch (SQLException e) {
 			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");
+		} finally {
+			close(rs, stmt);
 		}
 		return chk;
 	}

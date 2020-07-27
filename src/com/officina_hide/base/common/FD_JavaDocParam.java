@@ -1,9 +1,11 @@
-package com.officina_hide.base.model;
+package com.officina_hide.base.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.officina_hide.base.model.FD_DB;
 
 /**
  * JavaDoc用パラメータクラス<br>
