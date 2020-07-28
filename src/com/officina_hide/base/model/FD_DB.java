@@ -100,16 +100,17 @@ public class FD_DB implements I_DB {
 	 * テーブル情報登録<br>
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
 	 * @param Id テーブル情報ID
 	 * @param tableName テーブル識別名
 	 * @param name テーブル表示名
 	 * @param comment コメント
 	 */
-	public void addTableData(int id, String tableName, String name, String comment) {
+	public void addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		//Idが0の時は新規に情報IDを発行する。
 		if(id == 0) {
-			// TODO 情報IDの新規発行は未実装(2020/07/16 ueno)
+			id = getNewID(env, I_FD_Table.Table_Name);
 		}
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_Table SET ");

@@ -75,7 +75,7 @@ public class CreateBaseTable {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル情報'");
 		DB.execute(env, sql.toString());
 		//テーブル情報の情報を登録する。
-		DB.addTableData(101, "FD_Table", "テーブル情報","テーブルに関する情報を管理する。");
+		DB.addTableData(env, 101, "FD_Table", "テーブル情報","テーブルに関する情報を管理する。");
 		
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Table Information created.");
 	}
@@ -110,7 +110,7 @@ public class CreateBaseTable {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");			
 		DB.execute(env, sql.toString());
 		//テーブル項目情報をテーブル情報に登録する。
-		DB.addTableData(102, "FD_TableColumn","テーブル項目情報","テーブルで使用する項目に課する情報を管理する。");
+		DB.addTableData(env, 102, "FD_TableColumn","テーブル項目情報","テーブルで使用する項目に課する情報を管理する。");
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Table Column Information created.");
 	}
@@ -138,7 +138,7 @@ public class CreateBaseTable {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='リファレンス情報'");			
 		DB.execute(env, sql.toString());
 		//リファレンス情報をテーブル情報に登録する。
-		DB.addTableData(103, "FD_Reference", "リファレンス情報","システムで管理する項目の辞書としての管理を行う。");
+		DB.addTableData(env, 103, "FD_Reference", "リファレンス情報","システムで管理する項目の辞書としての管理を行う。");
 		//リファレンス情報登録
 		DB.addReferenceData(1000001,"情報ID");
 		DB.addReferenceData(1000002,"テキスト");
@@ -178,7 +178,7 @@ public class CreateBaseTable {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
 		DB.execute(env, sql.toString());
 		//リファレンス用パラメータ情報をテーブル情報に登録する。
-		DB.addTableData(105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
+		DB.addTableData(env, 105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
 		//リファレンス用パラメータ情報登録
 		DB.addRefParamData(DB.getReferenceID(env, "テキスト"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_Text",
 				"テキストを扱うクラス");
@@ -219,7 +219,7 @@ public class CreateBaseTable {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
 		DB.execute(env, sql.toString());
 		//採番情報をテーブル情報に登録する。
-		DB.addTableData(104, "FD_Numbering", "採番情報","テーブル毎に情報に対して付与する情報IDの採番を管理する。");
+		DB.addTableData(env, 104, "FD_Numbering", "採番情報","テーブル毎に情報に対して付与する情報IDの採番を管理する。");
 		//採番情報登録
 		DB.addNumberingData(101, 101, 0, 201);	//テーブル情報
 		DB.addNumberingData(102, 102, 0, 1000001);	//テーブル項目情報
