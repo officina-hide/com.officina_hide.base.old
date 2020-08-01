@@ -105,8 +105,9 @@ public class FD_DB implements I_DB {
 	 * @param tableName テーブル識別名
 	 * @param name テーブル表示名
 	 * @param comment コメント
+	 * @return 
 	 */
-	public void addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
+	public int addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		//Idが0の時は新規に情報IDを発行する。
 		if(id == 0) {
@@ -123,6 +124,8 @@ public class FD_DB implements I_DB {
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
 		execute(env, sql.toString());
+		
+		return id;
 	}
 
 	/**
@@ -218,6 +221,7 @@ public class FD_DB implements I_DB {
 	 * テーフル項目情報登録<br>
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
 	 * @param tableId テーブル情報ID
 	 * @param culimnName 項目名
 	 * @param columnType 項目種別
@@ -227,10 +231,10 @@ public class FD_DB implements I_DB {
 	 * @param order 項目並び順
 	 * @param priKey プライマリーキー
 	 */
-	public void addTableColumnData(int tableId, String culimnName, String columnType, int size, String name, String comment,
+	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size, String name, String comment,
 			int order, boolean priKey) {
+		//テーブル項目情報ID生成
 		int columnId = getNewID(env, "FD_TableColumn");
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_TableColumn SET ");

@@ -55,6 +55,7 @@ public class CreateModel extends FD_DB implements I_DB {
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Interface Class created ["+tableName+"]");
 		//IOクラス生成
 		createIOClass();
+		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "I/O Class created ["+tableName+"]");
 	}
 
 	/**

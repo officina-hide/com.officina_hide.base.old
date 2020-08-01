@@ -3,6 +3,7 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_FD_FxView;
 
 /**
  * 画面リソース生成<br>
@@ -31,9 +32,18 @@ public class CreateFxResource extends FD_DB {
 	 */
 	private void createViewTable(FD_EnvData env) {
 		//テーブル情報登録
-		addTableData(env, 0, "FD_Fx_View", "Fx画面情報", "Fx画面の定義と管理対象のテーブルを紐づける。");
+		int tableId = addTableData(env, 0, "FD_FxView", "Fx画面情報", "Fx画面の定義と管理対象のテーブルを紐づける。");
 		//テーブル項目登録
-		
+		addTableColumnData(env, tableId, "FD_FxView_ID", "情報ID", 0, "画面情報ID", "Fx画面情報を識別するためのID", 10, true);
+		addTableColumnData(env, tableId, "FxView_Name", "テキスト", 100, "画面名", "Fx画面の名前", 20, false);
+		addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","Fx画面情報の登録日", 900, false);
+		addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","Fx画面情報の登録者のID", 910, false);
+		addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","Fx画面情報の更新日", 920, false);
+		addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","Fx画面情報の更新者のID", 930, false);
+		//データベースIOモデル生成
+		new CreateModel(env, "FD_FxView");
+		//テーブル生成
+		new CreateTable(env, I_FD_FxView.Table_ID);
 	}
 
 }

@@ -239,59 +239,59 @@ public class CreateBaseTable {
 	private void entryTableColumnData(FD_EnvData env) {
 		//テーフル情報
 		int tableId = DB.getTableID(env, "FD_Table");
-		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "Table_Name", "テキスト", 100, "テーブル物理名","テーブルの物理名", 20, false);
-		DB.addTableColumnData(tableId, "FD_Name", "テキスト", 100, "テーブル論理名","テーブルの論理名", 30, false);
-		DB.addTableColumnData(tableId, "FD_COMMENT", "複数行テキスト", 0, "説明","テーブルの説明", 30, false);
-		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","テーブル情報の登録日", 900, false);
-		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","テーブル情報の登録者のID", 910, false);
-		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","テーブル情報の更新日", 920, false);
-		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル情報の更新者のID", 930, false);
+		DB.addTableColumnData(env, tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル情報を識別するためのID", 10, true);
+		DB.addTableColumnData(env, tableId, "Table_Name", "テキスト", 100, "テーブル物理名","テーブルの物理名", 20, false);
+		DB.addTableColumnData(env, tableId, "FD_Name", "テキスト", 100, "テーブル論理名","テーブルの論理名", 30, false);
+		DB.addTableColumnData(env, tableId, "FD_COMMENT", "複数行テキスト", 0, "説明","テーブルの説明", 30, false);
+		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","テーブル情報の登録日", 900, false);
+		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","テーブル情報の登録者のID", 910, false);
+		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","テーブル情報の更新日", 920, false);
+		DB.addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル情報の更新者のID", 930, false);
 		//テーフル項目情報
 		tableId = DB.getTableID(env, "FD_TableColumn");
-		DB.addTableColumnData(tableId, "FD_TableColumn_ID", "情報ID", 0, "テーブル項目情報ID","テーブル項目情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル項目を紐づけるテーブルのID", 20, false);
-		DB.addTableColumnData(tableId, "Column_Name", "テキスト", 100, "テーブル項目物理名","テーブル項目の物理名", 30, false);
-		DB.addTableColumnData(tableId, "Column_Type_ID", "情報ID", 0, "種別ID（リファレンス情報ID）","テーブル項目の属性を表すリファレンス情報のID", 40, false);
-		DB.addTableColumnData(tableId, "Column_Size", "自然数", 0, "桁数","テーブル項目の桁数", 50, false);
-		DB.addTableColumnData(tableId, "FD_Name", "テキスト", 100, "物理名","テーブル項目の物理名", 60, false);
-		DB.addTableColumnData(tableId, "FD_Comment", "複数行テキスト", 0, "説明","テーブル項目の説明", 70, false);
-		DB.addTableColumnData(tableId, "Primary_Key_Check", "YESNO", 0, "プライマリーキー判定","テーブル項目がプライマリーKeyの時にYesをセットする。", 80, false);
-		DB.addTableColumnData(tableId, "Column_Sort_Order", "自然数", 0, "項目並び順","テーブル項目の一覧表示を行う時の順番", 80, false);
-		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","テーブル項目情報の登録日", 900, false);
-		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","テーブル項目情報の登録者のID", 910, false);
-		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","テーブル項目情報の更新日", 920, false);
-		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル項目情報の更新者のID", 930, false);
+		DB.addTableColumnData(env, tableId, "FD_TableColumn_ID", "情報ID", 0, "テーブル項目情報ID","テーブル項目情報を識別するためのID", 10, true);
+		DB.addTableColumnData(env, tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","テーブル項目を紐づけるテーブルのID", 20, false);
+		DB.addTableColumnData(env, tableId, "Column_Name", "テキスト", 100, "テーブル項目物理名","テーブル項目の物理名", 30, false);
+		DB.addTableColumnData(env, tableId, "Column_Type_ID", "情報ID", 0, "種別ID（リファレンス情報ID）","テーブル項目の属性を表すリファレンス情報のID", 40, false);
+		DB.addTableColumnData(env, tableId, "Column_Size", "自然数", 0, "桁数","テーブル項目の桁数", 50, false);
+		DB.addTableColumnData(env, tableId, "FD_Name", "テキスト", 100, "物理名","テーブル項目の物理名", 60, false);
+		DB.addTableColumnData(env, tableId, "FD_Comment", "複数行テキスト", 0, "説明","テーブル項目の説明", 70, false);
+		DB.addTableColumnData(env, tableId, "Primary_Key_Check", "YESNO", 0, "プライマリーキー判定","テーブル項目がプライマリーKeyの時にYesをセットする。", 80, false);
+		DB.addTableColumnData(env, tableId, "Column_Sort_Order", "自然数", 0, "項目並び順","テーブル項目の一覧表示を行う時の順番", 80, false);
+		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","テーブル項目情報の登録日", 900, false);
+		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","テーブル項目情報の登録者のID", 910, false);
+		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","テーブル項目情報の更新日", 920, false);
+		DB.addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","テーブル項目情報の更新者のID", 930, false);
 		//リファレンス情報
 		tableId = DB.getTableID(env, "FD_Reference");
-		DB.addTableColumnData(tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "Reference_Name", "テキスト", 100, "リファレンス名","リファレンス情報の名称", 20, false);
-		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","リファレンス情報の登録日", 900, false);
-		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス情報の登録者のID", 910, false);
-		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","リファレンス情報の更新日", 920, false);
-		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス情報の更新者のID", 930, false);
+		DB.addTableColumnData(env, tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス情報を識別するためのID", 10, true);
+		DB.addTableColumnData(env, tableId, "Reference_Name", "テキスト", 100, "リファレンス名","リファレンス情報の名称", 20, false);
+		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","リファレンス情報の登録日", 900, false);
+		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス情報の登録者のID", 910, false);
+		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","リファレンス情報の更新日", 920, false);
+		DB.addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス情報の更新者のID", 930, false);
 		//採番情報
 		tableId = DB.getTableID(env, "FD_Numbering");
-		DB.addTableColumnData(tableId, "FD_Numbering_ID", "情報ID", 0, "採番情報ID","採番情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","採番の対象となるテーブルの情報ID", 20, false);
-		DB.addTableColumnData(tableId, "Current_Number", "自然数", 0, "現在値","採番された値", 30, false);
-		DB.addTableColumnData(tableId, "Start_Number", "自然数", 0, "開始値","採番を開始する値", 40, false);
-		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","採番情報の登録日", 900, false);
-		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","採番情報の登録者のID", 910, false);
-		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","採番情報の更新日", 920, false);
-		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","採番情報の更新者のID", 930, false);
+		DB.addTableColumnData(env, tableId, "FD_Numbering_ID", "情報ID", 0, "採番情報ID","採番情報を識別するためのID", 10, true);
+		DB.addTableColumnData(env, tableId, "FD_Table_ID", "情報ID", 0, "テーブル情報ID","採番の対象となるテーブルの情報ID", 20, false);
+		DB.addTableColumnData(env, tableId, "Current_Number", "自然数", 0, "現在値","採番された値", 30, false);
+		DB.addTableColumnData(env, tableId, "Start_Number", "自然数", 0, "開始値","採番を開始する値", 40, false);
+		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","採番情報の登録日", 900, false);
+		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","採番情報の登録者のID", 910, false);
+		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","採番情報の更新日", 920, false);
+		DB.addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","採番情報の更新者のID", 930, false);
 		//リファレンス用パラメータ情報
 		tableId = DB.getTableID(env, "FD_RefParam");
-		DB.addTableColumnData(tableId, "FD_RefParam_ID", "情報ID", 0, "リファレンス用パラメータ情報ID","リファレンス用パラメータ情報を識別するためのID", 10, true);
-		DB.addTableColumnData(tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス用パラメータ情報を紐づけるリファレンス情報のID", 20, false);
-		DB.addTableColumnData(tableId, "Parameter_Name", "テキスト", 100, "パラメータ名","パラメータを識別するための名称", 30, false);
-		DB.addTableColumnData(tableId, "Parameter_Type_ID", "情報ID", 0, "パラメータ種別ID","パラメータの種別を表すID（リファレンス情報ID）", 40, false);
-		DB.addTableColumnData(tableId, "Parameter_Data", "テキスト", 200, "パラメータ情報","パラメータの情報", 50, false);
-		DB.addTableColumnData(tableId, "FD_Comment", "複数行テキスト", 0, "説明","パラメータの説明", 60, false);
-		DB.addTableColumnData(tableId, "FD_Create", "日時", 0, "登録日","リファレンス用パラメータ情報の登録日", 900, false);
-		DB.addTableColumnData(tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス用パラメータ情報の登録者のID", 910, false);
-		DB.addTableColumnData(tableId, "FD_Update", "日時", 0, "更新日","リファレンス用パラメータ情報の更新日", 920, false);
-		DB.addTableColumnData(tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス用パラメータ情報の更新者のID", 930, false);
+		DB.addTableColumnData(env, tableId, "FD_RefParam_ID", "情報ID", 0, "リファレンス用パラメータ情報ID","リファレンス用パラメータ情報を識別するためのID", 10, true);
+		DB.addTableColumnData(env, tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス用パラメータ情報を紐づけるリファレンス情報のID", 20, false);
+		DB.addTableColumnData(env, tableId, "Parameter_Name", "テキスト", 100, "パラメータ名","パラメータを識別するための名称", 30, false);
+		DB.addTableColumnData(env, tableId, "Parameter_Type_ID", "情報ID", 0, "パラメータ種別ID","パラメータの種別を表すID（リファレンス情報ID）", 40, false);
+		DB.addTableColumnData(env, tableId, "Parameter_Data", "テキスト", 200, "パラメータ情報","パラメータの情報", 50, false);
+		DB.addTableColumnData(env, tableId, "FD_Comment", "複数行テキスト", 0, "説明","パラメータの説明", 60, false);
+		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","リファレンス用パラメータ情報の登録日", 900, false);
+		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス用パラメータ情報の登録者のID", 910, false);
+		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","リファレンス用パラメータ情報の更新日", 920, false);
+		DB.addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンス用パラメータ情報の更新者のID", 930, false);
 	}
 
 }
