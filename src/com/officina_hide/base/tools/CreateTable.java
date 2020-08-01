@@ -102,7 +102,7 @@ public class CreateTable extends FD_DB implements I_DB {
 			while(rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME, rs.getString(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME));
-				map.put(I_FD_RefParam.COLUMNNAME_PARAMETER_DATA, rs.getString(I_FD_RefParam.COLUMNNAME_PARAMETER_NAME));
+				map.put(I_FD_RefParam.COLUMNNAME_PARAMETER_DATA, rs.getString(I_FD_RefParam.COLUMNNAME_PARAMETER_DATA));
 				map.put(I_FD_Reference.COLUMNNAME_REFERENCE_NAME, rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
 				map.put(I_FD_TableColumn.COLUMNNAME_COLUMN_SIZE, rs.getString(I_FD_TableColumn.COLUMNNAME_COLUMN_SIZE));
 				map.put(I_FD_TableColumn.COLUMNNAME_FD_NAME, rs.getString(I_FD_TableColumn.COLUMNNAME_FD_NAME));

@@ -1,9 +1,11 @@
-package com.officina_hide.base.tools;
+package com.officina_hide.fx.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_FxView;
+import com.officina_hide.base.tools.CreateModel;
+import com.officina_hide.base.tools.CreateTable;
 
 /**
  * 画面リソース生成<br>

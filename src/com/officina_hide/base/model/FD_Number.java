@@ -109,4 +109,29 @@ public class FD_Number extends FD_DB implements I_DB {
 			.append("rs.getInt(").append("COLUMNNAME_"+columnName.toUpperCase()).append("));").append(FD_RETURN);
 		return source.toString();
 	}
+	
+	/**
+	 * テーブル生成用SQL文を返す。<br>
+	 * @author ueno hideo
+	 * @since 2020/04/30
+	 * @param map テーブル項目情報
+	 * @return SQL文字列
+	 */
+	public String toTableCreateSQL(Map<String, String>  map) {
+		StringBuffer source = new StringBuffer();
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		source.append(" INT");
+		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("情報ID")
+				||map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("自然数")) {
+			source.append(" UNSIGNED");
+		}
+		if(map.get(I_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).equals("YES")) {
+			source.append(" PRIMARY KEY");
+		}
+		if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
+			source.append(" COMMENT ").append(FD_SQ).append(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME)).append(FD_SQ).append(" ");
+		}
+		// TODO NOT NULL の設定を追加予定(2020-04-30)
+		return source.toString();
+	}
 }

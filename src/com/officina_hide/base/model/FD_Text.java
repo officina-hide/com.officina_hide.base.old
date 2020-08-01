@@ -114,5 +114,28 @@ public class FD_Text extends FD_DB implements I_DB {
 		source.append(setTab(tabCnt)).append("}").append(FD_RETURN);
 		return source.toString();
 	}
+	
+	/**
+	 * テーブル生成用SQL文を返す。<br>
+	 * @author ueno hideo
+	 * @since 2020/04/30
+	 * @return SQL文字列
+	 */
+	public String toTableCreateSQL(Map<String, String>  map) {
+		StringBuffer source = new StringBuffer();
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("テキスト")) {
+			source.append(" VARCHAR").append("(")
+				.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_SIZE).toString()).append(")");
+		}
+		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("複数行テキスト")) {
+			source.append(" TEXT");
+		}
+		if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
+			source.append(" COMMENT ").append(FD_SQ).append(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME)).append(FD_SQ).append(" ");
+		}
+
+		return source.toString();
+	}
 }
 	

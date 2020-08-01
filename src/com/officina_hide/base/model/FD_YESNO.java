@@ -118,4 +118,20 @@ public class FD_YESNO extends FD_DB implements I_DB {
 		source.append(setTab(tabCnt)).append("}").append(FD_RETURN);
 		return source.toString();
 	}
+	
+	/**
+	 * テーブル生成用SQL文を返す。<br>
+	 * @author ueno hideo
+	 * @since 2020/04/30
+	 * @return SQL文字列
+	 */
+	public String toTableCreateSQL(Map<String, String>  map) {
+		StringBuffer source = new StringBuffer();
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		source.append(" TINYINT(1)");
+		if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
+			source.append(" COMMENT ").append(FD_SQ).append(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME)).append(FD_SQ).append(" ");
+		}
+		return source.toString();
+	}
 }

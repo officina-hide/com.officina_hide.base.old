@@ -7,6 +7,7 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.fx.tools.CreateFxResource;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
