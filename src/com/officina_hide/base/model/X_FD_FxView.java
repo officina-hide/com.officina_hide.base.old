@@ -66,6 +66,22 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 		this.fxView_Name = fxView_Name;
 	}
 	/**
+	 * 画面表示名.<br>
+	 */
+	private String fD_Name;
+	/**
+	 * 画面表示名を取得する。.<br>
+	 */
+	public String getFD_Name() {
+		return fD_Name;
+	}
+	/**
+	 * 画面表示名をセットする。.<br>
+	 */
+	public void setFD_Name (String fD_Name) {
+		this.fD_Name = fD_Name;
+	}
+	/**
 	 * 登録日.<br>
 	 */
 	private Calendar fD_Create;
@@ -159,6 +175,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 		sql.append(" SET ");
 		sql.append(I_FD_FxView.COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(getFD_FxView_ID()).append(",");
 		sql.append(I_FD_FxView.COLUMNNAME_FXVIEW_NAME).append(" = '").append(getFxView_Name()).append("'").append(",");
+		sql.append(I_FD_FxView.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
 		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
 		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
 		sql.append(I_FD_FxView.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
@@ -230,6 +247,11 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 					setFxView_Name(rs.getString(COLUMNNAME_FXVIEW_NAME));
 				} else {
 					setFxView_Name("");
+				}
+				if(rs.getString(COLUMNNAME_FD_NAME) != null) {
+					setFD_Name(rs.getString(COLUMNNAME_FD_NAME));
+				} else {
+					setFD_Name("");
 				}
 				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
 					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));

@@ -293,12 +293,13 @@ public class FD_DB implements I_DB {
 	 * 採番情報登録<br>
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
 	 * @param numberingId 採番情報ID
 	 * @param TableId テーブル情報ID
 	 * @param current 現在値
 	 * @param start 開始値
 	 */
-	public void addNumberingData(int numberingId, int tableId, int current, int start) {
+	public void addNumberingData(FD_EnvData env, int numberingId, int tableId, int current, int start) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_Numbering SET ");

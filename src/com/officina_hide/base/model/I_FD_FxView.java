@@ -22,6 +22,11 @@ public interface I_FD_FxView {
 	public final String COLUMNNAME_FXVIEW_NAME = "FxView_Name";
 
 	/**
+	 * 画面表示名.<br>
+	 */
+	public final String COLUMNNAME_FD_NAME = "FD_Name";
+
+	/**
 	 * 登録日.<br>
 	 */
 	public final String COLUMNNAME_FD_CREATE = "FD_Create";

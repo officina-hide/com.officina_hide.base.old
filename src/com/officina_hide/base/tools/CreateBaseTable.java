@@ -221,11 +221,11 @@ public class CreateBaseTable {
 		//採番情報をテーブル情報に登録する。
 		DB.addTableData(env, 104, "FD_Numbering", "採番情報","テーブル毎に情報に対して付与する情報IDの採番を管理する。");
 		//採番情報登録
-		DB.addNumberingData(101, 101, 0, 201);	//テーブル情報
-		DB.addNumberingData(102, 102, 0, 1000001);	//テーブル項目情報
-		DB.addNumberingData(103, 103, 0, 1000001);	//リファレンス情報情報
-		DB.addNumberingData(104, 104, 0, 1000001);	//採番情報
-		DB.addNumberingData(105, 105, 0, 1000001);	//リファレンス用パラメータ情報
+		DB.addNumberingData(env, 101, 101, 0, 201);	//テーブル情報
+		DB.addNumberingData(env, 102, 102, 0, 1000001);	//テーブル項目情報
+		DB.addNumberingData(env, 103, 103, 0, 1000001);	//リファレンス情報情報
+		DB.addNumberingData(env, 104, 104, 0, 1000001);	//採番情報
+		DB.addNumberingData(env, 105, 105, 0, 1000001);	//リファレンス用パラメータ情報
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Numbering Information created.");
 	}
