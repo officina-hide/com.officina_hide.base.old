@@ -96,7 +96,7 @@ public class CreateTable extends FD_DB implements I_DB {
 				.append("AND FD_RefParam.Parameter_Type_ID = ").append(getReferenceID(env, "ClassName")).append(" ");
 			sql.append("WHERE ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLE_ID).append(" = ").append(tableId).append(" ");
 			sql.append("ORDER BY Column_Sort_Order");
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {

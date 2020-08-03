@@ -63,7 +63,7 @@ public class FD_DB implements I_DB {
 		int chk = 0;
 		Statement stmt = null;
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			chk = stmt.executeUpdate(sql.toString());
 			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_DEBAG, sql.toString());
@@ -78,9 +78,10 @@ public class FD_DB implements I_DB {
 	/**
 	 * データベース接続<br>
 	 * @author ueno hideo
+	 * @param env 環境情報
 	 * @since 1.20 2020/07/15
 	 */
-	public void connection() {
+	public void connection(FD_EnvData env) {
 		if(conn == null) {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -168,7 +169,7 @@ public class FD_DB implements I_DB {
 		sql.append("SELECT FD_Table_ID FROM FD_Table ")
 			.append("WHERE Table_Name = '").append(tableName).append("'");
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
@@ -272,7 +273,7 @@ public class FD_DB implements I_DB {
 		sql.append("SELECT FD_Reference_ID FROM FD_Reference ");
 		sql.append("Where Reference_Name = '").append(referenceName).append("'");
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
@@ -330,7 +331,7 @@ public class FD_DB implements I_DB {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {

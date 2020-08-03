@@ -204,7 +204,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 			sql.append(" ORDER BY ").append(order.toString());
 		}
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {
@@ -238,7 +238,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 		sql.append("SELECT * FROM ").append(Table_Name);
 		sql.append(" WHERE ").append(COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(id);
 		try {
-			connection();
+			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {

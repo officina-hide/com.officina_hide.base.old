@@ -1,5 +1,8 @@
 package com.officina_hide.base.common;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * 環境情報<br>
  * <p>本クラスはパッケージを利用する上で普遍的な情報を扱う。</p>
@@ -8,6 +11,40 @@ package com.officina_hide.base.common;
  * @since 2020/07/13
  */
 public class FD_EnvData {
+	
+	/**
+	 * コンストラクター<br>
+	 * <p>インスタンス時に環境情報の内ベースとなる情報を取得し実体化する。</p>
+	 * @author ueno hideo
+	 * @since 1.20 2020/08/03
+	 */
+	public FD_EnvData() {
+		getEnvData();
+	}
+
+	/**
+	 * 環境情報取得<br>
+	 * @author ueno hideo
+	 * @since 2020/08/03
+	 * TODO 当面はここで環境情報を直に設定する。(2020/08/03 ueno)
+	 */
+	private void getEnvData() {
+		setDB_Host("www.officina-hide.com");
+		setDB_Name("datatest");
+		setDB_User("root");
+		setDB_Password("kan2*Sin");
+		setSystemUserID(1000001);
+		setLoginUserID(1000001);
+		setModelURI("com.officina_hide.base.model");
+		try {
+			String currentPath = new File(".").getCanonicalPath();
+			setLogFile_Path(currentPath + "\\log");
+			setModelPath(currentPath + "\\src\\com\\officina_hide\\base\\model");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * ログ情報
 	 */

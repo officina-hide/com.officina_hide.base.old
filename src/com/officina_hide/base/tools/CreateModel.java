@@ -303,7 +303,7 @@ public class CreateModel extends FD_DB implements I_DB {
 			.append(".append(id);").append(FD_RETURN);
 		//SQL実行
 		source.append(setTab(2)).append("try {").append(FD_RETURN);
-		source.append(setTab(3)).append("connection();").append(FD_RETURN);
+		source.append(setTab(3)).append("connection(env);").append(FD_RETURN);
 		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
 		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
 		source.append(setTab(3)).append("if(rs.next()) {").append(FD_RETURN);
@@ -388,7 +388,7 @@ public class CreateModel extends FD_DB implements I_DB {
 		source.append(setTab(2)).append("}").append(FD_RETURN);
 		//SQL実行
 		source.append(setTab(2)).append("try {").append(FD_RETURN);
-		source.append(setTab(3)).append("connection();").append(FD_RETURN);
+		source.append(setTab(3)).append("connection(env);").append(FD_RETURN);
 		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
 		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
 
@@ -444,7 +444,7 @@ public class CreateModel extends FD_DB implements I_DB {
 					.append("AND FD_RefParam.Parameter_Type_ID = ").append(getReferenceID(env, "ClassName")).append(" ");
 				sql.append("WHERE FD_Table_ID = ").append(tableID).append(" ");
 				sql.append("ORDER BY Column_Sort_Order");
-				connection();
+				connection(env);
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql.toString());
 				while(rs.next()) {
