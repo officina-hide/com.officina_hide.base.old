@@ -21,7 +21,7 @@ public class FD_WhereData implements I_DB {
 	 * @param dataName 文字列情報
 	 */
 	public FD_WhereData(String columnName, String dataName) {
-		where.append(columnName).append(" = ").append(FD_SQ).append(dataName).append(FD_SQ);
+		getWhere().append(columnName).append(" = ").append(FD_SQ).append(dataName).append(FD_SQ);
 	}
 
 	public StringBuffer getWhere() {

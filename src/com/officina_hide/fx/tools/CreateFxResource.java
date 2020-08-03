@@ -28,7 +28,7 @@ public class CreateFxResource extends FD_DB {
 		//画面情報テーブル生成
 		createViewTable(env);
 		//ログイン画面情報登録
-		addFxViewData(env, "Fx_View", "ログイン画面");
+		addFxViewData(env, "Fx_Login", "ログイン画面");
 	}
 
 	/**
