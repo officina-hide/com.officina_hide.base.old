@@ -27,6 +27,8 @@ public class CreateFxResource extends FD_DB {
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面リソース生成開始");
 		//画面情報テーブル生成
 		createViewTable(env);
+		//画面変数情報テーブル生成
+		createViewParamTable(env);
 		//ログイン画面情報登録
 		addFxViewData(env, "Fx_Login", "ログイン画面");
 	}
@@ -52,6 +54,26 @@ public class CreateFxResource extends FD_DB {
 		addNumberingData(env, 0, tableId, 0, 1000001);
 		//テーブル生成
 		new CreateTable(env, I_FD_FxView.Table_ID);
+	}
+
+	/**
+	 * 画面変数情報テーブル生成<br>
+	 * <p>画面変数情報とは、画面情報に対して項目の追加・変更が柔軟的にできる変数情報を言います。</p>
+	 * @param env 環境情報
+	 */
+	private void createViewParamTable(FD_EnvData env) {
+		//テーブル情報登録
+		int tableId = addTableData(env, 0, "FD_FxViewParam", "Fx画面変数情報", "Fx画面情報に付属して管理される変数情報");
+		//テーブル項目情報登録
+		addTableColumnData(env, tableId, "FD_FxViewParam_ID", "情報ID", 0, "Fx画面変数情報ID", "Fx画面変数情報を識別するためのID", 10, true);
+		addTableColumnData(env, tableId, "FxView_ParamName", "テキスト", 100, "画面変数名", "画面変数の名称", 20, false);
+		addTableColumnData(env, tableId, "FxView_ParamData", "テキスト", 100, "画面変数データ", "画面変数が保持するデータ", 30, false);
+		addTableColumnData(env, tableId, "FD_Name", "テキスト", 100, "画面変数表示名", "画面変数を表示する際の識別名", 40, false);
+		addTableColumnData(env, tableId, "FD_Comment", "複数行テキスト", 0, "画面変数説明", "画面変数をの内容を説明する。", 50, false);
+		addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","Fx画面変数情報の登録日", 900, false);
+		addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","Fx画面変数情報の登録者のID", 910, false);
+		addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","Fx画面変数情報の更新日", 920, false);
+		addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","Fx画面変数情報の更新者のID", 930, false);
 	}
 
 	/**
