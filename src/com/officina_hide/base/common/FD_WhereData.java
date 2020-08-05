@@ -17,11 +17,25 @@ public class FD_WhereData implements I_DB {
 	/**
 	 * コンストラクター<br>
 	 * <p>インスタンス時に項目と文字列データで単一の条件情報を生成する。</p>
-	 * @param columnName 項目情報
-	 * @param dataName 文字列情報
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/23
+	 * @param columnName 項目名
+	 * @param data 文字列情報
 	 */
-	public FD_WhereData(String columnName, String dataName) {
-		getWhere().append(columnName).append(" = ").append(FD_SQ).append(dataName).append(FD_SQ);
+	public FD_WhereData(String columnName, String data) {
+		getWhere().append(columnName).append(" = ").append(FD_SQ).append(data).append(FD_SQ);
+	}
+
+	/**
+	 * コンストラクター<br>
+	 * <p>インスタンス時に項目と数値データで単一の条件情報を生成する。</p>
+	 * @author ueno hideo
+	 * @since 1.20 2020/08/05
+	 * @param columnName 項目名
+	 * @param data 数値情報
+	 */
+	public FD_WhereData(String columnName, int data) {
+		getWhere().append(columnName).append(" = ").append(data);
 	}
 
 	public StringBuffer getWhere() {

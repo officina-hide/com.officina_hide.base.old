@@ -4,7 +4,9 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_FxView;
+import com.officina_hide.base.model.I_FD_FxViewParam;
 import com.officina_hide.base.model.X_FD_FxView;
+import com.officina_hide.base.model.X_FD_FxViewParam;
 import com.officina_hide.base.tools.CreateModel;
 import com.officina_hide.base.tools.CreateTable;
 
@@ -30,7 +32,8 @@ public class CreateFxResource extends FD_DB {
 		//画面変数情報テーブル生成
 		createViewParamTable(env);
 		//ログイン画面情報登録
-		addFxViewData(env, "Fx_Login", "ログイン画面");
+		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
+		addFxViewParam(env, viewId, "View_Pre_Width", 300);
 	}
 
 	/**
@@ -66,14 +69,21 @@ public class CreateFxResource extends FD_DB {
 		int tableId = addTableData(env, 0, "FD_FxViewParam", "Fx画面変数情報", "Fx画面情報に付属して管理される変数情報");
 		//テーブル項目情報登録
 		addTableColumnData(env, tableId, "FD_FxViewParam_ID", "情報ID", 0, "Fx画面変数情報ID", "Fx画面変数情報を識別するためのID", 10, true);
-		addTableColumnData(env, tableId, "FxView_ParamName", "テキスト", 100, "画面変数名", "画面変数の名称", 20, false);
-		addTableColumnData(env, tableId, "FxView_ParamData", "テキスト", 100, "画面変数データ", "画面変数が保持するデータ", 30, false);
-		addTableColumnData(env, tableId, "FD_Name", "テキスト", 100, "画面変数表示名", "画面変数を表示する際の識別名", 40, false);
-		addTableColumnData(env, tableId, "FD_Comment", "複数行テキスト", 0, "画面変数説明", "画面変数をの内容を説明する。", 50, false);
+		addTableColumnData(env, tableId, "FD_FxView_ID", "情報ID", 0, "Fx画面情報ID", "Fx画面変数情報が紐づく画面情報の識別ID", 20, false);
+		addTableColumnData(env, tableId, "FxView_ParamName", "テキスト", 100, "画面変数名", "画面変数の名称", 30, false);
+		addTableColumnData(env, tableId, "FxView_ParamData", "テキスト", 100, "画面変数データ", "画面変数が保持するデータ", 40, false);
+		addTableColumnData(env, tableId, "FD_Name", "テキスト", 100, "画面変数表示名", "画面変数を表示する際の識別名", 50, false);
+		addTableColumnData(env, tableId, "FD_Comment", "複数行テキスト", 0, "画面変数説明", "画面変数をの内容を説明する。", 60, false);
 		addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","Fx画面変数情報の登録日", 900, false);
 		addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","Fx画面変数情報の登録者のID", 910, false);
 		addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","Fx画面変数情報の更新日", 920, false);
 		addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","Fx画面変数情報の更新者のID", 930, false);
+		//データベースIOモデル生成
+		new CreateModel(env, "FD_FxViewParam");
+		//採番情報登録
+		addNumberingData(env, 0, tableId, 0, 1000001);
+		//テーブル生成
+		new CreateTable(env, I_FD_FxViewParam.Table_ID);
 	}
 
 	/**
@@ -84,12 +94,32 @@ public class CreateFxResource extends FD_DB {
 	 * @param env 環境情報
 	 * @param viewName 画面名
 	 * @param name　画面表示名
+	 * @return Fx画面情報ID
 	 */
-	private void addFxViewData(FD_EnvData env, String viewName, String name) {
+	private int addFxViewData(FD_EnvData env, String viewName, String name) {
 		X_FD_FxView view = new X_FD_FxView(env);
 		view.setFxView_Name(viewName);
 		view.setFD_Name(name);
 		view.save();
+		return view.getFD_FxView_ID();
+	}
+
+	/**
+	 * 画面変数情報登録<br>
+	 * @author ueno hideo
+	 * @since 2020/08/05
+	 * TODO 汎用クラス化予定(2020/08/05 ueno)
+	 * @param env 環境情報
+	 * @param viewId 画面情報ID
+	 * @param paramName 変数名
+	 * @param paramData(int) 変数情報
+	 */
+	private void addFxViewParam(FD_EnvData env, int viewId, String paramName, int paramData) {
+		X_FD_FxViewParam param = new X_FD_FxViewParam(env);
+		param.setFD_FxView_ID(viewId);
+		param.setFxView_ParamName(paramName);
+		param.setFxView_ParamData(Integer.toString(paramData));
+		param.save();
 	}
 
 }

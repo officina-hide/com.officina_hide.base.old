@@ -3,8 +3,10 @@ package com.officina_hide.fx.view;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
+import com.officina_hide.base.model.FD_Query;
 import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_FxView;
+import com.officina_hide.base.model.I_FD_FxViewParam;
 import com.officina_hide.base.model.X_FD_FxView;
 
 import javafx.application.Application;
@@ -33,6 +35,7 @@ public class FxStartMain extends Application implements I_DB {
 		String viewName =  "Fx_Login";
 		FD_WhereData where = new FD_WhereData(I_FD_FxView.COLUMNNAME_FXVIEW_NAME, viewName);
 		X_FD_FxView view = new X_FD_FxView(env, where);
+		FD_Query query = new FD_Query(env, "FD_FxViewParam", new FD_WhereData(I_FD_FxViewParam.COLUMNNAME_FD_FXVIEW_ID, view.getFD_FxView_ID()));
 		
 		Scene scene = new Scene(getViewRoot(env, view));
 		stage.setScene(scene);
