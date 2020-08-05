@@ -1,5 +1,7 @@
 package com.officina_hide.base.model;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,8 +34,18 @@ public class FD_Query extends FD_DB implements I_DB {
 	 */
 	public FD_Query(FD_EnvData env, String tableName, FD_WhereData where) {
 		List<Integer> ids = getIds(env, tableName, where);
-		for(int id : ids) {
-			
+		try {
+			for(int id : ids) {
+				Class<?> cl = Class.forName(env.getModelURI()+".X_"+tableName);
+				Constructor<?> con = cl.getConstructor(new Class[] {FD_EnvData.class, int.class});
+				Object obj = con.newInstance(new Object[] {env, id});
+				getDataList().add(obj);
+			}
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException 
+				| InstantiationException | IllegalAccessException 
+				| IllegalArgumentException | InvocationTargetException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
 	}
 

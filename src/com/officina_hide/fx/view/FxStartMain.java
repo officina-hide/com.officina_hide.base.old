@@ -8,6 +8,7 @@ import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_FxView;
 import com.officina_hide.base.model.I_FD_FxViewParam;
 import com.officina_hide.base.model.X_FD_FxView;
+import com.officina_hide.base.model.X_FD_FxViewParam;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -23,6 +24,9 @@ import javafx.stage.Stage;
  */
 public class FxStartMain extends Application implements I_DB {
 
+	private int preWidth = 600;
+	private int preHeight  = 400;
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		//環境情報生成
@@ -35,14 +39,38 @@ public class FxStartMain extends Application implements I_DB {
 		String viewName =  "Fx_Login";
 		FD_WhereData where = new FD_WhereData(I_FD_FxView.COLUMNNAME_FXVIEW_NAME, viewName);
 		X_FD_FxView view = new X_FD_FxView(env, where);
-		FD_Query query = new FD_Query(env, "FD_FxViewParam", new FD_WhereData(I_FD_FxViewParam.COLUMNNAME_FD_FXVIEW_ID, view.getFD_FxView_ID()));
+		//画面変数取得
+		getViewParam(env, view);
 		
-		Scene scene = new Scene(getViewRoot(env, view));
+		Scene scene = new Scene(getViewRoot(env, view), preWidth, preHeight);
 		stage.setScene(scene);
 		stage.setTitle(view.getFD_Name());
 		stage.show();
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "End Fx View");
+	}
+
+	/**
+	 * 画面変数取得<br>
+	 * @author ueno hideo
+	 * @param env 環境情報
+	 * @param view 画面情報
+	 * @since 2020/08/06
+	 */
+	private void getViewParam(FD_EnvData env, X_FD_FxView view) {
+		FD_Query query = new FD_Query(env, "FD_FxViewParam"
+				, new FD_WhereData(I_FD_FxViewParam.COLUMNNAME_FD_FXVIEW_ID, view.getFD_FxView_ID()));
+		for(int ix = 0;  ix < query.getDataList().size(); ix++) {
+			X_FD_FxViewParam param = (X_FD_FxViewParam) query.getDataList().get(ix);
+			switch(param.getFxView_ParamName()) {
+			case "View_Pre_Width":
+				preWidth = Integer.parseInt(param.getFxView_ParamData());
+				break;
+			case "View_Pre_Height":
+				preHeight = Integer.parseInt(param.getFxView_ParamData());
+				break;
+			}
+		}
 	}
 
 	/**

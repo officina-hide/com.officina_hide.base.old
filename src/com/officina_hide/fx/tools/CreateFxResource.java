@@ -34,6 +34,7 @@ public class CreateFxResource extends FD_DB {
 		//ログイン画面情報登録
 		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
 		addFxViewParam(env, viewId, "View_Pre_Width", 300);
+		addFxViewParam(env, viewId, "View_Pre_Height", 200);
 	}
 
 	/**
