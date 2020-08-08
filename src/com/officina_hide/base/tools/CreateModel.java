@@ -306,6 +306,7 @@ public class CreateModel extends FD_DB implements I_DB {
 		source.append(setTab(3)).append("connection(env);").append(FD_RETURN);
 		source.append(setTab(3)).append("stmt = conn.createStatement();").append(FD_RETURN);
 		source.append(setTab(3)).append("rs = stmt.executeQuery(sql.toString());").append(FD_RETURN);
+		source.append(setTab(3)).append("env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());").append(FD_RETURN);
 		source.append(setTab(3)).append("if(rs.next()) {").append(FD_RETURN);
 
 		//項目セット

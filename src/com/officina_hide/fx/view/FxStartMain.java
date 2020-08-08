@@ -24,14 +24,17 @@ import javafx.stage.Stage;
  */
 public class FxStartMain extends Application implements I_DB {
 
+	/** 環境情報 */
+	private FD_EnvData env;
+	
 	private int preWidth = 600;
 	private int preHeight  = 400;
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		//環境情報生成
 		// TODO 環境の取込み方ほについて、当面は個別の処理毎に設定する。(2020/08/03 ueno)
-		FD_EnvData env = new FD_EnvData();
+		env = new FD_EnvData();
 		//開始メッセージ
 		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_DEBAG);
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Start Fx View");
@@ -47,6 +50,10 @@ public class FxStartMain extends Application implements I_DB {
 		stage.setTitle(view.getFD_Name());
 		stage.show();
 
+	}
+	
+	@Override
+	public void stop() throws Exception {
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "End Fx View");
 	}
 

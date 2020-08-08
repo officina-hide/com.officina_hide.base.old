@@ -13,14 +13,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
+public class X_FD_FxViewItem extends FD_DB implements I_DB, I_FD_FxViewItem {
 	private FD_EnvData env;
 
-	public X_FD_Numbering(FD_EnvData env) {
+	public X_FD_FxViewItem(FD_EnvData env) {
 		this.env = env;
 	}
 
-	public X_FD_Numbering(FD_EnvData env, FD_WhereData where) {
+	public X_FD_FxViewItem(FD_EnvData env, FD_WhereData where) {
 		this.env = env;
 		List<Integer> ids = getIds(env, where);
 		if(ids.size() > 0) {
@@ -28,74 +28,58 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		}
 	}
 
-	public X_FD_Numbering(FD_EnvData env, int id) {
+	public X_FD_FxViewItem(FD_EnvData env, int id) {
 		this.env = env;
 		load(env, id);
 	}
 
 	/**
-	 * 採番情報ID.<br>
+	 * Fx画面項目情報ID.<br>
 	 */
-	private int fD_Numbering_ID;
+	private int fD_FxViewItem_ID;
 	/**
-	 * 採番情報IDを取得する。.<br>
+	 * Fx画面項目情報IDを取得する。.<br>
 	 */
-	public int getFD_Numbering_ID() {
-		return fD_Numbering_ID;
+	public int getFD_FxViewItem_ID() {
+		return fD_FxViewItem_ID;
 	}
 	/**
-	 * 採番情報IDをセットする。.<br>
+	 * Fx画面項目情報IDをセットする。.<br>
 	 */
-	public void setFD_Numbering_ID( int fD_Numbering_ID) {
-		this.fD_Numbering_ID = fD_Numbering_ID;
+	public void setFD_FxViewItem_ID( int fD_FxViewItem_ID) {
+		this.fD_FxViewItem_ID = fD_FxViewItem_ID;
 	}
 	/**
-	 * テーブル情報ID.<br>
+	 * 画面項目名.<br>
 	 */
-	private int fD_Table_ID;
+	private String fxViewItem_Name;
 	/**
-	 * テーブル情報IDを取得する。.<br>
+	 * 画面項目名を取得する。.<br>
 	 */
-	public int getFD_Table_ID() {
-		return fD_Table_ID;
+	public String getFxViewItem_Name() {
+		return fxViewItem_Name;
 	}
 	/**
-	 * テーブル情報IDをセットする。.<br>
+	 * 画面項目名をセットする。.<br>
 	 */
-	public void setFD_Table_ID( int fD_Table_ID) {
-		this.fD_Table_ID = fD_Table_ID;
+	public void setFxViewItem_Name (String fxViewItem_Name) {
+		this.fxViewItem_Name = fxViewItem_Name;
 	}
 	/**
-	 * 現在値.<br>
+	 * 画面項目属性.<br>
 	 */
-	private int current_Number;
+	private int fxViewItem_Type_ID;
 	/**
-	 * 現在値を取得する。.<br>
+	 * 画面項目属性を取得する。.<br>
 	 */
-	public int getCurrent_Number() {
-		return current_Number;
+	public int getFxViewItem_Type_ID() {
+		return fxViewItem_Type_ID;
 	}
 	/**
-	 * 現在値をセットする。.<br>
+	 * 画面項目属性をセットする。.<br>
 	 */
-	public void setCurrent_Number( int current_Number) {
-		this.current_Number = current_Number;
-	}
-	/**
-	 * 開始値.<br>
-	 */
-	private int start_Number;
-	/**
-	 * 開始値を取得する。.<br>
-	 */
-	public int getStart_Number() {
-		return start_Number;
-	}
-	/**
-	 * 開始値をセットする。.<br>
-	 */
-	public void setStart_Number( int start_Number) {
-		this.start_Number = start_Number;
+	public void setFxViewItem_Type_ID( int fxViewItem_Type_ID) {
+		this.fxViewItem_Type_ID = fxViewItem_Type_ID;
 	}
 	/**
 	 * 登録日.<br>
@@ -168,37 +152,36 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		this.fD_Updated = fD_Updated;
 	}
 	/**
-	 * FD_Numberingを保存する。.<br>
+	 * FD_FxViewItemを保存する。.<br>
 	 */
 	public void save() {
 		StringBuffer sql = new StringBuffer();
 		boolean isNewData = false;
-		if(getFD_Numbering_ID() == 0 ) {
-			setFD_Numbering_ID(getNewID(env, "FD_Numbering"));
+		if(getFD_FxViewItem_ID() == 0 ) {
+			setFD_FxViewItem_ID(getNewID(env, "FD_FxViewItem"));
 			isNewData = true;
 		}
 		if(isNewData) {
-			sql.append("INSERT INTO ").append(I_FD_Numbering.Table_Name);
+			sql.append("INSERT INTO ").append(I_FD_FxViewItem.Table_Name);
 			getFD_Create().setTime(new Date());
 			getFD_Update().setTime(new Date());
 			setFD_Created(env.getLoginUserID());
 			setFD_Updated(env.getLoginUserID());
 		} else {
-			sql.append("UPDATE ").append(I_FD_Numbering.Table_Name);
+			sql.append("UPDATE ").append(I_FD_FxViewItem.Table_Name);
 			getFD_Update().setTime(new Date());
 			setFD_Updated(env.getLoginUserID());
 		}
 		sql.append(" SET ");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(getFD_Numbering_ID()).append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID()).append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_CURRENT_NUMBER).append(" = ").append(getCurrent_Number()).append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_START_NUMBER).append(" = ").append(getStart_Number()).append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
-		sql.append(I_FD_Numbering.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FD_FXVIEWITEM_ID).append(" = ").append(getFD_FxViewItem_ID()).append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FXVIEWITEM_NAME).append(" = '").append(getFxViewItem_Name()).append("'").append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FXVIEWITEM_TYPE_ID).append(" = ").append(getFxViewItem_Type_ID()).append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
+		sql.append(I_FD_FxViewItem.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
 		if(isNewData == false) {
-			sql.append(" WHERE ").append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(getFD_Numbering_ID());
+			sql.append(" WHERE ").append(I_FD_FxViewItem.COLUMNNAME_FD_FXVIEWITEM_ID).append(" = ").append(getFD_FxViewItem_ID());
 		}
 		execute(env, sql.toString());
 	}
@@ -215,7 +198,7 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		ResultSet rs = null;
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT ").append(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID).append(" FROM ").append(I_FD_Numbering.Table_Name);
+		sql.append("SELECT ").append(I_FD_FxViewItem.COLUMNNAME_FD_FXVIEWITEM_ID).append(" FROM ").append(I_FD_FxViewItem.Table_Name);
 		sql.append(" WHERE ").append(where.toString());
 		if(order != null) {
 			sql.append(" ORDER BY ").append(order.toString());
@@ -225,7 +208,7 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {
-				ids.add(rs.getInt(I_FD_Numbering.COLUMNNAME_FD_NUMBERING_ID));
+				ids.add(rs.getInt(I_FD_FxViewItem.COLUMNNAME_FD_FXVIEWITEM_ID));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -253,17 +236,20 @@ public class X_FD_Numbering extends FD_DB implements I_DB, I_FD_Numbering {
 		ResultSet rs = null;
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ").append(Table_Name);
-		sql.append(" WHERE ").append(COLUMNNAME_FD_NUMBERING_ID).append(" = ").append(id);
+		sql.append(" WHERE ").append(COLUMNNAME_FD_FXVIEWITEM_ID).append(" = ").append(id);
 		try {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
-				setFD_Numbering_ID(rs.getInt(COLUMNNAME_FD_NUMBERING_ID));
-				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));
-				setCurrent_Number(rs.getInt(COLUMNNAME_CURRENT_NUMBER));
-				setStart_Number(rs.getInt(COLUMNNAME_START_NUMBER));
+				setFD_FxViewItem_ID(rs.getInt(COLUMNNAME_FD_FXVIEWITEM_ID));
+				if(rs.getString(COLUMNNAME_FXVIEWITEM_NAME) != null) {
+					setFxViewItem_Name(rs.getString(COLUMNNAME_FXVIEWITEM_NAME));
+				} else {
+					setFxViewItem_Name("");
+				}
+				setFxViewItem_Type_ID(rs.getInt(COLUMNNAME_FXVIEWITEM_TYPE_ID));
 				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
 					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));
 				}

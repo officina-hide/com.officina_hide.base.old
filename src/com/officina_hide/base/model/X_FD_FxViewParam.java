@@ -292,6 +292,7 @@ public class X_FD_FxViewParam extends FD_DB implements I_DB, I_FD_FxViewParam {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_FxViewParam_ID(rs.getInt(COLUMNNAME_FD_FXVIEWPARAM_ID));
 				setFD_FxView_ID(rs.getInt(COLUMNNAME_FD_FXVIEW_ID));

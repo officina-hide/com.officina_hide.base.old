@@ -292,6 +292,7 @@ public class X_FD_RefParam extends FD_DB implements I_DB, I_FD_RefParam {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_RefParam_ID(rs.getInt(COLUMNNAME_FD_REFPARAM_ID));
 				setFD_Reference_ID(rs.getInt(COLUMNNAME_FD_REFERENCE_ID));

@@ -258,6 +258,7 @@ public class X_FD_Table extends FD_DB implements I_DB, I_FD_Table {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));
 				if(rs.getString(COLUMNNAME_TABLE_NAME) != null) {

@@ -348,6 +348,7 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_TableColumn_ID(rs.getInt(COLUMNNAME_FD_TABLECOLUMN_ID));
 				setFD_Table_ID(rs.getInt(COLUMNNAME_FD_TABLE_ID));

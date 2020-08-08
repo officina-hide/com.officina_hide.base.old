@@ -98,62 +98,6 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
-	 * テーブル情報登録<br>
-	 * @author ueno hideo
-	 * @since 1.20 2020/07/16
-	 * @param env 環境情報
-	 * @param Id テーブル情報ID
-	 * @param tableName テーブル識別名
-	 * @param name テーブル表示名
-	 * @param comment コメント
-	 * @return 
-	 */
-	public int addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		//Idが0の時は新規に情報IDを発行する。
-		if(id == 0) {
-			id = getNewID(env, I_FD_Table.Table_Name);
-		}
-		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT INTO FD_Table SET ");
-		sql.append("FD_Table_ID = ").append(id).append(",");
-		sql.append("Table_Name = '").append(tableName).append("'").append(",");
-		sql.append("FD_Name = '").append(name).append("'").append(",");
-		sql.append("FD_Comment = '").append(comment).append("'").append(",");
-		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(env, sql.toString());
-		
-		return id;
-	}
-
-	/**
-	 * リファレンス情報登録<br>
-	 * @author ueno hideo
-	 * @since 1.20 2020/07/16
-	 * @param id
-	 * @param name
-	 */
-	public void addReferenceData(int id, String name) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		//Idが0の時は新規に情報IDを発行する。
-		if(id == 0) {
-			// TODO 情報IDの新規発行は未実装(2020/07/16 ueno)
-		}
-		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT INTO FD_Reference SET ");
-		sql.append("FD_Reference_ID = ").append(id).append(",");
-		sql.append("Reference_Name = '").append(name).append("'").append(",");
-		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(env, sql.toString());
-	}
-
-	/**
 	 * テーフル情報ID取得<br>
 	 * <p>指定されたテーブル名のテーブル情報IDを取得する。<br></p>
 	 * @author ueno hideo
@@ -219,47 +163,6 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
-	 * テーフル項目情報登録<br>
-	 * @author ueno hideo
-	 * @since 1.20 2020/07/16
-	 * @param env 環境情報
-	 * @param tableId テーブル情報ID
-	 * @param culimnName 項目名
-	 * @param columnType 項目種別
-	 * @param size 桁数
-	 * @param name 項目表示名
-	 * @param comment 項目説明
-	 * @param order 項目並び順
-	 * @param priKey プライマリーキー
-	 */
-	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size, String name, String comment,
-			int order, boolean priKey) {
-		//テーブル項目情報ID生成
-		int columnId = getNewID(env, "FD_TableColumn");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT INTO FD_TableColumn SET ");
-		sql.append("FD_TableColumn_ID = ").append(columnId).append(",");
-		sql.append("FD_Table_ID = ").append(tableId).append(",");
-		sql.append("Column_Name = '").append(culimnName).append("'").append(",");
-		sql.append("Column_Type_ID = ").append(getReferenceID(env, columnType)).append(",");
-		sql.append("Column_Size = ").append(size).append(",");
-		sql.append("FD_Name = '").append(name).append("'").append(",");
-		sql.append("FD_Comment = '").append(comment).append("'").append(",");
-		sql.append("Column_Sort_Order = ").append(order).append(",");
-		if(priKey == true) {
-			sql.append("Primary_Key_Check = 1").append(",");
-		} else {
-			sql.append("Primary_Key_Check = 0").append(",");
-		}
-		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(env, sql.toString());
-	}
-
-	/**
 	 * リファレンスID取得<br>
 	 * @param env 環境情報
 	 * @param referenceName リファレンス名
@@ -288,31 +191,6 @@ public class FD_DB implements I_DB {
 			close(rs, stmt);
 		}
 		return id;
-	}
-
-	/**
-	 * 採番情報登録<br>
-	 * @author ueno hideo
-	 * @since 1.20 2020/07/16
-	 * @param env 環境情報
-	 * @param numberingId 採番情報ID
-	 * @param TableId テーブル情報ID
-	 * @param current 現在値
-	 * @param start 開始値
-	 */
-	public void addNumberingData(FD_EnvData env, int numberingId, int tableId, int current, int start) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT INTO FD_Numbering SET ");
-		sql.append("FD_Numbering_ID = ").append(numberingId).append(",");
-		sql.append("FD_Table_ID = ").append(tableId).append(",");
-		sql.append("Current_Number = ").append(current).append(",");
-		sql.append("Start_Number = ").append(start).append(",");
-		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-		sql.append("FD_Updated = ").append(env.getSystemUserID());
-		execute(env, sql.toString());
 	}
 
 	/**
@@ -399,6 +277,133 @@ public class FD_DB implements I_DB {
 			source.append(FD_TAB);
 		}
 		return source.toString();
+	}
+
+	/**
+	 * テーブル情報登録<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
+	 * @param Id テーブル情報ID
+	 * @param tableName テーブル識別名
+	 * @param name テーブル表示名
+	 * @param comment コメント
+	 * @return 
+	 */
+	public int addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		//Idが0の時は新規に情報IDを発行する。
+		if(id == 0) {
+			id = getNewID(env, I_FD_Table.Table_Name);
+		}
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO FD_Table SET ");
+		sql.append("FD_Table_ID = ").append(id).append(",");
+		sql.append("Table_Name = '").append(tableName).append("'").append(",");
+		sql.append("FD_Name = '").append(name).append("'").append(",");
+		sql.append("FD_Comment = '").append(comment).append("'").append(",");
+		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Updated = ").append(env.getSystemUserID());
+		execute(env, sql.toString());
+		
+		return id;
+	}
+//
+//	/**
+//	 * リファレンス情報登録<br>
+//	 * @author ueno hideo
+//	 * @since 1.20 2020/07/16
+//	 * @param id リファレンス情報ID
+//	 * @param name リファレンス名
+//	 * @param groupName リファレンスグループID
+//	 */
+//	public void addReferenceData(int id, String name, String groupName) {
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		//Idが0の時は新規に情報IDを発行する。
+//		if(id == 0) {
+//			// TODO 情報IDの新規発行は未実装(2020/07/16 ueno)
+//		}
+//		StringBuffer sql = new StringBuffer();
+//		sql.append("INSERT INTO FD_Reference SET ");
+//		sql.append("FD_Reference_ID = ").append(id).append(",");
+//		sql.append("Reference_Name = '").append(name).append("'").append(",");
+//		sql.append("Reference_GroupName = '").append(groupName).append("'").append(",");
+//		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
+//		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+//		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
+//		sql.append("FD_Updated = ").append(env.getSystemUserID());
+//		execute(env, sql.toString());
+//	}
+
+	/**
+	 * リファレンス情報登録<br>
+	 * @param env 環境情報
+	 * @param name リファレンス名
+	 * @param groupName リファレンスグループ名
+	 */
+	public void addReferenceData(FD_EnvData env, String name, String groupName) {
+		X_FD_Reference ref = new X_FD_Reference(env);
+		ref.setReference_Name(name);
+		ref.setReference_GroupName(groupName);
+		ref.save();
+	}
+	
+	/**
+	 * 採番情報登録<br>
+	 * @param env　環境情報
+	 * @param tableId テーブル情報ID
+	 * @param current 現在値
+	 * @param start 開始値
+	 */
+	public void addNumberingData(FD_EnvData env, int tableId, int current, int start) {
+		X_FD_Numbering num = new X_FD_Numbering(env);
+		num.setFD_Table_ID(tableId);
+		num.setStart_Number(start);
+		num.setCurrent_Number(current);
+		num.save();
+	}
+
+	/**
+	 * テーフル項目情報登録<br>
+	 * @author ueno hideo
+	 * @since 1.20 2020/07/16
+	 * @param env 環境情報
+	 * @param tableId テーブル情報ID
+	 * @param culimnName 項目名
+	 * @param columnType 項目種別
+	 * @param size 桁数
+	 * @param name 項目表示名
+	 * @param comment 項目説明
+	 * @param order 項目並び順
+	 * @param priKey プライマリーキー
+	 */
+	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size, String name, String comment,
+			int order, boolean priKey) {
+		//テーブル項目情報ID生成
+		int columnId = getNewID(env, "FD_TableColumn");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO FD_TableColumn SET ");
+		sql.append("FD_TableColumn_ID = ").append(columnId).append(",");
+		sql.append("FD_Table_ID = ").append(tableId).append(",");
+		sql.append("Column_Name = '").append(culimnName).append("'").append(",");
+		sql.append("Column_Type_ID = ").append(getReferenceID(env, columnType)).append(",");
+		sql.append("Column_Size = ").append(size).append(",");
+		sql.append("FD_Name = '").append(name).append("'").append(",");
+		sql.append("FD_Comment = '").append(comment).append("'").append(",");
+		sql.append("Column_Sort_Order = ").append(order).append(",");
+		if(priKey == true) {
+			sql.append("Primary_Key_Check = 1").append(",");
+		} else {
+			sql.append("Primary_Key_Check = 0").append(",");
+		}
+		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
+		sql.append("FD_Updated = ").append(env.getSystemUserID());
+		execute(env, sql.toString());
 	}
 
 	/**

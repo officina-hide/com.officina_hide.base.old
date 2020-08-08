@@ -241,6 +241,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_FxView_ID(rs.getInt(COLUMNNAME_FD_FXVIEW_ID));
 				if(rs.getString(COLUMNNAME_FXVIEW_NAME) != null) {

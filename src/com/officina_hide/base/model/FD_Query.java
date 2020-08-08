@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
 
 /**
@@ -72,6 +73,7 @@ public class FD_Query extends FD_DB implements I_DB {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_DEBAG, sql.toString());
 			while(rs.next()) {
 				list.add(rs.getInt(tableName+"_ID"));
 			}

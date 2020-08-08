@@ -66,6 +66,22 @@ public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 		this.reference_Name = reference_Name;
 	}
 	/**
+	 * リファレンスグループ.<br>
+	 */
+	private String reference_GroupName;
+	/**
+	 * リファレンスグループを取得する。.<br>
+	 */
+	public String getReference_GroupName() {
+		return reference_GroupName;
+	}
+	/**
+	 * リファレンスグループをセットする。.<br>
+	 */
+	public void setReference_GroupName (String reference_GroupName) {
+		this.reference_GroupName = reference_GroupName;
+	}
+	/**
 	 * 登録日.<br>
 	 */
 	private Calendar fD_Create;
@@ -159,6 +175,7 @@ public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 		sql.append(" SET ");
 		sql.append(I_FD_Reference.COLUMNNAME_FD_REFERENCE_ID).append(" = ").append(getFD_Reference_ID()).append(",");
 		sql.append(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).append(" = '").append(getReference_Name()).append("'").append(",");
+		sql.append(I_FD_Reference.COLUMNNAME_REFERENCE_GROUPNAME).append(" = '").append(getReference_GroupName()).append("'").append(",");
 		sql.append(I_FD_Reference.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
 		sql.append(I_FD_Reference.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
 		sql.append(I_FD_Reference.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
@@ -224,12 +241,18 @@ public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
+			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_Reference_ID(rs.getInt(COLUMNNAME_FD_REFERENCE_ID));
 				if(rs.getString(COLUMNNAME_REFERENCE_NAME) != null) {
 					setReference_Name(rs.getString(COLUMNNAME_REFERENCE_NAME));
 				} else {
 					setReference_Name("");
+				}
+				if(rs.getString(COLUMNNAME_REFERENCE_GROUPNAME) != null) {
+					setReference_GroupName(rs.getString(COLUMNNAME_REFERENCE_GROUPNAME));
+				} else {
+					setReference_GroupName("");
 				}
 				if(rs.getDate(COLUMNNAME_FD_CREATE) != null) {
 					getFD_Create().setTime(rs.getDate(COLUMNNAME_FD_CREATE));

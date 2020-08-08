@@ -1,30 +1,30 @@
 package com.officina_hide.base.model;
 
-public interface I_FD_Reference {
+public interface I_FD_FxViewItem {
 	/**
 	 * テーブル名.<br>
 	 */
-	public final String Table_Name = "FD_Reference";
+	public final String Table_Name = "FD_FxViewItem";
 
 	/**
 	 * テーブルID.<br>
 	 */
-	public final int Table_ID =103;
+	public final int Table_ID =203;
 
 	/**
-	 * リファレンス情報ID.<br>
+	 * Fx画面項目情報ID.<br>
 	 */
-	public final String COLUMNNAME_FD_REFERENCE_ID = "FD_Reference_ID";
+	public final String COLUMNNAME_FD_FXVIEWITEM_ID = "FD_FxViewItem_ID";
 
 	/**
-	 * リファレンス名.<br>
+	 * 画面項目名.<br>
 	 */
-	public final String COLUMNNAME_REFERENCE_NAME = "Reference_Name";
+	public final String COLUMNNAME_FXVIEWITEM_NAME = "FxViewItem_Name";
 
 	/**
-	 * リファレンスグループ.<br>
+	 * 画面項目属性.<br>
 	 */
-	public final String COLUMNNAME_REFERENCE_GROUPNAME = "Reference_GroupName";
+	public final String COLUMNNAME_FXVIEWITEM_TYPE_ID = "FxViewItem_Type_ID";
 
 	/**
 	 * 登録日.<br>
