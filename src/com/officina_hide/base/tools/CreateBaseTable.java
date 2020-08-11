@@ -39,6 +39,8 @@ public class CreateBaseTable {
 		createTableColumn(env);
 		//リファレンス情報生成
 		createRefarence(env);
+//		//リファレンスグループ情報生成
+//		createReferenceGroup(env);
 		//採番情報生成
 		createNumbering(env);
 		//リファレンスパラメータ情報生成
@@ -164,7 +166,7 @@ public class CreateBaseTable {
 	 */
 	private void createReferenceParameter(FD_EnvData env) {
 		StringBuffer sql = new StringBuffer();
-		//既に登録されている採番情報を削除します。
+		//既に登録されている リファレンス用パラメータ情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_RefParam");
 		DB.execute(env, sql.toString());
 		//リファレンス用パラメータ情報を生成する。
@@ -180,7 +182,7 @@ public class CreateBaseTable {
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
-		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='採番情報'");
+		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='リファレンス用パラメータ情報'");
 		DB.execute(env, sql.toString());
 		//リファレンス用パラメータ情報をテーブル情報に登録する。
 		DB.addTableData(env, 105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
@@ -198,6 +200,33 @@ public class CreateBaseTable {
 		DB.addRefParamData(DB.getReferenceID(env, "自然数"), "ColumnTypeClass", "ClassName", "com.officina_hide.base.model.FD_Number",
 				"自然数を扱うクラス");
 	}
+//
+//	/**
+//	 * リファレンスグループ情報生成<br>
+//	 * @author ueno hideo
+//	 * @since 1.20 2020/08/11
+//	 * @param env 環境情報
+//	 */
+//	private void createReferenceGroup(FD_EnvData env) {
+//		StringBuffer sql = new StringBuffer();
+//		//既に登録されているリファレンスグループ情報を削除します。
+//		sql.append("DROP TABLE IF EXISTS FD_RefGroup");
+//		DB.execute(env, sql.toString());
+//		//リファレンス用グループ情報を生成する。
+//		sql = new StringBuffer();
+//		sql.append("CREATE TABLE IF NOT EXISTS FD_RefGroup  (");
+//		sql.append("FD_RefGroup_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT 'リファレンス用グループ情報ID'").append(",");
+//		sql.append("FD_Reference_ID INT UNSIGNED NOT NULL COMMENT 'リファレンス情報ID'").append(",");
+//		sql.append("Reference_GroupName varchar(100) COMMENT 'リファレンスグループ名'").append(",");
+//		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
+//		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
+//		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
+//		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
+//		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='リファレンスグループ情報'");
+//		DB.execute(env, sql.toString());
+//		//リファレンス用グループ情報をテーブル情報に登録する。
+//		DB.addTableData(env, 105, "FD_RefParam", "リファレンス用パラメータ情報", "リファレンス情報で使用する各種情報を管理する。");
+//	}
 
 	/**
 	 * 採番情報生成<br>

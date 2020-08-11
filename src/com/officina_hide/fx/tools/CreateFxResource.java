@@ -7,6 +7,7 @@ import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_FxView;
 import com.officina_hide.base.model.I_FD_FxViewItem;
 import com.officina_hide.base.model.I_FD_FxViewParam;
+import com.officina_hide.base.model.I_FD_RefGroup;
 import com.officina_hide.base.model.X_FD_FxView;
 import com.officina_hide.base.model.X_FD_FxViewParam;
 import com.officina_hide.base.tools.CreateModel;
@@ -35,12 +36,39 @@ public class CreateFxResource extends FD_DB {
 		createViewParamTable(env);
 		//画面項目情報テーブル生成
 		createViewItemTable(env);
+		//リファレンスグループ情報テーブル生成
+		createRefGroupTable(env);
 		//項目用リファレンス登録
 		addReferenceData(env, "Fx_Text", I_FD_Base.GROUP_NAME_VIEW_ITEM);
 		//ログイン画面情報登録
 		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
 		addFxViewParam(env, viewId, "View_Pre_Width", 300);
 		addFxViewParam(env, viewId, "View_Pre_Height", 200);
+		//ログイン画面項目情報登録
+	}
+
+	/**
+	 * リファレンスグループ情報テーブル生成<br>
+	 * @author ueno hideo
+	 * @since 2020/08/11
+	 * @param env 環境情報
+	 */
+	private void createRefGroupTable(FD_EnvData env) {
+		//テーブル情報登録
+		int tableId = addTableData(env, 0, "FD_RefGroup", "リファレンスグループ情報", "リファレンス情報をグループ化するための情報");
+		//テーフル項目登録
+		addTableColumnData(env, tableId, "FD_RefGroup_ID", "情報ID", 0, "リファレンスグループ情報ID", "リファレンスグループ情報を識別するためのID", 10, true);
+		addTableColumnData(env, tableId, "Reference_GroupName", "テキスト", 100, "リファレンスグループ名", "リファレンスグループの名称", 20, false);
+		addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","リファレンスグループ情報の登録日", 900, false);
+		addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンスグループ情報の登録者のID", 910, false);
+		addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","リファレンスグループ情報の更新日", 920, false);
+		addTableColumnData(env, tableId, "FD_Updated", "情報ID", 0, "更新者ID","リファレンスグループ情報の更新者のID", 930, false);
+		//データベースIOモデル生成
+		new CreateModel(env, "FD_RefGroup");
+		//採番情報登録
+		addNumberingData(env, tableId, 0, 1000001);
+		//テーブル生成
+		new CreateTable(env, I_FD_RefGroup.Table_ID);
 	}
 
 	/**

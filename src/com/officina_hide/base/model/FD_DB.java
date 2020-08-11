@@ -310,32 +310,6 @@ public class FD_DB implements I_DB {
 		
 		return id;
 	}
-//
-//	/**
-//	 * リファレンス情報登録<br>
-//	 * @author ueno hideo
-//	 * @since 1.20 2020/07/16
-//	 * @param id リファレンス情報ID
-//	 * @param name リファレンス名
-//	 * @param groupName リファレンスグループID
-//	 */
-//	public void addReferenceData(int id, String name, String groupName) {
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		//Idが0の時は新規に情報IDを発行する。
-//		if(id == 0) {
-//			// TODO 情報IDの新規発行は未実装(2020/07/16 ueno)
-//		}
-//		StringBuffer sql = new StringBuffer();
-//		sql.append("INSERT INTO FD_Reference SET ");
-//		sql.append("FD_Reference_ID = ").append(id).append(",");
-//		sql.append("Reference_Name = '").append(name).append("'").append(",");
-//		sql.append("Reference_GroupName = '").append(groupName).append("'").append(",");
-//		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-//		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Updated = ").append(env.getSystemUserID());
-//		execute(env, sql.toString());
-//	}
 
 	/**
 	 * リファレンス情報登録<br>
