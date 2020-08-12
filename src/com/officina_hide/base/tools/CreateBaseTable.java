@@ -11,9 +11,11 @@ import com.officina_hide.base.model.FD_DB;
  * 基本テーブル生成<br>
  * <p>以下のテーブルを生成する。<br>
  * ・テーブル情報(FD_Table)</p>
+ * <p>リファクタリングでベースとして作成する情報を最低限にするため{@code CreateBaseResource}にする。</p>
  * @author ueno hideo
  * @version 1.20
  * @since 2020/07/14
+ * @deprecated 2020/08/13
  */
 public class CreateBaseTable {
 

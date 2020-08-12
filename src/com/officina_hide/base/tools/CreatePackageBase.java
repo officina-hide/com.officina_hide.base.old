@@ -33,7 +33,8 @@ public class CreatePackageBase {
 		/*
 		 * 基本となるテーブルを生成する。
 		 */
-		new CreateBaseTable(env);
+//		new CreateBaseTable(env);
+		new CreateBaseResource(env);
 		/*
 		 * 画面用リソース生成
 		 */
