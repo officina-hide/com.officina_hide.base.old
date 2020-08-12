@@ -9,7 +9,7 @@ public interface I_FD_RefGroup {
 	/**
 	 * テーブルID.<br>
 	 */
-	public final int Table_ID =204;
+	public final int Table_ID =201;
 
 	/**
 	 * リファレンスグループ情報ID.<br>

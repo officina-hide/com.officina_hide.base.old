@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
-import com.officina_hide.base.common.I_FD_Base;
 import com.officina_hide.base.model.FD_DB;
 
 /**
@@ -137,7 +136,7 @@ public class CreateBaseTable {
 		sql.append("CREATE TABLE IF NOT EXISTS FD_Reference  (");
 		sql.append("FD_Reference_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT 'リファレンス情報ID'").append(",");
 		sql.append("Reference_Name Varchar(100) COMMENT 'リファレンス名'").append(",");
-		sql.append("Reference_GroupName Varchar(100) COMMENT 'リファレンスグループ名'").append(",");
+//		sql.append("Reference_GroupName Varchar(100) COMMENT 'リファレンスグループ名'").append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
@@ -147,13 +146,13 @@ public class CreateBaseTable {
 		//リファレンス情報をテーブル情報に登録する。
 		DB.addTableData(env, 103, "FD_Reference", "リファレンス情報","システムで管理する項目の辞書としての管理を行う。");
 		//リファレンス情報登録
-		addReferenceData(env, 1000001,"情報ID", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000002,"テキスト", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000003,"自然数", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000004,"複数行テキスト", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000005,"日時", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000006,"YESNO", I_FD_Base.GROUP_NAME_TABLE_ITEM);
-		addReferenceData(env, 1000007,"ClassName", "");
+		addReferenceData(env, 1000001,"情報ID");
+		addReferenceData(env, 1000002,"テキスト");
+		addReferenceData(env, 1000003,"自然数");
+		addReferenceData(env, 1000004,"複数行テキスト");
+		addReferenceData(env, 1000005,"日時");
+		addReferenceData(env, 1000006,"YESNO");
+		addReferenceData(env, 1000007,"ClassName");
 
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Reference Information created.");
 	}
@@ -300,7 +299,7 @@ public class CreateBaseTable {
 		tableId = DB.getTableID(env, "FD_Reference");
 		DB.addTableColumnData(env, tableId, "FD_Reference_ID", "情報ID", 0, "リファレンス情報ID","リファレンス情報を識別するためのID", 10, true);
 		DB.addTableColumnData(env, tableId, "Reference_Name", "テキスト", 100, "リファレンス名","リファレンス情報の名称", 20, false);
-		DB.addTableColumnData(env, tableId, "Reference_GroupName", "テキスト", 100, "リファレンスグループ","リファレンス情報を一括するグループの名称", 20, false);
+//		DB.addTableColumnData(env, tableId, "Reference_GroupName", "テキスト", 100, "リファレンスグループ","リファレンス情報を一括するグループの名称", 20, false);
 		DB.addTableColumnData(env, tableId, "FD_Create", "日時", 0, "登録日","リファレンス情報の登録日", 900, false);
 		DB.addTableColumnData(env, tableId, "FD_Created", "情報ID", 0, "登録者ID","リファレンス情報の登録者のID", 910, false);
 		DB.addTableColumnData(env, tableId, "FD_Update", "日時", 0, "更新日","リファレンス情報の更新日", 920, false);
@@ -337,16 +336,14 @@ public class CreateBaseTable {
 	 * @param env 環境情報
 	 * @param id リファレンス情報ID
 	 * @param name リファレンス名
-	 * @param groupName リファレンスグループID
 	 */
-	private void addReferenceData(FD_EnvData env, int id, String name, String groupName) {
+	private void addReferenceData(FD_EnvData env, int id, String name) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		//Idが0の時は新規に情報IDを発行する。
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_Reference SET ");
 		sql.append("FD_Reference_ID = ").append(id).append(",");
 		sql.append("Reference_Name = '").append(name).append("'").append(",");
-		sql.append("Reference_GroupName = '").append(groupName).append("'").append(",");
 		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");

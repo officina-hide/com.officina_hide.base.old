@@ -9,7 +9,7 @@ public interface I_FD_FxView {
 	/**
 	 * テーブルID.<br>
 	 */
-	public final int Table_ID =201;
+	public final int Table_ID =202;
 
 	/**
 	 * 画面情報ID.<br>

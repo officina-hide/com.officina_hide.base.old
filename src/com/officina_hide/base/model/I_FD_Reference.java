@@ -22,11 +22,6 @@ public interface I_FD_Reference {
 	public final String COLUMNNAME_REFERENCE_NAME = "Reference_Name";
 
 	/**
-	 * リファレンスグループ.<br>
-	 */
-	public final String COLUMNNAME_REFERENCE_GROUPNAME = "Reference_GroupName";
-
-	/**
 	 * 登録日.<br>
 	 */
 	public final String COLUMNNAME_FD_CREATE = "FD_Create";

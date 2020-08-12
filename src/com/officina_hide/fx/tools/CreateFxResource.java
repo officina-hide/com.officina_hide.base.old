@@ -30,16 +30,16 @@ public class CreateFxResource extends FD_DB {
 	public CreateFxResource(FD_EnvData env) {
 		//生成開始メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面リソース生成開始");
+		//リファレンスグループ情報テーブル生成
+		createRefGroupTable(env);
 		//画面情報テーブル生成
 		createViewTable(env);
 		//画面変数情報テーブル生成
 		createViewParamTable(env);
 		//画面項目情報テーブル生成
 		createViewItemTable(env);
-		//リファレンスグループ情報テーブル生成
-		createRefGroupTable(env);
 		//項目用リファレンス登録
-		addReferenceData(env, "Fx_Text", I_FD_Base.GROUP_NAME_VIEW_ITEM);
+		addReferenceData(env, "Fx_Text");
 		//ログイン画面情報登録
 		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
 		addFxViewParam(env, viewId, "View_Pre_Width", 300);

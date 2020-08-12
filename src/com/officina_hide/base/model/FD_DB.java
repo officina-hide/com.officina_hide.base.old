@@ -315,12 +315,10 @@ public class FD_DB implements I_DB {
 	 * リファレンス情報登録<br>
 	 * @param env 環境情報
 	 * @param name リファレンス名
-	 * @param groupName リファレンスグループ名
 	 */
-	public void addReferenceData(FD_EnvData env, String name, String groupName) {
+	public void addReferenceData(FD_EnvData env, String name) {
 		X_FD_Reference ref = new X_FD_Reference(env);
 		ref.setReference_Name(name);
-		ref.setReference_GroupName(groupName);
 		ref.save();
 	}
 	
