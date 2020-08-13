@@ -38,7 +38,7 @@ public class CreatePackageBase {
 		/*
 		 * 画面用リソース生成
 		 */
-		new CreateFxResource(env);
+//		new CreateFxResource(env);
 		
 		//終了メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Package Base Creating is completed!!");
