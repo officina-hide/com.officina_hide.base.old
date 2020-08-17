@@ -1,5 +1,8 @@
 package com.officina_hide.base.tools;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
@@ -258,8 +261,10 @@ public class CreateBaseResource extends FD_DB {
 	 */
 	private void addNumbering(FD_EnvData env) {
 		/** 最初の情報登録（採番情報自身） */
-		addNumberingDataOrg(env, 1001, 1001, 0, 1001);
+		addNumberingDataOrg(env, 1001, 1001, 1001, 1001);
+		/** テーブル情報採番　*/
 		int numberingId = getNewID(env, 1001);
+		addNumberingDataOrg(env, numberingId, 1002, 1001, 1002);
 	}
 
 	/**
@@ -271,8 +276,40 @@ public class CreateBaseResource extends FD_DB {
 	 * @return 新規情報ID
 	 */
 	private int getNewID(FD_EnvData env, int tableId) {
-		
-		return 0;
+		int id = 0;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			//採番情報の取得
+			sql.append("SELECT Current_Number, Start_Number FROM FD_Numbering ")
+				.append("WHERE FD_Table_ID = ").append(tableId);
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				if(rs.getInt("Current_Number") == 0) {
+					id = rs.getInt("Start_Number");
+				} else {
+					id = rs.getInt("Current_Number") + 1;
+				}
+			}
+			//採番情報の更新
+			if(id > 0) {
+				sql = new StringBuffer();
+				sql.append("UPDATE FD_Numbering SET ");
+				sql.append("Current_Number = ").append(id).append(",");
+				sql.append("FD_Update = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
+				sql.append("FD_Updated = ").append(env.getLoginUserID()).append(" ");
+				sql.append("WHERE FD_Table_ID = ").append(tableId);
+				execute(env, sql.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return id;
 	}
 
 	/**
