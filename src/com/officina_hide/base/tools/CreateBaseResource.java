@@ -25,6 +25,9 @@ public class CreateBaseResource extends FD_DB {
 	 * テーブル項目情報テーブルの構築 (createTabelItemTable)
 	 */
 
+	/** リファレンス採番 */
+	private int referenceID = 1000001;
+
 	/**
 	 * コンストラクター<br>
 	 * @author ueno hideo
@@ -194,13 +197,13 @@ public class CreateBaseResource extends FD_DB {
 	 * @param refGroupID リファレンスグループ情報ID
 	 */
 	private void addTableItemReference(FD_EnvData env, int refGroupID) {
-		int referenceID = 1000001;
+//		int referenceID = 1000001;
 		addReferenceData(env, referenceID++, "FD_Information_ID", "情報ID", refGroupID, "com.officina_hide.base.model.FD_ImformationID");
 		addReferenceData(env, referenceID++, "FD_Text", "テキスト", refGroupID, "com.officina_hide.base.model.FD_Text");
 		addReferenceData(env, referenceID++, "FD_Field_Text", "複数行テキスト", refGroupID, "com.officina_hide.base.model.FD_FieldText");
 		addReferenceData(env, referenceID++, "FD_Date", "日時", refGroupID, "com.officina_hide.base.model.FD_Date");
 		addReferenceData(env, referenceID++, "FD_YESNO", "YESNO", refGroupID, "com.officina_hide.base.model.FD_YESNO");
-		addReferenceData(env, referenceID++, "FD_Number", "自然数", refGroupID, "com.officina_hide.base.model.FD_Number");
+		addReferenceData(env, referenceID, "FD_Number", "自然数", refGroupID, "com.officina_hide.base.model.FD_Number");
 	}
 
 	/**
@@ -265,6 +268,15 @@ public class CreateBaseResource extends FD_DB {
 		/** テーブル情報採番　*/
 		int numberingId = getNewID(env, 1001);
 		addNumberingDataOrg(env, numberingId, 1002, 1001, 1002);
+		/** テーブル情報登録 */
+		addTableData(env, 1001, "FD_Numbering", "採番情報");
+		addTableData(env, 1002, "FD_Table", "テーブル情報");
+		int tableId = addTableData(env, 0, "FD_TableColumn", "テーブル項目情報");
+		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 1000001, 0);
+		tableId = addTableData(env, 0, "FD_Reference", "リファレンス情報");
+		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 1000001, referenceID);
+		tableId = addTableData(env, 0, "FD_RefGroup", "リファレンスグループ情報");
+		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 1000001, 0);
 	}
 
 	/**
@@ -331,5 +343,33 @@ public class CreateBaseResource extends FD_DB {
 		sql.append("FD_Update = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
 		sql.append("FD_Updated = ").append(env.getSystemUserID());
 		execute(env, sql.toString());
+	}
+
+	/**
+	 * テーブル情報登録<br>
+	 * @author ueno hideo
+	 * @since 1.21 2020/08/17
+	 * @param env 環境情報
+	 * @param i 
+	 * @param tableName テーブル名
+	 * @param name テーブル表示名
+	 * @return 
+	 */
+	private int addTableData(FD_EnvData env, int id, String tableName, String name) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO FD_Table SET ");
+		if(id == 0) {
+		} else {
+			id = getNewID(env, 1002);
+		}
+		sql.append("FD_Table_ID = ").append(id).append(",");
+		sql.append("Table_Name = ").append(FD_SQ).append(tableName).append(FD_SQ).append(",");
+		sql.append("FD_Name = ").append(FD_SQ).append(name).append(FD_SQ).append(",");
+		sql.append("FD_Create = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
+		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+		sql.append("FD_Update = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
+		sql.append("FD_Updated = ").append(env.getSystemUserID());
+		execute(env, sql.toString());
+		return id;
 	}
 }
