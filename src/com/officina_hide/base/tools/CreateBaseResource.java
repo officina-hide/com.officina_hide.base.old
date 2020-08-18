@@ -50,8 +50,10 @@ public class CreateBaseResource extends FD_DB {
 		createTableItemTable(env);
 		/** 採番情報テーブルの構築 */
 		createNumberingTable(env);
-		/** 採番情報登録 */
+		/** 採番情報、テーブル情報登録 */
 		addNumbering(env);
+		/** テーブル項目情報登録 */
+		addTableColumn(env);
 	}
 
 	/**
@@ -190,6 +192,56 @@ public class CreateBaseResource extends FD_DB {
 	}
 
 	/**
+	 * テーブル項目情報登録<br>
+	 * @author ueno hideo
+	 * @since 1.21 2020/08/15
+	 * @param env 環境情報
+	 */
+	private void addTableColumn(FD_EnvData env) {
+		int tableId = getTableId(env, "FD_Table");
+		addTableColumnData(env, tableId, "FD_Information_ID", "Imformation_ID", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true);
+	}
+
+	@Override
+	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size,
+			String name, String comment, int order, boolean priKey) {
+		int id = getNewID(env, tableId);
+		StringBuffer sql = new StringBuffer();
+		
+	}
+
+	/**
+	 * テーブル情報ID取得<br>
+	 * @author ueno hideo
+	 * @since 1.21 2020/08/15
+	 * @param env 環境情報
+	 * @param tableName テーブル名
+	 * @return テーブル情報ID
+	 */
+	private int getTableId(FD_EnvData env, String tableName) {
+		int id = 0;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT ").append(tableName).append("_ID FROM FD_Table ");
+			sql.append("WHERE TABLE_NAME = ").append(FD_SQ).append(tableName).append(FD_SQ);
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				id = rs.getInt(tableName+"_ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		
+		return id;
+	}
+
+	/**
 	 * テーブル項目用のリファレンス情報を使っていました登録する。
 	 * @author ueno hideo
 	 * @since 1.21 2020/08/15
@@ -268,7 +320,7 @@ public class CreateBaseResource extends FD_DB {
 		/** テーブル情報採番　*/
 		int numberingId = getNewID(env, 1001);
 		addNumberingDataOrg(env, numberingId, 1002, 1001, 1002);
-		/** テーブル情報登録 */
+		/** テーブル情報、テーブルに付随する採番情報登録 */
 		addTableData(env, 1001, "FD_Numbering", "採番情報");
 		addTableData(env, 1002, "FD_Table", "テーブル情報");
 		int tableId = addTableData(env, 0, "FD_TableColumn", "テーブル項目情報");
@@ -359,7 +411,6 @@ public class CreateBaseResource extends FD_DB {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_Table SET ");
 		if(id == 0) {
-		} else {
 			id = getNewID(env, 1002);
 		}
 		sql.append("FD_Table_ID = ").append(id).append(",");
