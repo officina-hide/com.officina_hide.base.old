@@ -45,9 +45,9 @@ public class CreateBaseResource extends FD_DB {
 		int refGroupID = 100001;
 		addReferenceGroupData(env, refGroupID, "Tebla_Item", "テーブル項目");
 		/** テーブル項目属性用のリファレンス情報登録 */
-		addTableItemReference(env, refGroupID);
+		addTableColumnReference(env, refGroupID);
 		/** テーブル項目情報テーブルの構築 */
-		createTableItemTable(env);
+		createTableColumnTable(env);
 		/** 採番情報テーブルの構築 */
 		createNumberingTable(env);
 		/** 採番情報、テーブル情報登録 */
@@ -88,7 +88,7 @@ public class CreateBaseResource extends FD_DB {
 	 * @since 1.21 2020/08/15
 	 * @param env 環境情報
 	 */
-	private void createTableItemTable(FD_EnvData env) {
+	private void createTableColumnTable(FD_EnvData env) {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されているテーブル項目情報を削除します。
 		sql.append("DROP TABLE IF EXISTS FD_TableColumn");
@@ -111,6 +111,32 @@ public class CreateBaseResource extends FD_DB {
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");
 		execute(env, sql.toString());
+	}
+
+	/**
+	 * リファレンス情報ID所得<br>
+	 */
+	@Override
+	public int getReferenceID(FD_EnvData env, String referenceName) {
+		int id = 0;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT FD_Reference_ID FROM FD_Reference ");
+			sql.append("WHERE Reference_Name = ").append(FD_SQ).append(referenceName).append(FD_SQ);
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				id = rs.getInt("FD_Reference_ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return id;
 	}
 
 	/**
@@ -199,15 +225,39 @@ public class CreateBaseResource extends FD_DB {
 	 */
 	private void addTableColumn(FD_EnvData env) {
 		int tableId = getTableId(env, "FD_Table");
-		addTableColumnData(env, tableId, "FD_Information_ID", "Imformation_ID", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true);
+		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information_ID", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true);
 	}
 
+	/**
+	 *テーブル項目登録<br>
+	 *<p>SQL直処理版</p>
+	 */
 	@Override
 	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size,
 			String name, String comment, int order, boolean priKey) {
 		int id = getNewID(env, tableId);
+		int typeId = getReferenceID(env, columnType);
 		StringBuffer sql = new StringBuffer();
-		
+		sql.append("INSERT INTO FD_TableColumn SET ");
+		sql.append("FD_TableColumn_ID = ").append(id).append(",");
+		sql.append("FD_Table_ID = ").append(tableId).append(",");
+		sql.append("TableColumn_Name = ").append(FD_SQ).append(culimnName).append(FD_SQ).append(",");
+		sql.append("FD_Name = ").append(FD_SQ).append(name).append(FD_SQ).append(",");
+		sql.append("FD_COMMENT = ").append(FD_SQ).append(comment).append(FD_SQ).append(",");
+		sql.append("TableColumn_Type_ID = ").append(typeId).append(",");
+		sql.append("TableColumn_Size = ").append(size).append(",");
+		if(priKey) {
+			sql.append("IS_NULL = 1").append(",");
+			sql.append("IS_Primary = 1").append(",");
+		} else {
+			sql.append("IS_NULL = 0").append(",");		
+			sql.append("IS_Primary = 0").append(",");
+		}
+		sql.append("FD_Create = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
+		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
+		sql.append("FD_Update = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
+		sql.append("FD_Updated = ").append(env.getSystemUserID());
+		execute(env, sql.toString());
 	}
 
 	/**
@@ -248,7 +298,7 @@ public class CreateBaseResource extends FD_DB {
 	 * @param env 環境情報
 	 * @param refGroupID リファレンスグループ情報ID
 	 */
-	private void addTableItemReference(FD_EnvData env, int refGroupID) {
+	private void addTableColumnReference(FD_EnvData env, int refGroupID) {
 //		int referenceID = 1000001;
 		addReferenceData(env, referenceID++, "FD_Information_ID", "情報ID", refGroupID, "com.officina_hide.base.model.FD_ImformationID");
 		addReferenceData(env, referenceID++, "FD_Text", "テキスト", refGroupID, "com.officina_hide.base.model.FD_Text");
