@@ -224,8 +224,16 @@ public class CreateBaseResource extends FD_DB {
 	 * @param env 環境情報
 	 */
 	private void addTableColumn(FD_EnvData env) {
+		//テーブル情報
 		int tableId = getTableId(env, "FD_Table");
 		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information_ID", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true);
+		addTableColumnData(env, tableId, "Table_Name", "FD_Text", 100, "テーブル名", "テーブル情報の物理名", 20, false);
+		addTableColumnData(env, tableId, "FD_Name", "FD_Text", 100, "テーブル表示名", "テーブル情報の論理名称", 30, false);
+		addTableColumnData(env, tableId, "FD_Comment", "FD_Field_Text", 0, "テーブル説明", "テーブル情報の説明", 40, false);
+		addTableColumnData(env, tableId, "FD_Create", "FD_Date", 0, "テーブル情報登録日", "テーブル情報の登録日", 900, false);
+		addTableColumnData(env, tableId, "FD_Created", "FD_Information_ID", 0, "テーブル情報登録者ID", "テーブル情報の登録者ID", 910, false);
+		addTableColumnData(env, tableId, "FD_Update", "FD_Date", 0, "テーブル情報更新日", "テーブル情報の更新日", 930, false);
+		addTableColumnData(env, tableId, "FD_Updated", "FD_Information_ID", 0, "テーブル情報更新者ID", "テーブル情報の更新者ID", 940, false);
 	}
 
 	/**
