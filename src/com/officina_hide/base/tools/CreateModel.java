@@ -125,7 +125,7 @@ public class CreateModel extends FD_DB implements I_DB {
 			List<Map<String, String>> columns = getColumnData();
 			for(Map<String, String> map : columns) {
 				try {
-					Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+					Class<?> cl = Class.forName(map.get("Reference_Class").toString());
 					Constructor<?> con = cl.getConstructor(new Class[] {List.class});
 					Object obj = con.newInstance(new Object[] {importClassList});
 					//変数定義
@@ -247,7 +247,7 @@ public class CreateModel extends FD_DB implements I_DB {
 			}
 			//項目の該当する属性クラスから保存用のSQL文字列を取得する。
 			try {
-				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+				Class<?> cl = Class.forName(map.get("Reference_Class").toString());
 				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
 				Object obj = con.newInstance(new Object[] {importClassList});
 				Method method = cl.getMethod("toSaveSQL", String.class, String.class);
@@ -314,7 +314,7 @@ public class CreateModel extends FD_DB implements I_DB {
 		StringBuilder setItems = new StringBuilder();
 		for(Map<String, String> map : columns) {
 			try {
-				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+				Class<?> cl = Class.forName(map.get("Reference_Class").toString());
 				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
 				Object obj = con.newInstance(new Object[] {importClassList});
 				Method method = cl.getMethod("toLoadSQL",  Map.class, int.class);
@@ -440,9 +440,9 @@ public class CreateModel extends FD_DB implements I_DB {
 			Statement stmt = null;
 			try {
 				sql.append("SELECT * FROM FD_TableColumn ");
-				sql.append("LEFT JOIN FD_Reference ON FD_Reference.FD_Reference_ID = FD_TableColumn.Column_Type_ID ");
-				sql.append("LEFT JOIN FD_RefParam ON FD_RefParam.FD_Reference_ID = FD_Reference.FD_Reference_ID ")
-					.append("AND FD_RefParam.Parameter_Type_ID = ").append(getReferenceID(env, "ClassName")).append(" ");
+				sql.append("LEFT JOIN FD_Reference ON FD_Reference.FD_Reference_ID = FD_TableColumn.TableColumn_Type_ID ");
+//				sql.append("LEFT JOIN FD_RefParam ON FD_RefParam.FD_Reference_ID = FD_Reference.FD_Reference_ID ")
+//					.append("AND FD_RefParam.Parameter_Type_ID = ").append(getReferenceID(env, "ClassName")).append(" ");
 				sql.append("WHERE FD_Table_ID = ").append(tableID).append(" ");
 				sql.append("ORDER BY Column_Sort_Order");
 				connection(env);
@@ -452,7 +452,7 @@ public class CreateModel extends FD_DB implements I_DB {
 					Map<String, String> map = new HashMap<String, String>();
 					map.put("Column_Name", rs.getNString("Column_Name"));
 					map.put("FD_Name", rs.getNString("FD_Name"));
-					map.put("Parameter_Data", rs.getString("Parameter_Data"));
+					map.put("Reference_Class", rs.getString("Reference_Class"));
 					list.add(map);
 				}
 			} catch (SQLException e) {

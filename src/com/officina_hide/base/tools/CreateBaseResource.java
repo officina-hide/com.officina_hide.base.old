@@ -54,6 +54,8 @@ public class CreateBaseResource extends FD_DB {
 		addNumbering(env);
 		/** テーブル項目情報登録 */
 		addTableColumn(env);
+		/** IOモデルクラス光徳 **/
+		new CreateModel(env, "FD_Table");
 	}
 
 	/**
@@ -243,7 +245,7 @@ public class CreateBaseResource extends FD_DB {
 	@Override
 	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size,
 			String name, String comment, int order, boolean priKey) {
-		int id = getNewID(env, tableId);
+		int id = getNewID(env, getTableId(env, "FD_TableColumn"));
 		int typeId = getReferenceID(env, columnType);
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO FD_TableColumn SET ");
@@ -282,13 +284,13 @@ public class CreateBaseResource extends FD_DB {
 		ResultSet rs = null;
 		try {
 			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT ").append(tableName).append("_ID FROM FD_Table ");
+			sql.append("SELECT FD_Table_ID FROM FD_Table ");
 			sql.append("WHERE TABLE_NAME = ").append(FD_SQ).append(tableName).append(FD_SQ);
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
-				id = rs.getInt(tableName+"_ID");
+				id = rs.getInt("FD_Table_ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -386,7 +388,7 @@ public class CreateBaseResource extends FD_DB {
 		tableId = addTableData(env, 0, "FD_Reference", "リファレンス情報");
 		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 1000001, referenceID);
 		tableId = addTableData(env, 0, "FD_RefGroup", "リファレンスグループ情報");
-		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 1000001, 0);
+		addNumberingDataOrg(env, getNewID(env, 1001), tableId, 100001, 100001);
 	}
 
 	/**
