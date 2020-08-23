@@ -54,8 +54,10 @@ public class CreateBaseResource extends FD_DB {
 		addNumbering(env);
 		/** テーブル項目情報登録 */
 		addTableColumn(env);
-		/** IOモデルクラス光徳 **/
-		new CreateModel(env, "FD_Table");
+//		/** IOモデルクラス構築 **/
+//		new CreateModel(env, "FD_Table");
+		/** IOインターフェースクラス構築 */
+		new CreateInterfaceClass(env, "FD_Table");
 	}
 
 	/**
@@ -105,6 +107,7 @@ public class CreateBaseResource extends FD_DB {
 		sql.append("FD_COMMENT Varchar(3000) COMMENT 'テーブル項目説明'").append(",");
 		sql.append("TableColumn_Type_ID INT UNSIGNED COMMENT 'テーブル項目属性ID'").append(",");
 		sql.append("TableColumn_Size INT UNSIGNED COMMENT 'テーブル項目桁数'").append(",");
+		sql.append("Column_Sort_Order INT UNSIGNED COMMENT '項目並び順'").append(",");
 		sql.append("IS_Null INT COMMENT 'NULL必須判定'").append(",");
 		sql.append("IS_Primary INT COMMENT 'プライマリーKey判定'").append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
@@ -236,6 +239,7 @@ public class CreateBaseResource extends FD_DB {
 		addTableColumnData(env, tableId, "FD_Created", "FD_Information_ID", 0, "テーブル情報登録者ID", "テーブル情報の登録者ID", 910, false);
 		addTableColumnData(env, tableId, "FD_Update", "FD_Date", 0, "テーブル情報更新日", "テーブル情報の更新日", 930, false);
 		addTableColumnData(env, tableId, "FD_Updated", "FD_Information_ID", 0, "テーブル情報更新者ID", "テーブル情報の更新者ID", 940, false);
+		//テーブル項目情報
 	}
 
 	/**
@@ -263,6 +267,7 @@ public class CreateBaseResource extends FD_DB {
 			sql.append("IS_NULL = 0").append(",");		
 			sql.append("IS_Primary = 0").append(",");
 		}
+		sql.append("Column_Sort_Order = ").append(order).append(",");
 		sql.append("FD_Create = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
 		sql.append("FD_Update = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");

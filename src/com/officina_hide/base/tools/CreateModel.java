@@ -82,8 +82,8 @@ public class CreateModel extends FD_DB implements I_DB {
 			List<Map<String, String>> columns = getColumnData();
 			for(Map<String, String> map : columns) {
 				source.append(editComment(map.get("FD_Name").toString(), 1));
-				source.append(setTab(1)).append("public final String COLUMNNAME_").append(map.get("Column_Name").toString().toUpperCase())
-					.append(" = ").append(FD_DQ).append(map.get("Column_Name").toString()).append(FD_DQ).append(";").append(FD_RETURN);
+				source.append(setTab(1)).append("public final String COLUMNNAME_").append(map.get("TableColumn_Name").toString().toUpperCase())
+					.append(" = ").append(FD_DQ).append(map.get("TableColumn_Name").toString()).append(FD_DQ).append(";").append(FD_RETURN);
 				source.append(FD_RETURN);
 			}
 			
@@ -130,13 +130,13 @@ public class CreateModel extends FD_DB implements I_DB {
 					Object obj = con.newInstance(new Object[] {importClassList});
 					//変数定義
 					Method method = cl.getMethod("toVariableDefinitions", String.class, String.class);
-					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("FD_Name").toString()).toString());
+					source.append(method.invoke(obj, map.get("TableColumn_Name").toString(), map.get("FD_Name").toString()).toString());
 					//getter定義
 					method = cl.getMethod("toGetterDefinition", String.class, String.class);
-					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("FD_Name").toString()).toString());
+					source.append(method.invoke(obj, map.get("TableColumn_Name").toString(), map.get("FD_Name").toString()).toString());
 					//setter定義
 					method = cl.getMethod("toSetterDefinition", String.class, String.class);
-					source.append(method.invoke(obj, map.get("Column_Name").toString(), map.get("FD_Name").toString()).toString());
+					source.append(method.invoke(obj, map.get("TableColumn_Name").toString(), map.get("FD_Name").toString()).toString());
 				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 						| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
@@ -251,7 +251,7 @@ public class CreateModel extends FD_DB implements I_DB {
 				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
 				Object obj = con.newInstance(new Object[] {importClassList});
 				Method method = cl.getMethod("toSaveSQL", String.class, String.class);
-				setItems.append(method.invoke(obj, tableName, map.get("Column_Name").toString()));
+				setItems.append(method.invoke(obj, tableName, map.get("TableColumn_Name").toString()));
 			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
@@ -450,7 +450,7 @@ public class CreateModel extends FD_DB implements I_DB {
 				rs = stmt.executeQuery(sql.toString());
 				while(rs.next()) {
 					Map<String, String> map = new HashMap<String, String>();
-					map.put("Column_Name", rs.getNString("Column_Name"));
+					map.put("TableColumn_Name", rs.getNString("TableColumn_Name"));
 					map.put("FD_Name", rs.getNString("FD_Name"));
 					map.put("Reference_Class", rs.getString("Reference_Class"));
 					list.add(map);

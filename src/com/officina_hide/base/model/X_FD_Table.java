@@ -7,8 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class X_FD_Table extends FD_DB implements I_DB, I_FD_Table {
 	private FD_EnvData env;
@@ -31,6 +34,140 @@ public class X_FD_Table extends FD_DB implements I_DB, I_FD_Table {
 	}
 
 	/**
+	 * テーブル情報ID.<br>
+	 */
+	private int fD_Table_ID;
+	/**
+	 * テーブル情報IDを取得する。.<br>
+	 */
+	public int getFD_Table_ID() {
+		return fD_Table_ID;
+	}
+	/**
+	 * テーブル情報IDをセットする。.<br>
+	 */
+	public void setFD_Table_ID( int fD_Table_ID) {
+		this.fD_Table_ID = fD_Table_ID;
+	}
+	/**
+	 * テーブル名.<br>
+	 */
+	private String table_Name;
+	/**
+	 * テーブル名を取得する。.<br>
+	 */
+	public String getTable_Name() {
+		return table_Name;
+	}
+	/**
+	 * テーブル名をセットする。.<br>
+	 */
+	public void setTable_Name (String table_Name) {
+		this.table_Name = table_Name;
+	}
+	/**
+	 * テーブル表示名.<br>
+	 */
+	private String fD_Name;
+	/**
+	 * テーブル表示名を取得する。.<br>
+	 */
+	public String getFD_Name() {
+		return fD_Name;
+	}
+	/**
+	 * テーブル表示名をセットする。.<br>
+	 */
+	public void setFD_Name (String fD_Name) {
+		this.fD_Name = fD_Name;
+	}
+	/**
+	 * テーブル説明.<br>
+	 */
+	private String fD_Comment;
+	/**
+	 * テーブル説明を取得する。.<br>
+	 */
+	public String getFD_Comment() {
+		return fD_Comment;
+	}
+	/**
+	 * テーブル説明をセットする。.<br>
+	 */
+	public void setFD_Comment (String fD_Comment) {
+		this.fD_Comment = fD_Comment;
+	}
+	/**
+	 * テーブル情報登録日.<br>
+	 */
+	private Calendar fD_Create;
+	/**
+	 * テーブル情報登録日を取得する。.<br>
+	 */
+	public Calendar getFD_Create() {
+		if(fD_Create == null) {
+			fD_Create = new GregorianCalendar(new Locale("ja", "JP"));
+		}
+		return fD_Create;
+	}
+	/**
+	 * テーブル情報登録日をセットする。.<br>
+	 */
+	public void setFD_Create(Calendar fD_Create) {
+		this.fD_Create = fD_Create;
+	}
+	/**
+	 * テーブル情報登録者ID.<br>
+	 */
+	private int fD_Created;
+	/**
+	 * テーブル情報登録者IDを取得する。.<br>
+	 */
+	public int getFD_Created() {
+		return fD_Created;
+	}
+	/**
+	 * テーブル情報登録者IDをセットする。.<br>
+	 */
+	public void setFD_Created( int fD_Created) {
+		this.fD_Created = fD_Created;
+	}
+	/**
+	 * テーブル情報更新日.<br>
+	 */
+	private Calendar fD_Update;
+	/**
+	 * テーブル情報更新日を取得する。.<br>
+	 */
+	public Calendar getFD_Update() {
+		if(fD_Update == null) {
+			fD_Update = new GregorianCalendar(new Locale("ja", "JP"));
+		}
+		return fD_Update;
+	}
+	/**
+	 * テーブル情報更新日をセットする。.<br>
+	 */
+	public void setFD_Update(Calendar fD_Update) {
+		this.fD_Update = fD_Update;
+	}
+	/**
+	 * テーブル情報更新者ID.<br>
+	 */
+	private int fD_Updated;
+	/**
+	 * テーブル情報更新者IDを取得する。.<br>
+	 */
+	public int getFD_Updated() {
+		return fD_Updated;
+	}
+	/**
+	 * テーブル情報更新者IDをセットする。.<br>
+	 */
+	public void setFD_Updated( int fD_Updated) {
+		this.fD_Updated = fD_Updated;
+	}
+	/**
 	 * FD_Tableを保存する。.<br>
 	 */
 	public void save() {
@@ -52,7 +189,14 @@ public class X_FD_Table extends FD_DB implements I_DB, I_FD_Table {
 			setFD_Updated(env.getLoginUserID());
 		}
 		sql.append(" SET ");
-;
+		sql.append(I_FD_Table.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID()).append(",");
+		sql.append(I_FD_Table.COLUMNNAME_TABLE_NAME).append(" = '").append(getTable_Name()).append("'").append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_COMMENT).append(" = '").append(getFD_Comment()).append("'").append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
+		sql.append(I_FD_Table.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
 		if(isNewData == false) {
 			sql.append(" WHERE ").append(I_FD_Table.COLUMNNAME_FD_TABLE_ID).append(" = ").append(getFD_Table_ID());
 		}
