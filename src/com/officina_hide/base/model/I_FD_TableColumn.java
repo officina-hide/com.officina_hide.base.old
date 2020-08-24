@@ -40,6 +40,30 @@ public interface I_FD_TableColumn {
 	 * テーブル項目属性ID.<br>
 	 */
 	public final String COLUMNNAME_TABLECOLUMN_TYPE_ID = "TableColumn_Type_ID";
+	/**
+	 * 情報ID.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_INFORMATION = 1000001;
+	/**
+	 * テキスト.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_TEXT = 1000002;
+	/**
+	 * 複数行テキスト.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_FIELD_TEXT = 1000003;
+	/**
+	 * 日時.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_DATE = 1000004;
+	/**
+	 * YESNO.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_YESNO = 1000005;
+	/**
+	 * 自然数.<br>
+	 */
+public final int TABLECOLUMN_TYPE_ID_FD_NUMBER = 1000006;
 
 	/**
 	 * テーブル項目桁数.<br>

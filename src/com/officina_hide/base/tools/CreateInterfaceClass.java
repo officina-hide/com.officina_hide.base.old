@@ -62,6 +62,10 @@ public class CreateInterfaceClass extends FD_DB {
 				source.append(editComment(map.get("FD_Name").toString(), 1));
 				source.append(setTab(1)).append("public final String COLUMNNAME_").append(map.get("TableColumn_Name").toString().toUpperCase())
 					.append(" = ").append(FD_DQ).append(map.get("TableColumn_Name").toString()).append(FD_DQ).append(";").append(FD_RETURN);
+				//リファレンスグループ
+				if(Integer.parseInt(map.get("FD_RefGroup_ID")) > 0) {
+					source.append(editRefGroup(env, map.get("TableColumn_Name"), Integer.parseInt(map.get("FD_RefGroup_ID"))));
+				}
 				source.append(FD_RETURN);
 			}
 			
@@ -73,6 +77,39 @@ public class CreateInterfaceClass extends FD_DB {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * レファレンスグループ処理<br>
+	 * <p>指定されたリファレンスグループを持つリファレンス情報による対象項目の選択用情報を編集する。</p>
+	 * @author ueno hideo
+	 * @since 1.21 2020/08/25
+	 * @param env 環境情報
+	 * @param columnName テーブル項目名
+	 * @param RefGroupId リファレンスグループID
+	 * @return 選択用情報文字列
+	 */
+	private String editRefGroup(FD_EnvData env, String columnName, int RefGroupId) {
+		StringBuffer source = new StringBuffer();
+		StringBuffer sql = new StringBuffer();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			sql.append("SELECT * FROM FD_Reference ");
+			sql.append("WHERE FD_RefGroup_ID = ").append(RefGroupId).append(" ");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			while(rs.next()) {
+				source.append(editComment(rs.getNString("FD_Name"), 1));
+				source.append("public final int ").append(columnName.toUpperCase()).append("_")
+					.append(rs.getString("Reference_Name").toUpperCase()).append(" = ")
+					.append(rs.getInt("FD_Reference_ID")).append(";").append(FD_RETURN);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return source.toString();
 	}
 
 	/**
@@ -102,6 +139,7 @@ public class CreateInterfaceClass extends FD_DB {
 					map.put("TableColumn_Name", rs.getNString("TableColumn_Name"));
 					map.put("FD_Name", rs.getNString("FD_Name"));
 					map.put("Reference_Class", rs.getString("Reference_Class"));
+					map.put("FD_RefGroup_ID", rs.getString("FD_RefGroup_ID"));
 					list.add(map);
 				}
 			} catch (SQLException e) {

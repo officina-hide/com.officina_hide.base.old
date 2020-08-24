@@ -163,7 +163,7 @@ public class CreateBaseResource extends FD_DB {
 		sql.append("FD_Reference_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT 'リファレンス情報ID'").append(",");
 		sql.append("Reference_Name Varchar(100) COMMENT 'リファレンス名'").append(",");
 		sql.append("FD_Name Varchar(100) COMMENT 'リファレンス表示名'").append(",");
-		sql.append("Reference_Group_ID INT UNSIGNED COMMENT 'リファレンスグループ情報ID'").append(",");
+		sql.append("FD_RefGroup_ID INT UNSIGNED COMMENT 'リファレンスグループ情報ID'").append(",");
 		sql.append("Reference_Class varchar(200) COMMENT 'リファレンス処理クラスURI'").append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
@@ -399,7 +399,7 @@ public class CreateBaseResource extends FD_DB {
 		sql.append("FD_Reference_ID = ").append(referenceID).append(",");
 		sql.append("Reference_Name = ").append(FD_SQ).append(referenceName).append(FD_SQ).append(",");
 		sql.append("FD_Name = ").append(FD_SQ).append(name).append(FD_SQ).append(",");
-		sql.append("Reference_Group_ID = ").append(refGroupID).append(",");
+		sql.append("FD_RefGroup_ID = ").append(refGroupID).append(",");
 		sql.append("Reference_Class = ").append(FD_SQ).append(refClassURI).append(FD_SQ).append(",");
 		sql.append("FD_Create = ").append(FD_SQ).append(dateFormat.format(new Date())).append(FD_SQ).append(",");
 		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
