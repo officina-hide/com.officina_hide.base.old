@@ -32,22 +32,22 @@ public interface I_FD_Table {
 	public final String COLUMNNAME_FD_COMMENT = "FD_Comment";
 
 	/**
-	 * テーブル情報登録日.<br>
+	 * 登録日.<br>
 	 */
 	public final String COLUMNNAME_FD_CREATE = "FD_Create";
 
 	/**
-	 * テーブル情報登録者ID.<br>
+	 * 登録者ID.<br>
 	 */
 	public final String COLUMNNAME_FD_CREATED = "FD_Created";
 
 	/**
-	 * テーブル情報更新日.<br>
+	 * 更新日.<br>
 	 */
 	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
 
 	/**
-	 * テーブル情報更新者ID.<br>
+	 * 更新者ID.<br>
 	 */
 	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
 

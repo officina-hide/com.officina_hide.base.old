@@ -9,7 +9,7 @@ public interface I_FD_TableColumn {
 	/**
 	 * テーブルID.<br>
 	 */
-	public final int Table_ID =102;
+	public final int Table_ID =1003;
 
 	/**
 	 * テーブル項目情報ID.<br>
@@ -22,39 +22,44 @@ public interface I_FD_TableColumn {
 	public final String COLUMNNAME_FD_TABLE_ID = "FD_Table_ID";
 
 	/**
-	 * テーブル項目物理名.<br>
+	 * テーブル項目名.<br>
 	 */
-	public final String COLUMNNAME_COLUMN_NAME = "Column_Name";
+	public final String COLUMNNAME_TABLECOLUMN_NAME = "TableColumn_Name";
 
 	/**
-	 * 種別ID（リファレンス情報ID）.<br>
-	 */
-	public final String COLUMNNAME_COLUMN_TYPE_ID = "Column_Type_ID";
-
-	/**
-	 * 桁数.<br>
-	 */
-	public final String COLUMNNAME_COLUMN_SIZE = "Column_Size";
-
-	/**
-	 * 物理名.<br>
+	 * テーブル表示名.<br>
 	 */
 	public final String COLUMNNAME_FD_NAME = "FD_Name";
 
 	/**
 	 * 説明.<br>
 	 */
-	public final String COLUMNNAME_FD_COMMENT = "FD_Comment";
+	public final String COLUMNNAME_FD_COMMENT = "FD_COMMENT";
 
 	/**
-	 * プライマリーキー判定.<br>
+	 * テーブル項目属性ID.<br>
 	 */
-	public final String COLUMNNAME_PRIMARY_KEY_CHECK = "Primary_Key_Check";
+	public final String COLUMNNAME_TABLECOLUMN_TYPE_ID = "TableColumn_Type_ID";
 
 	/**
-	 * 項目並び順.<br>
+	 * テーブル項目桁数.<br>
+	 */
+	public final String COLUMNNAME_TABLECOLUMN_SIZE = "TableColumn_Size";
+
+	/**
+	 * テーブル項目並び順.<br>
 	 */
 	public final String COLUMNNAME_COLUMN_SORT_ORDER = "Column_Sort_Order";
+
+	/**
+	 * null必須判定.<br>
+	 */
+	public final String COLUMNNAME_IS_NULL = "IS_Null";
+
+	/**
+	 * Primaryキー判定.<br>
+	 */
+	public final String COLUMNNAME_IS_PRIMARY = "IS_Primary";
 
 	/**
 	 * 登録日.<br>
