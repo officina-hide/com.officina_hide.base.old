@@ -43,7 +43,7 @@ public interface I_FD_TableColumn {
 	/**
 	 * 情報ID.<br>
 	 */
-public final int TABLECOLUMN_TYPE_ID_FD_INFORMATION = 1000001;
+public final int TABLECOLUMN_TYPE_ID_FD_INFORMATION_ID = 1000001;
 	/**
 	 * テキスト.<br>
 	 */

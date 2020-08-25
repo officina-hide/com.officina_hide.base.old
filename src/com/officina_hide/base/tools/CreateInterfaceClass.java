@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 
 /**
@@ -32,6 +33,7 @@ public class CreateInterfaceClass extends FD_DB {
 	 */
 	public CreateInterfaceClass(FD_EnvData env, String tableName) {
 		createInterfaceClass(env, tableName);
+		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Interface Class created ["+tableName+"]");
 	}
 
 	/**

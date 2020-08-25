@@ -7,6 +7,7 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_FD_Table;
 
 /**
  * 基本情報生成<br>
@@ -59,6 +60,11 @@ public class CreateBaseResource extends FD_DB {
 		/** IOインターフェースクラス構築 */
 		new CreateInterfaceClass(env, "FD_Table");
 		new CreateInterfaceClass(env, "FD_TableColumn");
+		new CreateInterfaceClass(env, "FD_Reference");
+		new CreateInterfaceClass(env, "FD_RefGroup");
+		new CreateInterfaceClass(env, "FD_Numbering");
+		/** IOクラス構築　*/
+		new CreateIOClass(env, I_FD_Table.Table_Name);
 	}
 
 	/**
@@ -233,7 +239,7 @@ public class CreateBaseResource extends FD_DB {
 	private void addTableColumn(FD_EnvData env) {
 		//テーブル情報
 		int tableId = getTableId(env, "FD_Table");
-		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true, 0);
+		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information_ID", 0, "テーブル情報ID", "テーブル情報を識別するためのID", 10, true, 0);
 		addTableColumnData(env, tableId, "Table_Name", "FD_Text", 100, "テーブル名", "テーブル情報の物理名", 20, false, 0);
 		addTableColumnData(env, tableId, "FD_Name", "FD_Text", 100, "テーブル表示名", "テーブル情報の論理名称", 30, false, 0);
 		addTableColumnData(env, tableId, "FD_Comment", "FD_Field_Text", 0, "テーブル説明", "テーブル情報の説明", 40, false, 0);
@@ -243,13 +249,13 @@ public class CreateBaseResource extends FD_DB {
 		addTableColumnData(env, tableId, "FD_Updated", "FD_Information_ID", 0, "更新者ID", "更新者ID", 940, false, 0);
 		//テーブル項目情報
 		tableId = getTableId(env, "FD_TableColumn");
-		addTableColumnData(env, tableId, "FD_TableColumn_ID", "FD_Information", 0, "テーブル項目情報ID", "テーブル項目情報を識別するためのID", 10, true, 0);
-		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information", 0, "テーブル情報ID", "テーブル項目情報が紐づくテーブル情報の情報ID", 20, false, 0);
+		addTableColumnData(env, tableId, "FD_TableColumn_ID", "FD_Information_ID", 0, "テーブル項目情報ID", "テーブル項目情報を識別するためのID", 10, true, 0);
+		addTableColumnData(env, tableId, "FD_Table_ID", "FD_Information_ID", 0, "テーブル情報ID", "テーブル項目情報が紐づくテーブル情報の情報ID", 20, false, 0);
 		addTableColumnData(env, tableId, "TableColumn_Name", "FD_Text", 100, "テーブル項目名", "テーブル項目の名称", 30, false, 0);
 		addTableColumnData(env, tableId, "FD_Name", "FD_Text", 100, "テーブル表示名", "テーブル項目の論理名", 40, false, 0);
 		addTableColumnData(env, tableId, "FD_COMMENT",  "FD_Field_Text", 0, "説明", "テーブル項目の説明", 50, false, 0);
 		int refGroupId = getRegGroupId(env, "Tebla_Item");
-		addTableColumnData(env, tableId, "TableColumn_Type_ID", "FD_Information", 0, "テーブル項目属性ID"
+		addTableColumnData(env, tableId, "TableColumn_Type_ID", "FD_Information_ID", 0, "テーブル項目属性ID"
 				, "テーブル項目の属性ID（リファレンス情報ID）", 60, false, refGroupId);
 		addTableColumnData(env, tableId, "TableColumn_Size", "FD_Number", 0, "テーブル項目桁数", "テーブル項目の桁数", 70, false, 0); 
 		addTableColumnData(env, tableId, "Column_Sort_Order", "FD_Number", 0, "テーブル項目並び順", "テーブル項目の一覧を表示するときの並び順", 80, false, 0); 
@@ -259,6 +265,7 @@ public class CreateBaseResource extends FD_DB {
 		addTableColumnData(env, tableId, "FD_Created", "FD_Information_ID", 0, "登録者ID", "登録者ID", 910, false, 0);
 		addTableColumnData(env, tableId, "FD_Update", "FD_Date", 0, "更新日", "更新日", 930, false, 0);
 		addTableColumnData(env, tableId, "FD_Updated", "FD_Information_ID", 0, "更新者ID", "更新者ID", 940, false, 0);
+		//リファレンス情報
 	}
 
 	/**
@@ -373,7 +380,7 @@ public class CreateBaseResource extends FD_DB {
 	 */
 	private void addTableColumnReference(FD_EnvData env, int refGroupID) {
 //		int referenceID = 1000001;
-		addReferenceData(env, referenceID++, "FD_Information", "情報ID", refGroupID, "com.officina_hide.base.model.FD_ImformationID");
+		addReferenceData(env, referenceID++, "FD_Information_ID", "情報ID", refGroupID, "com.officina_hide.base.model.FD_ImformationID");
 		addReferenceData(env, referenceID++, "FD_Text", "テキスト", refGroupID, "com.officina_hide.base.model.FD_Text");
 		addReferenceData(env, referenceID++, "FD_Field_Text", "複数行テキスト", refGroupID, "com.officina_hide.base.model.FD_FieldText");
 		addReferenceData(env, referenceID++, "FD_Date", "日時", refGroupID, "com.officina_hide.base.model.FD_Date");

@@ -108,7 +108,7 @@ public class FD_YESNO extends FD_DB implements I_DB {
 	 */
 	public String toLoadSQL(Map<String, String>  map, int tabCnt) {
 		StringBuilder source = new StringBuilder();
-		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString();
+		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString();
 		source.append(setTab(tabCnt)).append("if(rs.getInt(").append("COLUMNNAME_"+columnName.toUpperCase()).append(") != 0) {").append(FD_RETURN);
 		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
 			.append(columnName.substring(1)).append("(true);").append(FD_RETURN);
@@ -127,7 +127,7 @@ public class FD_YESNO extends FD_DB implements I_DB {
 	 */
 	public String toTableCreateSQL(Map<String, String>  map) {
 		StringBuffer source = new StringBuffer();
-		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString());
 		source.append(" TINYINT(1)");
 		if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
 			source.append(" COMMENT ").append(FD_SQ).append(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME)).append(FD_SQ).append(" ");

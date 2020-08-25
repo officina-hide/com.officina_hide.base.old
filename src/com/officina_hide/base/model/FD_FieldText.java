@@ -103,7 +103,7 @@ public class FD_FieldText extends FD_DB implements I_DB {
 	 */
 	public String toLoadSQL(Map<String, String>  map, int tabCnt) {
 		StringBuilder source = new StringBuilder();
-		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString();
+		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString();
 		source.append(setTab(tabCnt)).append("if(rs.getString(").append("COLUMNNAME_"+columnName.toUpperCase()).append(") != null) {").append(FD_RETURN);
 		source.append(setTab(tabCnt+1)).append("set").append(columnName.substring(0, 1).toUpperCase())
 			.append(columnName.substring(1)).append("(")
@@ -123,10 +123,10 @@ public class FD_FieldText extends FD_DB implements I_DB {
 	 */
 	public String toTableCreateSQL(Map<String, String>  map) {
 		StringBuffer source = new StringBuffer();
-		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString());
 		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("テキスト")) {
 			source.append(" VARCHAR").append("(")
-				.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_SIZE).toString()).append(")");
+				.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE).toString()).append(")");
 		}
 		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("複数行テキスト")) {
 			source.append(" TEXT");

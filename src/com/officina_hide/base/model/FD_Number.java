@@ -103,9 +103,9 @@ public class FD_Number extends FD_DB implements I_DB {
 	 */
 	public String toLoadSQL(Map<String, String>  map, int tabCnt) {
 		StringBuilder source = new StringBuilder();
-		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString();
+		String columnName = map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString();
 		source.append(setTab(tabCnt)).append("set").append(columnName.substring(0, 1).toUpperCase())
-			.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).substring(1)).append("(")
+			.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).substring(1)).append("(")
 			.append("rs.getInt(").append("COLUMNNAME_"+columnName.toUpperCase()).append("));").append(FD_RETURN);
 		return source.toString();
 	}
@@ -119,13 +119,13 @@ public class FD_Number extends FD_DB implements I_DB {
 	 */
 	public String toTableCreateSQL(Map<String, String>  map) {
 		StringBuffer source = new StringBuffer();
-		source.append(map.get(I_FD_TableColumn.COLUMNNAME_COLUMN_NAME).toString());
+		source.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString());
 		source.append(" INT");
 		if(map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("情報ID")
 				||map.get(I_FD_Reference.COLUMNNAME_REFERENCE_NAME).equals("自然数")) {
 			source.append(" UNSIGNED");
 		}
-		if(map.get(I_FD_TableColumn.COLUMNNAME_PRIMARY_KEY_CHECK).equals("YES")) {
+		if(map.get(I_FD_TableColumn.COLUMNNAME_IS_PRIMARY).equals("YES")) {
 			source.append(" PRIMARY KEY");
 		}
 		if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
