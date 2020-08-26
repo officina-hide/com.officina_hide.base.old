@@ -59,6 +59,7 @@ public class CreateIOClass extends FD_DB {
 			source.append(setTab(1)).append("private FD_EnvData env;").append(FD_RETURN);
 			source.append(FD_RETURN);
 			addImportClass(importClassList, "com.officina_hide.base.common.FD_EnvData");
+			
 
 			//クラス終了
 			source.append("}").append(FD_RETURN);
