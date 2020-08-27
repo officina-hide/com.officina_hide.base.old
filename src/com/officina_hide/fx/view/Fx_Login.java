@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -30,9 +31,13 @@ public class Fx_Login extends Application {
 		root.setPadding(new Insets(15, 10, 10, 10));
 		root.setSpacing(10);
 		//画面項目セット
-		setItem(root);
+		setItem(stage, root);
 		
-		Scene scene = new Scene(root, 400, 200);
+		Scene scene = new Scene(root, 300, 130);
+		stage.setOnCloseRequest(event -> {
+			windowClose(stage);
+		});
+		stage.setTitle("ログイン画面");
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -41,9 +46,10 @@ public class Fx_Login extends Application {
 	 * 画面項目設定<br>
 	 * @author ueno hideo
 	 * @since 2.00 
+	 * @param stage 
 	 * @param root
 	 */
-	private void setItem(VBox root) {
+	private void setItem(Stage stage, VBox root) {
 		Font meiryo12 = new Font("Meiryo UI", 12);
 		int labelWidth = 80;
 		int itemWidth = 200;
@@ -72,6 +78,42 @@ public class Fx_Login extends Application {
 		row02.getChildren().add(pass);
 		pass.setFont(meiryo12);
 		pass.setPrefWidth(itemWidth);
+		
+		HBox buttonRow = new HBox(10);
+		root.getChildren().add(buttonRow);
+		buttonRow.setAlignment(Pos.CENTER_RIGHT);
+		Button okButton = new Button("ログイン");
+		okButton.setFont(meiryo12);
+		okButton.setOnMouseClicked(event -> {
+			userConfirm();
+		});
+		buttonRow.getChildren().add(okButton);
+		Button cancelButton = new Button("キャンセル");
+		buttonRow.getChildren().add(cancelButton);
+		cancelButton.setFont(meiryo12);
+		cancelButton.setOnMouseClicked(event -> {
+			windowClose(stage);
+		});
+	}
+
+	/**
+	 * 認証処理<br>
+	 * @author ueno hideo
+	 * @since 2.00 2020/08/27
+	 */
+	private void userConfirm() {
+		
+	}
+
+	/**
+	 * 画面を閉じる<br>
+	 * @author ueno hideo
+	 * @since 2.00 2020/08/27
+	 * @param stage
+	 */
+	private void windowClose(Stage stage) {
+		System.out.println("ログイン画面 Close");
+		stage.close();
 	}
 
 	public static void main(String[] args) {
