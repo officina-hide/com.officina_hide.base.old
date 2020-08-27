@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,7 +27,8 @@ public class Fx_Login extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		VBox root = new VBox();
-		root.setPadding(new Insets(5, 5, 5, 10));
+		root.setPadding(new Insets(15, 10, 10, 10));
+		root.setSpacing(10);
 		//画面項目セット
 		setItem(root);
 		
@@ -42,18 +44,34 @@ public class Fx_Login extends Application {
 	 * @param root
 	 */
 	private void setItem(VBox root) {
+		Font meiryo12 = new Font("Meiryo UI", 12);
+		int labelWidth = 80;
+		int itemWidth = 200;
+		
 		HBox row01 = new HBox();
 		row01.setAlignment(Pos.CENTER_LEFT);
 		root.getChildren().add(row01);
 		Label row01Label = new Label("ユーザーID");
-		row01Label.setPrefWidth(80);
+		row01Label.setPrefWidth(labelWidth);
 		row01.getChildren().add(row01Label);
-		row01Label.setFont(new Font("Meiryo UI", 12));
+		row01Label.setFont(meiryo12);
 		TextField userID = new TextField();
 		row01.getChildren().add(userID);
-		userID.setFont(new Font("Meiryo UI", 12));
-		userID.setPrefWidth(200);
+		userID.setFont(meiryo12);
+		userID.setPrefWidth(itemWidth);
 		
+		HBox row02 = new HBox();
+		root.getChildren().add(row02);
+		row02.setAlignment(Pos.CENTER_LEFT);
+		
+		Label row02Label = new Label("パスワード");
+		row02.getChildren().add(row02Label);
+		row02Label.setFont(meiryo12);
+		row02Label.setPrefWidth(labelWidth);
+		PasswordField pass = new PasswordField();
+		row02.getChildren().add(pass);
+		pass.setFont(meiryo12);
+		pass.setPrefWidth(itemWidth);
 	}
 
 	public static void main(String[] args) {
