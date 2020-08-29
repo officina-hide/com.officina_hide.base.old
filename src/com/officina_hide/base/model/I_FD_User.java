@@ -21,5 +21,5 @@ public interface I_FD_User {
 	public final String COLUMNNAME_USER_NAME = "User_Name";
 	
 	/** パスワード */
-	public final String COLUMNNAME_PASSWARD ="Passward";
+	public final String COLUMNNAME_PASSWORD ="Password";
 }

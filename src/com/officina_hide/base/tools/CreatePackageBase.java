@@ -34,9 +34,14 @@ public class CreatePackageBase {
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
+		 * ・テーブル情報
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
+		TableInformation table = new TableInformation();
+		table.createTable(env);
+		table.addData(env, 100, "FD_Table", "テーブル情報");
+		
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);
 		createUserTable.addData(env, 100, "System", "admin");

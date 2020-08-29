@@ -10,10 +10,13 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -33,6 +36,9 @@ public class Fx_Login extends Application {
 
 	/** ユーザーID項目 */
 	private TextField userID = new TextField();
+	/** パスワード項目 */
+	private PasswordField pass = new PasswordField();
+	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -40,6 +46,8 @@ public class Fx_Login extends Application {
 		FD_EnvData env = new FD_EnvData();
 		//開始メッセージ
 		env.getLog().open(env, "", FD_Logging.MODE_DEBAG);
+		
+		System.out.println(System.getProperty("user.name"));
 		
 		VBox root = new VBox();
 		root.setPadding(new Insets(15, 10, 10, 10));
@@ -88,7 +96,6 @@ public class Fx_Login extends Application {
 		row02.getChildren().add(row02Label);
 		row02Label.setFont(meiryo12);
 		row02Label.setPrefWidth(labelWidth);
-		PasswordField pass = new PasswordField();
 		row02.getChildren().add(pass);
 		pass.setFont(meiryo12);
 		pass.setPrefWidth(itemWidth);
@@ -126,6 +133,14 @@ public class Fx_Login extends Application {
 		 */
 		FD_WhereData where = new FD_WhereData(I_FD_User.COLUMNNAME_USER_NAME, userID.getText());
 		X_FD_User user = new X_FD_User(env, where);
+		if(user.getfD_User_ID() > 0 && user.getPassword().equals(pass.getText())) {
+			//認証後の処理を行う。
+		} else {
+			//認証エラー
+			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "認証エラー");
+			Alert alert = new Alert(AlertType.ERROR, "認証エラー", ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 
 	/**

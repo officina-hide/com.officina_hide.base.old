@@ -1,9 +1,13 @@
 package com.officina_hide.base.model;
 
+/**
+ * テーブル情報<br>
+ * @author officina-hide.com ueno
+ * @version 2.00
+ * @since 2020/08/29
+ */
 public interface I_FD_Table {
-	/**
-	 * テーブル名.<br>
-	 */
+	/** テーブル名.<br> */
 	public final String Table_Name = "FD_Table";
 
 	/**

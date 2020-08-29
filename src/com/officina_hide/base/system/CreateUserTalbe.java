@@ -25,7 +25,7 @@ public class CreateUserTalbe extends FD_DB {
 	public void createUserTable(FD_EnvData env) {
 		StringBuffer sql = new StringBuffer();
 		//既に登録されているテーフル情報を削除する。
-		sql.append("DROP TABLE IF EXISTS FD_Table");
+		sql.append("DROP TABLE IF EXISTS FD_User");
 		execute(env, sql.toString());
 		//テーフル情報を生成する。
 		sql = new StringBuffer();

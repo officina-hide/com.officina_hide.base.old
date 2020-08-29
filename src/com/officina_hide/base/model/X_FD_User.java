@@ -15,7 +15,7 @@ import com.officina_hide.base.common.FD_WhereData;
  * @version 2.00
  * @since 2020/08/27
  */
-public class X_FD_User extends FD_DB {
+public class X_FD_User extends FD_DB implements I_FD_User {
 
 	/**
 	 * コンストラクター<br>
@@ -130,9 +130,9 @@ public class X_FD_User extends FD_DB {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
-				this.setfD_User_ID(rs.getInt(I_FD_User.COLUMNNAME_FD_USER_ID));
-				this.setUser_Name(rs.getNString(I_FD_User.COLUMNNAME_USER_NAME));
-				this.setPassword(rs.getString(I_FD_User.COLUMNNAME_PASSWARD));
+				this.setfD_User_ID(rs.getInt(COLUMNNAME_FD_USER_ID));
+				this.setUser_Name(rs.getNString(COLUMNNAME_USER_NAME));
+				this.setPassword(rs.getString(COLUMNNAME_PASSWORD));
 			} else {
 				chk = false;
 			}
