@@ -443,4 +443,20 @@ public class FD_DB implements I_DB {
 		return source;
 	}
 
+	/**
+	 * エスケープ処理<br>
+	 * <p>SQLインジェクション対策の為、指定されたデータのコードを表示するエスケープ処理する。</p>
+	 * @author officina-hide.com ueno
+	 * @since 2020/08/29
+	 * @param data 処理対象情報
+	 * @return エスケープ処理済情報
+	 */
+	public String changeEscape(String data) {
+		String out = data;
+		out = out.replaceAll("\'", "\"");
+		out = out.replaceAll("\\\\", "\\\\\\\\");
+		System.out.println(out);
+		return out;
+	}
+
 }

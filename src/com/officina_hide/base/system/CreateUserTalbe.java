@@ -53,6 +53,9 @@ public class CreateUserTalbe extends FD_DB {
 	public void addData(FD_EnvData env, int id, String userNname, String passward) {
 		X_FD_User user = new X_FD_User(env);
 		user.setfD_User_ID(id);
+		user.setUser_Name(userNname);
+		user.setPassword(passward);
+		user.save(env);
 	}
 
 }

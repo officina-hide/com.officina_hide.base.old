@@ -11,12 +11,12 @@ public interface I_DB {
 	/**
 	 * 改行
 	 */
-	public static final Object FD_RETURN = "\n";
+	public static final String FD_RETURN = "\n";
 
 	/**
 	 * タブ
 	 */
-	public static final Object FD_TAB = "\t";
+	public static final String FD_TAB = "\t";
 
 	/**
 	 * ダブルクォーテーション
@@ -26,6 +26,6 @@ public interface I_DB {
 	/**
 	 * シングルクォーテーション
 	 */
-	public static final Object FD_SQ = "'";
+	public static final String FD_SQ = "'";
 
 }

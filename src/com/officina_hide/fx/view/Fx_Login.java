@@ -1,5 +1,11 @@
 package com.officina_hide.fx.view;
 
+import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.common.FD_WhereData;
+import com.officina_hide.base.model.I_FD_User;
+import com.officina_hide.base.model.X_FD_User;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,17 +31,25 @@ import javafx.stage.Stage;
  */
 public class Fx_Login extends Application {
 
+	/** ユーザーID項目 */
+	private TextField userID = new TextField();
+	
 	@Override
 	public void start(Stage stage) throws Exception {
+		//環境情報取得
+		FD_EnvData env = new FD_EnvData();
+		//開始メッセージ
+		env.getLog().open(env, "", FD_Logging.MODE_DEBAG);
+		
 		VBox root = new VBox();
 		root.setPadding(new Insets(15, 10, 10, 10));
 		root.setSpacing(10);
 		//画面項目セット
-		setItem(stage, root);
+		setItem(stage, root, env);
 		
 		Scene scene = new Scene(root, 300, 130);
 		stage.setOnCloseRequest(event -> {
-			windowClose(stage);
+			windowClose(stage, env);
 		});
 		stage.setTitle("ログイン画面");
 		stage.setScene(scene);
@@ -46,10 +60,11 @@ public class Fx_Login extends Application {
 	 * 画面項目設定<br>
 	 * @author ueno hideo
 	 * @since 2.00 
-	 * @param stage 
-	 * @param root
+	 * @param stage 画面ステージ
+	 * @param root ルート
+	 * @param env 環境情報
 	 */
-	private void setItem(Stage stage, VBox root) {
+	private void setItem(Stage stage, VBox root, FD_EnvData env) {
 		Font meiryo12 = new Font("Meiryo UI", 12);
 		int labelWidth = 80;
 		int itemWidth = 200;
@@ -61,7 +76,6 @@ public class Fx_Login extends Application {
 		row01Label.setPrefWidth(labelWidth);
 		row01.getChildren().add(row01Label);
 		row01Label.setFont(meiryo12);
-		TextField userID = new TextField();
 		row01.getChildren().add(userID);
 		userID.setFont(meiryo12);
 		userID.setPrefWidth(itemWidth);
@@ -85,24 +99,33 @@ public class Fx_Login extends Application {
 		Button okButton = new Button("ログイン");
 		okButton.setFont(meiryo12);
 		okButton.setOnMouseClicked(event -> {
-			userConfirm();
+			userConfirm(env);
 		});
 		buttonRow.getChildren().add(okButton);
 		Button cancelButton = new Button("キャンセル");
 		buttonRow.getChildren().add(cancelButton);
 		cancelButton.setFont(meiryo12);
 		cancelButton.setOnMouseClicked(event -> {
-			windowClose(stage);
+			windowClose(stage, env);
 		});
 	}
 
 	/**
 	 * 認証処理<br>
 	 * @author ueno hideo
+	 * @param env 環境情報
 	 * @since 2.00 2020/08/27
 	 */
-	private void userConfirm() {
-		
+	private void userConfirm(FD_EnvData env) {
+		/*
+		 * 認証の手順<br>
+		 * 1.ユーザー情報取得
+		 * 2.パスワード判定
+		 * ※上記エラーの場合、認証エラーとしてメッセージを表示する。
+		 * 3.総合メニユー表示
+		 */
+		FD_WhereData where = new FD_WhereData(I_FD_User.COLUMNNAME_USER_NAME, userID.getText());
+		X_FD_User user = new X_FD_User(env, where);
 	}
 
 	/**
@@ -110,9 +133,11 @@ public class Fx_Login extends Application {
 	 * @author ueno hideo
 	 * @since 2.00 2020/08/27
 	 * @param stage
+	 * @param env 
 	 */
-	private void windowClose(Stage stage) {
+	private void windowClose(Stage stage, FD_EnvData env) {
 		System.out.println("ログイン画面 Close");
+		env.getLog().close();
 		stage.close();
 	}
 

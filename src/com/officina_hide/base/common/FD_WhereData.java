@@ -1,5 +1,6 @@
 package com.officina_hide.base.common;
 
+import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_DB;
 
 /**
@@ -23,6 +24,8 @@ public class FD_WhereData implements I_DB {
 	 * @param data 文字列情報
 	 */
 	public FD_WhereData(String columnName, String data) {
+		FD_DB DB = new FD_DB();
+		data = DB.changeEscape(data);
 		getWhere().append(columnName).append(" = ").append(FD_SQ).append(data).append(FD_SQ);
 	}
 
