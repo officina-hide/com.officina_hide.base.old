@@ -14,8 +14,8 @@ import com.officina_hide.base.common.FD_Item;
  * @since 2020/08/29
  */
 public class X_FD_Table extends FD_DB implements I_FD_Table {
-	/** 項目リスト */
-	List<FD_Item> itemList = new ArrayList<>();
+//	/** 項目リスト */
+//	List<FD_Item> itemList = new ArrayList<>();
 	
 	/**
 	 * コンストラクター<br>
@@ -46,19 +46,19 @@ public class X_FD_Table extends FD_DB implements I_FD_Table {
 //		setValue(I_FD_Table.COLUMNNAME_FD_TABLE_ID, FD_Table_ID);
 //	}
 //
-	/**
-	 * 項目リストにデータを登録する。
-	 * @param itemName 項目名
-	 * @param data データ
-	 */
-	public void setValue(String itemName, Object data) {
-		for(FD_Item item : itemList) {
-			if(item.getItemName().equals(itemName)) {
-				item.setItemData(data);
-				break;
-			}
-		}
-	}
+//	/**
+//	 * 項目リストにデータを登録する。
+//	 * @param itemName 項目名
+//	 * @param data データ
+//	 */
+//	public void setValue(String itemName, Object data) {
+//		for(FD_Item item : itemList) {
+//			if(item.getItemName().equals(itemName)) {
+//				item.setItemData(data);
+//				break;
+//			}
+//		}
+//	}
 
 	/**
 	 * テーブル情報を初夏保存する。<br>

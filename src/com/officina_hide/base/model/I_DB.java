@@ -37,4 +37,17 @@ public interface I_DB {
 	 */
 	public static final String FD_SQ = "'";
 
+	//テーブル共通項目
+	/** 登録日 */
+	public final String COLUMNNAME_FD_CREATE = "FD_Create";
+
+	/** 登録者ID	 */
+	public final String COLUMNNAME_FD_CREATED = "FD_Created";
+
+	/** 更新日 */
+	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
+
+	/** 更新者ID	 */
+	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
+
 }

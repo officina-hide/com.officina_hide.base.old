@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Item;
 import com.officina_hide.base.common.FD_JavaDocParam;
 import com.officina_hide.base.common.FD_Logging;
 
@@ -23,6 +25,9 @@ import com.officina_hide.base.common.FD_Logging;
  * @since 2020/07/15
  */
 public class FD_DB implements I_DB {
+	/** 項目リスト */
+	protected List<FD_Item> itemList = new ArrayList<>();
+	
 	/**
 	 * 環境情報
 	 */
@@ -51,6 +56,20 @@ public class FD_DB implements I_DB {
 		this.env = env;
 	}
 
+	/**
+	 * 項目リストにデータを登録する。
+	 * @param itemName 項目名
+	 * @param data データ
+	 */
+	public void setValue(String itemName, Object data) {
+		for(FD_Item item : itemList) {
+			if(item.getItemName().equals(itemName)) {
+				item.setItemData(data);
+				break;
+			}
+		}
+	}
+	
 	/**
 	 * SQL実行<br>
 	 * <p>更新系のSQL文を実行します。</p>

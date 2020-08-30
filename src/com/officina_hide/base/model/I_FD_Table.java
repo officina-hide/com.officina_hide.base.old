@@ -35,24 +35,4 @@ public interface I_FD_Table {
 	 */
 	public final String COLUMNNAME_FD_COMMENT = "FD_Comment";
 
-	/**
-	 * 登録日.<br>
-	 */
-	public final String COLUMNNAME_FD_CREATE = "FD_Create";
-
-	/**
-	 * 登録者ID.<br>
-	 */
-	public final String COLUMNNAME_FD_CREATED = "FD_Created";
-
-	/**
-	 * 更新日.<br>
-	 */
-	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
-
-	/**
-	 * 更新者ID.<br>
-	 */
-	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
-
 }

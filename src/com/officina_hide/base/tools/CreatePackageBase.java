@@ -35,12 +35,21 @@ public class CreatePackageBase {
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
 		 * ・テーブル情報
+		 * ・画面情報
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
 		TableInformation table = new TableInformation();
 		table.createTable(env);
 		table.addData(env, 100, "FD_Table", "テーブル情報");
+		//画面情報
+		ViewInforMation view = new ViewInforMation();
+		view.createTable(env);
+		table.addData(env, 110, "FD_View", "画面情報");
+		view.addData(env, 100001, "Fx_Login", "ログイン画面");
+		view.addData(env, 100002, "Fx_Menu", "総合メニュー画面");
+		view.addData(env, 100010, "Fx_TableInfoemation", "テーブル情報画面");
+		view.addData(env, 100020, "Fx_View", "画面情報画面");
 		
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);
