@@ -7,6 +7,15 @@ package com.officina_hide.base.model;
  * @since 2020/07/16
  */
 public interface I_DB {
+	
+	/** 項目種別 : 情報ID */
+	public static final String COLUMN_TYPE_INFORMATION_ID = "FD_Information_ID";
+	/** 項目種別 : テキスト */
+	public static final String COLUMN_TYPE_TEXT = "FD_Text";
+	/** 項目種別 : 複数行テキスト */
+	public static final String COLUMN_TYPE_FIELD_TEXT = "FD_Field_Text";
+	/** 項目種別 : 日付 */
+	public static final String COLUMN_TYPE_DATE = "FD_Date";
 
 	/**
 	 * 改行

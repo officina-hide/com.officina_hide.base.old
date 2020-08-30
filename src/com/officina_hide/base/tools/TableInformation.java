@@ -3,6 +3,7 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.X_FD_Table;
 
 /**
@@ -51,7 +52,10 @@ public class TableInformation extends FD_DB {
 	 */
 	public void addData(FD_EnvData env, int tableId, String tableName, String name) {
 		X_FD_Table table = new X_FD_Table(env);
-		
+		table.setValue(I_FD_Table.COLUMNNAME_FD_TABLE_ID, 101);
+		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, "FD_Table");
+		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, "テーブル情報");
+		table.save(env);
 	}
 	
  }
