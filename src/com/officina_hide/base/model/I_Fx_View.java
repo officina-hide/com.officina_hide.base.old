@@ -12,7 +12,7 @@ public interface I_Fx_View {
 	public final String COLUMNNAME_FX_VIEW_ID = "Fx_View_ID";
 	
 	/** 画面名 */
-	public final String COLUMNNAME_VIEW__NAME = "View_Name";
+	public final String COLUMNNAME_VIEW_NAME = "View_Name";
 	
 	/** 画面表示名 */
 	public final String COLUMNNAME_FD_NAME = "FD_Name";

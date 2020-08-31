@@ -52,9 +52,9 @@ public class ViewInforMation extends FD_DB implements I_Fx_View {
 	public void addData(FD_EnvData env, int viewId, String ViewName, String name) {
 		X_Fx_View view = new X_Fx_View(env);
 		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
-		view.setValue(COLUMNNAME_VIEW__NAME, ViewName);
+		view.setValue(COLUMNNAME_VIEW_NAME, ViewName);
 		view.setValue(COLUMNNAME_FD_NAME, name);
-		
+//		view.save();
 	}
 
 }

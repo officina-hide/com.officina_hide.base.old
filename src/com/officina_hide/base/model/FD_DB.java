@@ -35,7 +35,7 @@ public class FD_DB implements I_DB {
 	/**
 	 * データベース接続情報
 	 */
-	protected static Connection conn = null;
+	protected static Connection conn;
 	/**
 	 * 日付フォーマット
 	 */

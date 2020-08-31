@@ -16,7 +16,10 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	 * @param env 環境情報
 	 */
 	public X_Fx_View(FD_EnvData env) {
-		
+		//項目リスト初期化
+		// TODO テーブル項目情報から取得できるようにする。(2020/08/30 ueno)
+		itemList.clear();
+
 	}
 	
 }
