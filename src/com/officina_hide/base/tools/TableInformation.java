@@ -53,8 +53,8 @@ public class TableInformation extends FD_DB {
 	public void addData(FD_EnvData env, int tableId, String tableName, String name) {
 		X_FD_Table table = new X_FD_Table(env);
 		table.setValue(I_FD_Table.COLUMNNAME_FD_TABLE_ID, tableId);
-		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, "FD_Table");
-		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, "テーブル情報");
+		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, tableName);
+		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, name);
 		table.save(env);
 	}
 	

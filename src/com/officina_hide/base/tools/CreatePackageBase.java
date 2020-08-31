@@ -39,9 +39,14 @@ public class CreatePackageBase {
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
+		//テーブル情報
 		TableInformation table = new TableInformation();
 		table.createTable(env);
 		table.addData(env, 101, "FD_Table", "テーブル情報");
+		//テーブル項目情報
+		FDTableColumn tableColumn = new FDTableColumn();
+		tableColumn.createTable(env);
+		table.addData(env, 102, "FD_TableColumn", "テーブル項目情報");
 		//画面情報
 		ViewInforMation view = new ViewInforMation();
 		view.createTable(env);
@@ -50,6 +55,10 @@ public class CreatePackageBase {
 		view.addData(env, 100002, "Fx_Menu", "総合メニュー画面");
 		view.addData(env, 100010, "Fx_TableInfoemation", "テーブル情報画面");
 		view.addData(env, 100020, "Fx_View", "画面情報画面");
+		//画面項目情報
+		FxViewItem viewItem = new FxViewItem();
+		table.addData(env, I_Fx_ViewItem.Table_ID, I_Fx_ViewItem.Table_Name, "画面項目情報");
+		viewItem.createTable(env);
 		
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);

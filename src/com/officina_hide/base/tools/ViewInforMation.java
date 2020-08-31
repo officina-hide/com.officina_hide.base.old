@@ -31,6 +31,8 @@ public class ViewInforMation extends FD_DB implements I_Fx_View {
 		sql.append("FX_View_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '画面情報ID'").append(",");
 		sql.append("View_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面名").append(FD_SQ).append(",");
 		sql.append("FD_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面表示名").append(FD_SQ).append(",");
+//		sql.append("View_Pre_Width int COMMENT").append(FD_SQ).append("画面幅初期値").append(FD_SQ).append(",");
+//		sql.append("View_Pre_Height int COMMENT").append(FD_SQ).append("画面高さ初期値").append(FD_SQ).append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");

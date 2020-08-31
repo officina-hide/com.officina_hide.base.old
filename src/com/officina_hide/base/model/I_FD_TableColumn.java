@@ -1,44 +1,28 @@
 package com.officina_hide.base.model;
 
 public interface I_FD_TableColumn {
-	/**
-	 * テーブル名.<br>
-	 */
+	/** テーブル名 */
 	public final String Table_Name = "FD_TableColumn";
 
-	/**
-	 * テーブルID.<br>
-	 */
+	/** テーブルID */
 	public final int Table_ID =1003;
 
-	/**
-	 * テーブル項目情報ID.<br>
-	 */
+	/** テーブル項目情報ID　*/
 	public final String COLUMNNAME_FD_TABLECOLUMN_ID = "FD_TableColumn_ID";
 
-	/**
-	 * テーブル情報ID.<br>
-	 */
+	/** テーブル情報ID */
 	public final String COLUMNNAME_FD_TABLE_ID = "FD_Table_ID";
 
-	/**
-	 * テーブル項目名.<br>
-	 */
+	/** テーブル項目名 */
 	public final String COLUMNNAME_TABLECOLUMN_NAME = "TableColumn_Name";
 
-	/**
-	 * テーブル表示名.<br>
-	 */
+	/** テーブル表示名 */
 	public final String COLUMNNAME_FD_NAME = "FD_Name";
 
-	/**
-	 * 説明.<br>
-	 */
+	/** 説明 */
 	public final String COLUMNNAME_FD_COMMENT = "FD_COMMENT";
 
-	/**
-	 * テーブル項目属性ID.<br>
-	 */
+	/** テーブル項目属性ID　*/
 	public final String COLUMNNAME_TABLECOLUMN_TYPE_ID = "TableColumn_Type_ID";
 	/**
 	 * 情報ID.<br>
