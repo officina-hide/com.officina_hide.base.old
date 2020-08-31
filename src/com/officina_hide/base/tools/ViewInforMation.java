@@ -54,7 +54,7 @@ public class ViewInforMation extends FD_DB implements I_Fx_View {
 		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
 		view.setValue(COLUMNNAME_VIEW_NAME, ViewName);
 		view.setValue(COLUMNNAME_FD_NAME, name);
-//		view.save();
+		view.save(env);
 	}
 
 }

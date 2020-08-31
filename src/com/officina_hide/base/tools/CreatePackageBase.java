@@ -41,7 +41,7 @@ public class CreatePackageBase {
 		 */
 		TableInformation table = new TableInformation();
 		table.createTable(env);
-		table.addData(env, 100, "FD_Table", "テーブル情報");
+		table.addData(env, 101, "FD_Table", "テーブル情報");
 		//画面情報
 		ViewInforMation view = new ViewInforMation();
 		view.createTable(env);
@@ -54,7 +54,6 @@ public class CreatePackageBase {
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);
 		createUserTable.addData(env, 100, "System", "admin");
-//		new CreateUserTalbe(env);
 		/*
 		 * 基本となるテーブルを生成する。
 		 */

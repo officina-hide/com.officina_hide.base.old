@@ -1,7 +1,5 @@
 package com.officina_hide.base.model;
 
-import java.util.Date;
-
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Item;
 
@@ -41,89 +39,90 @@ public class X_FD_Table extends FD_DB implements I_FD_Table {
 	 * @param env 環境情報
 	 */
 	public void save(FD_EnvData env) {
-		if(getDateOfValue(COLUMNNAME_FD_CREATE) == null) {
-			setValue(COLUMNNAME_FD_CREATE, new Date());
-			setValue(COLUMNNAME_FD_UPDATE, new Date());
-			setValue(COLUMNNAME_FD_CREATED, env.getLoginUserID());
-			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
-		} else {
-			setValue(COLUMNNAME_FD_UPDATE, new Date());
-			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
-		}
-
-		StringBuffer sql = new StringBuffer();
-		StringBuffer setitem = new StringBuffer();
-		sql.append("INSERT INTO ").append(Table_Name).append(" SET ");
-		for(FD_Item item : itemList) {
-			if(setitem.toString().length() > 0) {
-				setitem.append(",");
-			}
-			if(item.getItemData() != null) {
-				switch(item.getItemType()) {
-				case COLUMN_TYPE_INFORMATION_ID:
-					setitem.append(item.getItemName()).append(" = ").append(getIntOfValue(item.getItemName()));
-					break;
-				case COLUMN_TYPE_TEXT:
-				case COLUMN_TYPE_FIELD_TEXT:
-					setitem.append(item.getItemName()).append(" = ").append(FD_SQ).append(getStringOfValue(item.getItemName())).append(FD_SQ);
-					break;
-				case COLUMN_TYPE_DATE:
-					setitem.append(item.getItemName()).append(" = ")
-						.append(FD_SQ).append(dateFormat.format(getDateOfValue(item.getItemName()).getTime())).append(FD_SQ);
-					break;
-				}
-			} else {
-				setitem.append(item.getItemName()).append(" = null");
-			}
-		}
-		sql.append(setitem);
-
-		execute(env, sql.toString());
+		save(env, Table_Name);
+//		if(getDateOfValue(COLUMNNAME_FD_CREATE) == null) {
+//			setValue(COLUMNNAME_FD_CREATE, new Date());
+//			setValue(COLUMNNAME_FD_UPDATE, new Date());
+//			setValue(COLUMNNAME_FD_CREATED, env.getLoginUserID());
+//			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
+//		} else {
+//			setValue(COLUMNNAME_FD_UPDATE, new Date());
+//			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
+//		}
+//
+//		StringBuffer sql = new StringBuffer();
+//		StringBuffer setitem = new StringBuffer();
+//		sql.append("INSERT INTO ").append(Table_Name).append(" SET ");
+//		for(FD_Item item : itemList) {
+//			if(setitem.toString().length() > 0) {
+//				setitem.append(",");
+//			}
+//			if(item.getItemData() != null) {
+//				switch(item.getItemType()) {
+//				case COLUMN_TYPE_INFORMATION_ID:
+//					setitem.append(item.getItemName()).append(" = ").append(getIntOfValue(item.getItemName()));
+//					break;
+//				case COLUMN_TYPE_TEXT:
+//				case COLUMN_TYPE_FIELD_TEXT:
+//					setitem.append(item.getItemName()).append(" = ").append(FD_SQ).append(getStringOfValue(item.getItemName())).append(FD_SQ);
+//					break;
+//				case COLUMN_TYPE_DATE:
+//					setitem.append(item.getItemName()).append(" = ")
+//						.append(FD_SQ).append(dateFormat.format(getDateOfValue(item.getItemName()).getTime())).append(FD_SQ);
+//					break;
+//				}
+//			} else {
+//				setitem.append(item.getItemName()).append(" = null");
+//			}
+//		}
+//		sql.append(setitem);
+//
+//		execute(env, sql.toString());
 	}
-
-	/**
-	 * テーブル項目情報を取得する。(int型)<br>
-	 * <p>もし、項目が見つからないときもしくは数値型と違うときは、0を返す。</p>
-	 * @param itemName 項目名
-	 * @return 項目情報(int型)
-	 */
-	private int getIntOfValue(String itemName) {
-		try {
-			return (int) getItemData(itemName);
-		} catch (ClassCastException e) {
-			return 0;
-		}
-	}
-
-	/**
-	 * テーブル項目情報を取得する。(String型)<br>
-	 * <p>もし、項目が見つからないときはnullを返す</p>
-	 * @param itemName 項目名
-	 * @return
-	 */
-	private String getStringOfValue(String itemName) {
-		return (String) getItemData(itemName);
-	}
-
-	/**
-	 * @param itemName
-	 * @return
-	 */
-	private Date getDateOfValue(String itemName) {
-		return (Date) getItemData(itemName);
-	}
-
-	/**
-	 * 指定された項目名から項目情報を抽出する。<br>
-	 * @param itemName
-	 * @return
-	 */
-	private Object getItemData(String itemName) {
-		for(FD_Item item : itemList) {
-			if(item.getItemName().equals(itemName)) {
-				return item.getItemData();
-			}
-		}
-		return null;
-	}
+//
+//	/**
+//	 * テーブル項目情報を取得する。(int型)<br>
+//	 * <p>もし、項目が見つからないときもしくは数値型と違うときは、0を返す。</p>
+//	 * @param itemName 項目名
+//	 * @return 項目情報(int型)
+//	 */
+//	private int getIntOfValue(String itemName) {
+//		try {
+//			return (int) getItemData(itemName);
+//		} catch (ClassCastException e) {
+//			return 0;
+//		}
+//	}
+//
+//	/**
+//	 * テーブル項目情報を取得する。(String型)<br>
+//	 * <p>もし、項目が見つからないときはnullを返す</p>
+//	 * @param itemName 項目名
+//	 * @return
+//	 */
+//	private String getStringOfValue(String itemName) {
+//		return (String) getItemData(itemName);
+//	}
+//
+//	/**
+//	 * @param itemName
+//	 * @return
+//	 */
+//	private Date getDateOfValue(String itemName) {
+//		return (Date) getItemData(itemName);
+//	}
+//
+//	/**
+//	 * 指定された項目名から項目情報を抽出する。<br>
+//	 * @param itemName
+//	 * @return
+//	 */
+//	private Object getItemData(String itemName) {
+//		for(FD_Item item : itemList) {
+//			if(item.getItemName().equals(itemName)) {
+//				return item.getItemData();
+//			}
+//		}
+//		return null;
+//	}
 }
