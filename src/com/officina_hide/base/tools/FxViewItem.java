@@ -3,6 +3,8 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.base.model.X_Fx_ViewItem;
 
 /**
  * 画面項目情報クラス<br>
@@ -41,6 +43,27 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");
 		execute(env, sql.toString());
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面項目情報テーブル構築");
+	}
+
+	/**
+	 * 画面項目情報登録<br>
+	 * @author officine-hide.com ueno
+	 * @since 2.00 2020/09/01
+	 * @param env 環境情報
+	 * @param ViewItemID 画面項目情報iD
+	 * @param ViewID 画面情報ID
+	 * @param ViewItemName 画面項目名
+	 * @param name 
+	 * @param ViewTypeID 画面項目属性ID
+	 */
+	public void addData(FD_EnvData env, int ViewItemID, int ViewID, String ViewItemName, String name, int ViewTypeID) {
+		X_Fx_ViewItem item = new X_Fx_ViewItem(env);
+		item.setValue(COLUMNNAME_FX_VIEWITEM_ID, ViewItemID);
+		item.setValue(COLUMNNAME_FX_VIEW_ID, ViewID);
+		item.setValue(COLUMNNAME_VIEWITEM_NAME, ViewItemName);
+		item.setValue(COLUMNNAME_FD_NAME, name);
+		item.setValue(COLUMNNAME_VIEWITEM_TYPE_ID, ViewTypeID);
+		item.save(env);
 	}
 
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.model.I_FD_Table;
+import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.system.CreateUserTalbe;
 
 /**
@@ -48,7 +50,7 @@ public class CreatePackageBase {
 		tableColumn.createTable(env);
 		table.addData(env, 102, "FD_TableColumn", "テーブル項目情報");
 		//画面情報
-		ViewInforMation view = new ViewInforMation();
+		FxViewInformation view = new FxViewInformation();
 		view.createTable(env);
 		table.addData(env, 110, "FD_View", "画面情報");
 		view.addData(env, 100001, "Fx_Login", "ログイン画面");
@@ -59,6 +61,8 @@ public class CreatePackageBase {
 		FxViewItem viewItem = new FxViewItem();
 		table.addData(env, I_Fx_ViewItem.Table_ID, I_Fx_ViewItem.Table_Name, "画面項目情報");
 		viewItem.createTable(env);
+		viewItem.addData(env, 100001, 100010, I_FD_Table.COLUMNNAME_TABLE_NAME
+				, "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
 		
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);

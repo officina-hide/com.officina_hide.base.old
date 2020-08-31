@@ -12,7 +12,7 @@ import com.officina_hide.base.model.X_Fx_View;
  * @version 2.00
  * @since 2020/08/31
  */
-public class ViewInforMation extends FD_DB implements I_Fx_View {
+public class FxViewInformation extends FD_DB implements I_Fx_View {
 
 	/**
 	 * 画面情報テーブル生成<br>

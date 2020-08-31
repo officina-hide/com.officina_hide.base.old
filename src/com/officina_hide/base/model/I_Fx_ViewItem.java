@@ -1,4 +1,4 @@
-package com.officina_hide.base.tools;
+package com.officina_hide.base.model;
 
 /**
  * 画面項目情報インターフェース<br>
@@ -30,4 +30,6 @@ public interface I_Fx_ViewItem {
 	 */
 	/** 画面項目属性ID : テキスト */
 	public final int VIEWTYPE_ID_FX_TEXT = 201;
+	/** 画面項目属性ID : 数値 */
+	public final int VIEWTYPE_ID_FX_NUMBER = 202;
 }
