@@ -28,7 +28,7 @@ public class FxViewInformation extends FD_DB implements I_Fx_View {
 		//画面情報テーブルを生成する。
 		sql = new StringBuffer();
 		sql.append("CREATE TABLE IF NOT EXISTS Fx_View  (");
-		sql.append("FX_View_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '画面情報ID'").append(",");
+		sql.append("Fx_View_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '画面情報ID'").append(",");
 		sql.append("View_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面名").append(FD_SQ).append(",");
 		sql.append("FD_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面表示名").append(FD_SQ).append(",");
 //		sql.append("View_Pre_Width int COMMENT").append(FD_SQ).append("画面幅初期値").append(FD_SQ).append(",");

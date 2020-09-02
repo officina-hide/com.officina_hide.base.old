@@ -24,17 +24,6 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	public X_Fx_View(FD_EnvData env) {
 		//項目リストセット
 		setItemList(env);
-
-//		//項目リスト初期化
-//		// TODO テーブル項目情報から取得できるようにする。(2020/08/30 ueno)
-//		itemList.clear();
-//		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_FX_VIEW_ID, null, COLUMN_TYPE_INFORMATION_ID));
-//		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_VIEW_NAME, null, COLUMN_TYPE_FIELD_TEXT));
-//		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_FD_NAME, null, COLUMN_TYPE_FIELD_TEXT));
-//		itemList.add(new FD_Item(COLUMNNAME_FD_CREATE, null, COLUMN_TYPE_DATE));
-//		itemList.add(new FD_Item(COLUMNNAME_FD_CREATED, null, COLUMN_TYPE_INFORMATION_ID));
-//		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATE, null, COLUMN_TYPE_DATE));
-//		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATED, null, COLUMN_TYPE_INFORMATION_ID));
 	}
 
 	/**
@@ -89,7 +78,18 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
 				for(FD_Item item : itemList) {
-					setValue(item.getItemName(), rs.getObject(item.getItemName()));
+					switch(item.getItemType()) {
+					case COLUMN_TYPE_INFORMATION_ID:
+						setValue(item.getItemName(), rs.getInt(item.getItemName()));
+						break;
+					case COLUMN_TYPE_TEXT:
+					case COLUMN_TYPE_FIELD_TEXT:
+						setValue(item.getItemName(), rs.getString(item.getItemName()));
+						break;
+					case COLUMN_TYPE_DATE:
+						setValue(item.getItemName(), rs.getDate(item.getItemName()));
+						break;
+					}
 				}
 			}
 		} catch (SQLException e) {

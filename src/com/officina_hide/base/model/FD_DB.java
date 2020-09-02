@@ -148,11 +148,13 @@ public class FD_DB implements I_DB {
 	 * @return 項目情報(int型)
 	 */
 	public int getIntOfValue(String itemName) {
-		try {
-			return (int) getItemData(itemName);
-		} catch (ClassCastException e) {
-			return 0;
-		}
+//		try {
+			int data = (int) getItemData(itemName);
+			System.out.println(getItemData(itemName));
+			return data;
+//		} catch (ClassCastException e) {
+//			return 0;
+//		}
 	}
 
 	/**
