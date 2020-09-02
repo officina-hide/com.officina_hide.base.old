@@ -571,4 +571,20 @@ public class FD_DB implements I_DB {
 		return out;
 	}
 
+	/**
+	 * DBステートメント生成<br>
+	 * @author officine-hide.com ueno
+	 * @since 2.00 2020/09/01
+	 * @return DBステートメント
+	 */
+	public Statement createStatement() {
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stmt;
+	}
+
 }
