@@ -142,19 +142,29 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
+	 * テーブル情報取得<br>
+	 * <p>指定されたテーブルより、指定された情報IDを持つ情報を抽出する。</p>
+	 * @param env 環境情報
+	 * @param tableName テーブル名
+	 * @param id 情報ID
+	 */
+	public void load(FD_EnvData env, String tableName, int id) {
+		
+	}
+
+	/**
 	 * テーブル項目情報を取得する。(int型)<br>
 	 * <p>もし、項目が見つからないときもしくは数値型と違うときは、0を返す。</p>
 	 * @param itemName 項目名
 	 * @return 項目情報(int型)
 	 */
 	public int getIntOfValue(String itemName) {
-//		try {
+		try {
 			int data = (int) getItemData(itemName);
-			System.out.println(getItemData(itemName));
 			return data;
-//		} catch (ClassCastException e) {
-//			return 0;
-//		}
+		} catch (ClassCastException e) {
+			return 0;
+		}
 	}
 
 	/**

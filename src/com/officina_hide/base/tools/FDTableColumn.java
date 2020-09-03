@@ -2,6 +2,7 @@ package com.officina_hide.base.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.X_FD_TableColumn;
 
 /**
  * テーブル項目情報クラス<br>
@@ -42,6 +43,17 @@ public class FDTableColumn extends FD_DB {
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");
 		execute(env, sql.toString());
+	}
+
+	/**
+	 * テーブル項目情報登録<br>
+	 * @param env 環境情報
+	 * @param tableCoumnId テーブル項目情報ID
+	 * @param tableId テーブル情報ID
+	 * @param tableColumnName テーブル項目名
+	 */
+	public void add(FD_EnvData env, int tableCoumnId, int tableId, String tableColumnName) {
+		X_FD_TableColumn column = new X_FD_TableColumn(env);
 	}
 
 }

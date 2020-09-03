@@ -32,6 +32,16 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	}
 
 	/**
+	 * コンストラクター<br>
+	 * <p>実体化時に、指定されたIDを持つ情報を抽出する。</p>
+	 * @param env 環境情報
+	 * @param id 情報ID
+	 */
+	public X_Fx_ViewItem(FD_EnvData env, int id) {
+		load(env, Table_Name, id);
+	}
+
+	/**
 	 * 画面項目情報保存<br>
 	 * @author officine-hide.com ueno
 	 * @since 2.00 2020/09/01

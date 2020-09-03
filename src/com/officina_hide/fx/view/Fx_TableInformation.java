@@ -14,9 +14,13 @@ import com.officina_hide.base.model.FD_OrderData;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_Fx_View;
+import com.officina_hide.base.model.X_Fx_ViewItem;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -32,6 +36,8 @@ public class Fx_TableInformation extends Application {
 	private static final String VIEW_NAME = "Fx_TableInfoemation";
 	/** データベースクラス */
 	private FD_DB DB = new FD_DB();
+	/** 画面情報 */
+	private X_Fx_View view;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -41,11 +47,11 @@ public class Fx_TableInformation extends Application {
 		env.getLog().open(env, "", FD_Logging.MODE_DEBAG);
 		//画面情報取得
 		FD_WhereData where = new FD_WhereData(I_Fx_View.COLUMNNAME_VIEW_NAME, VIEW_NAME);
-		X_Fx_View view = new X_Fx_View(env, where);
+		view = new X_Fx_View(env, where);
 		//画面項目情報取得
-		getViewItem(env, view.getIntOfValue(I_Fx_View.COLUMNNAME_FX_VIEW_ID));
-		
 		VBox root = new VBox(5);
+		getViewItem(env, root, view.getIntOfValue(I_Fx_View.COLUMNNAME_FX_VIEW_ID));
+		
 		
 		
 		Scene scene = new Scene(root);
@@ -59,12 +65,21 @@ public class Fx_TableInformation extends Application {
 	 * @author officine-hide.com ueno
 	 * @since 2.00 2020/09/01
 	 * @param env 環境情報
+	 * @param root ルート
 	 * @param viewId 画面情報ID
 	 */
-	private void getViewItem(FD_EnvData env, int viewId) {
+	private void getViewItem(FD_EnvData env, VBox root, int viewId) {
 		FD_WhereData where = new FD_WhereData(I_Fx_ViewItem.COLUMNNAME_FX_VIEW_ID, viewId);
 		List<Integer> ids = getIds(env, I_Fx_ViewItem.Table_Name, where, null);
-		System.out.println(ids.size());
+		for(int id : ids) {
+			X_Fx_ViewItem viewItem = new X_Fx_ViewItem(env, id);
+			HBox row = new HBox(5);
+			row.setAlignment(Pos.CENTER);
+			root.getChildren().add(row);
+			Label label = new Label(viewItem.getStringOfValue(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
+			row.getChildren().add(label);
+			System.out.println(viewItem.getIntOfValue(I_Fx_ViewItem.COLUMNNAME_VIEWITEM_TYPE_ID));
+		}
 	}
 
 	/**
@@ -91,7 +106,6 @@ public class Fx_TableInformation extends Application {
 			}
 			DB.connection(env);
 			stmt = DB.createStatement();
-			System.out.println(sql.toString());
 			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {
 				list.add(rs.getInt(tableName+"_ID"));
