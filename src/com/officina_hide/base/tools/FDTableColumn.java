@@ -51,9 +51,17 @@ public class FDTableColumn extends FD_DB {
 	 * @param tableCoumnId テーブル項目情報ID
 	 * @param tableId テーブル情報ID
 	 * @param tableColumnName テーブル項目名
+	 * @param name テーブル項目論理名
+	 * @param comment テーブル項目説明
+	 * @param type テーブル項目種別
+	 * @param size テーブル項目桁数
+	 * @param sortNo テーブル項目並び順
+	 * @param isPKey プライマリキー判定
 	 */
-	public void add(FD_EnvData env, int tableCoumnId, int tableId, String tableColumnName) {
+	public void add(FD_EnvData env, int tableCoumnId, int tableId, String tableColumnName
+			, String name, String comment, String type, int size, int sortNo, String isPKey) {
 		X_FD_TableColumn column = new X_FD_TableColumn(env);
+		
 	}
 
 }

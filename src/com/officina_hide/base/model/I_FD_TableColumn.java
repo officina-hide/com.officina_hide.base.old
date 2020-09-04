@@ -24,69 +24,42 @@ public interface I_FD_TableColumn {
 
 	/** テーブル項目属性ID　*/
 	public final String COLUMNNAME_TABLECOLUMN_TYPE_ID = "TableColumn_Type_ID";
-	/**
-	 * 情報ID.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_INFORMATION_ID = 1000001;
-	/**
-	 * テキスト.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_TEXT = 1000002;
-	/**
-	 * 複数行テキスト.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_FIELD_TEXT = 1000003;
-	/**
-	 * 日時.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_DATE = 1000004;
-	/**
-	 * YESNO.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_YESNO = 1000005;
-	/**
-	 * 自然数.<br>
-	 */
-public final int TABLECOLUMN_TYPE_ID_FD_NUMBER = 1000006;
 
-	/**
-	 * テーブル項目桁数.<br>
-	 */
+	/** テーブル項目桁数 */
 	public final String COLUMNNAME_TABLECOLUMN_SIZE = "TableColumn_Size";
 
-	/**
-	 * テーブル項目並び順.<br>
-	 */
+	/** テーブル項目並び順  */
 	public final String COLUMNNAME_COLUMN_SORT_ORDER = "Column_Sort_Order";
 
-	/**
-	 * null必須判定.<br>
-	 */
+	/** null必須判定 */
 	public final String COLUMNNAME_IS_NULL = "IS_Null";
+	public final String IS_NULL_YES = "YES";
+	public final String IS_NULL_NO = "NO";
 
-	/**
-	 * Primaryキー判定.<br>
-	 */
+	/** Primaryキー判定 */
 	public final String COLUMNNAME_IS_PRIMARY = "IS_Primary";
+	public static final String IS_PRIMARY_YES = "YES";
+	public static final String IS_PRIMARY_NO = "NO";
 
-	/**
-	 * 登録日.<br>
-	 */
-	public final String COLUMNNAME_FD_CREATE = "FD_Create";
-
-	/**
-	 * 登録者ID.<br>
-	 */
-	public final String COLUMNNAME_FD_CREATED = "FD_Created";
-
-	/**
-	 * 更新日.<br>
-	 */
-	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
-
-	/**
-	 * 更新者ID.<br>
-	 */
-	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
+//
+//	/**
+//	 * 登録日.<br>
+//	 */
+//	public final String COLUMNNAME_FD_CREATE = "FD_Create";
+//
+//	/**
+//	 * 登録者ID.<br>
+//	 */
+//	public final String COLUMNNAME_FD_CREATED = "FD_Created";
+//
+//	/**
+//	 * 更新日.<br>
+//	 */
+//	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
+//
+//	/**
+//	 * 更新者ID.<br>
+//	 */
+//	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
 
 }

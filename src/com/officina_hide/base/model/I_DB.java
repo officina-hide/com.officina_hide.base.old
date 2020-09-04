@@ -16,6 +16,11 @@ public interface I_DB {
 	public static final String COLUMN_TYPE_FIELD_TEXT = "FD_Field_Text";
 	/** 項目種別 : 日付 */
 	public static final String COLUMN_TYPE_DATE = "FD_Date";
+	/** 項目種別 : 自然数 */
+	public static final String COLUMN_TYPE_NUMBER = "FD_Number";
+	/** 項目種別 : YESNO */
+	public static final String COLUMN_TYPE_YESNO = "FD_YesNo";
+
 
 	/**
 	 * 改行

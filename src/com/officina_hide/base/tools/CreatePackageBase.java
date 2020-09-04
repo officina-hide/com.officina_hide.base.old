@@ -5,9 +5,11 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.base.model.X_FD_TableColumn;
 import com.officina_hide.base.system.CreateUserTalbe;
 
 /**
@@ -50,7 +52,9 @@ public class CreatePackageBase {
 		FDTableColumn tableColumn = new FDTableColumn();
 		tableColumn.createTable(env);
 		table.addData(env, 102, "FD_TableColumn", "テーブル項目情報");
-		tableColumn.add(env, 121, I_FD_TableColumn.Table_ID, I_FD_TableColumn.Table_Name+"_ID");
+		tableColumn.add(env, 121, I_FD_TableColumn.Table_ID, I_FD_TableColumn.Table_Name+"_ID", "テーブル項目情報ID"
+				, "テーブル項目を識別するための情報ID", I_DB.COLUMN_TYPE_INFORMATION_ID, 0
+				, 10, X_FD_TableColumn.IS_PRIMARY_YES);
 		//画面情報
 		FxViewInformation view = new FxViewInformation();
 		view.createTable(env);
