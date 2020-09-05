@@ -50,10 +50,18 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 		FDTable table = new FDTable();
 		table.addData(env, Table_ID, Table_Name, "テーブル項目情報");
 		//テーブル項目情報追加
-		add(env, Table_ID, Table_Name+"_ID", "テーブル項目情報ID", "テーブル項目を識別するための情報ID", I_DB.COLUMN_TYPE_INFORMATION_ID, 0
-				, 10, IS_PRIMARY_YES);
-		add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル項目を紐付けるテーブルの情報ID", COLUMN_TYPE_INFORMATION_ID, 0
-				, 20, IS_PRIMARY_NO);
+		add(env, Table_ID, Table_Name+"_ID", "テーブル項目情報ID", "テーブル項目を識別するための情報ID"
+				, I_DB.COLUMN_TYPE_INFORMATION_ID, 0	, 10, IS_PRIMARY_YES);
+		add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル項目を紐付けるテーブルの情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 20, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_TABLECOLUMN_NAME, "テーブル項目名", "テーブル項目の物理名称"
+				, COLUMN_TYPE_TEXT, 100	, 30, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_NAME, "テーブル項目表示名", "テーブル項目の論理名称"
+				, COLUMN_TYPE_TEXT, 100	, 40, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_COMMENT, "テーブル項目説明", "テーブル項目の内容説明"
+				, COLUMN_TYPE_FIELD_TEXT, 0	, 60, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_TABLECOLUMN_TYPE_ID, "テーブル項目属性ID", "テーブル項目の属性を表すリファレンス情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0	, 70, IS_PRIMARY_NO);
 }
 
 	/**
