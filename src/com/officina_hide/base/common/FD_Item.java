@@ -72,4 +72,14 @@ public class FD_Item {
 	public void setItemType(String itemType) {
 		this.itemType = itemType;
 	}
+
+	/**
+	 * Dataを文字列で返す。<br>
+	 * @author officina-hide.com ueno
+	 * @since 2.00 2020/09/04
+	 * @return 文字列
+	 */
+	public String getStringOfData() {
+		return (String) getItemData();
+	}
 }

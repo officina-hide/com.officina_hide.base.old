@@ -209,6 +209,7 @@ public class CreateBaseResource extends FD_DB {
 	 * @author ueno hideo
 	 * @since 1.21 2020/08/15
 	 * @param env 環境情報
+	 * @deprecated
 	 */
 	private void createNumberingTable(FD_EnvData env) {
 		StringBuffer sql = new StringBuffer();

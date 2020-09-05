@@ -11,7 +11,7 @@ import com.officina_hide.base.model.I_FD_RefGroup;
 import com.officina_hide.base.model.X_FD_FxView;
 import com.officina_hide.base.model.X_FD_FxViewParam;
 import com.officina_hide.base.tools.CreateModel;
-import com.officina_hide.base.tools.CreateTable;
+import com.officina_hide.base.tools.createTable;
 
 /**
  * 画面リソース生成<br>
@@ -68,7 +68,7 @@ public class CreateFxResource extends FD_DB {
 		//採番情報登録
 		addNumberingData(env, tableId, 0, 1000001);
 		//テーブル生成
-		new CreateTable(env, I_FD_RefGroup.Table_ID);
+		new createTable(env, I_FD_RefGroup.Table_ID);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class CreateFxResource extends FD_DB {
 		//採番情報登録
 		addNumberingData(env, tableId, 0, 1000001);
 		//テーブル生成
-		new CreateTable(env, I_FD_FxView.Table_ID);
+		new createTable(env, I_FD_FxView.Table_ID);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class CreateFxResource extends FD_DB {
 		//採番情報登録
 		addNumberingData(env, tableId, 0, 1000001);
 		//テーブル生成
-		new CreateTable(env, I_FD_FxViewParam.Table_ID);
+		new createTable(env, I_FD_FxViewParam.Table_ID);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class CreateFxResource extends FD_DB {
 		//採番情報登録
 		addNumberingData(env, tableId, 0, 1000001);
 		//テーブル生成
-		new CreateTable(env, I_FD_FxViewItem.Table_ID);
+		new createTable(env, I_FD_FxViewItem.Table_ID);
 	}
 
 	/**

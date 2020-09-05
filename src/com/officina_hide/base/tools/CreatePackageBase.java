@@ -6,8 +6,10 @@ import java.util.Date;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.I_DB;
+import com.officina_hide.base.model.I_FD_Numbering;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_FD_TableColumn;
 import com.officina_hide.base.system.CreateUserTalbe;
@@ -39,26 +41,31 @@ public class CreatePackageBase {
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
-		 * ・テーブル情報
+		 * ・テーブル情報、テーブル項目情報、採番情報
 		 * ・画面情報
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
+		
 		//テーブル情報
-		TableInformation table = new TableInformation();
+		FDTable table = new FDTable();
 		table.createTable(env);
 		table.addData(env, 101, "FD_Table", "テーブル情報");
 		//テーブル項目情報
 		FDTableColumn tableColumn = new FDTableColumn();
 		tableColumn.createTable(env);
-		table.addData(env, 102, "FD_TableColumn", "テーブル項目情報");
-		tableColumn.add(env, 121, I_FD_TableColumn.Table_ID, I_FD_TableColumn.Table_Name+"_ID", "テーブル項目情報ID"
-				, "テーブル項目を識別するための情報ID", I_DB.COLUMN_TYPE_INFORMATION_ID, 0
-				, 10, X_FD_TableColumn.IS_PRIMARY_YES);
+		//採番情報
+		FDNumbering num = new FDNumbering();
+		num.createTable(env);
+		table.addData(env, I_FD_Numbering.Table_ID, I_FD_Numbering.Table_Name, "採番情報");
+		num.add(env, I_FD_Table.Table_ID, 1000001, 0);
+		num.add(env, I_FD_TableColumn.Table_ID, 1000001, 0);
+		num.add(env, I_FD_Numbering.Table_ID, 1000001, 0);
+		
 		//画面情報
 		FxViewInformation view = new FxViewInformation();
 		view.createTable(env);
-		table.addData(env, 110, "FD_View", "画面情報");
+		table.addData(env, I_Fx_View.Table_ID, I_Fx_View.Table_Name, "画面情報");
 		view.addData(env, 100001, "Fx_Login", "ログイン画面");
 		view.addData(env, 100002, "Fx_Menu", "総合メニュー画面");
 		view.addData(env, 100010, "Fx_TableInfoemation", "テーブル情報画面");

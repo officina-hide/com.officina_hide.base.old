@@ -5,7 +5,7 @@ public interface I_FD_TableColumn {
 	public final String Table_Name = "FD_TableColumn";
 
 	/** テーブルID */
-	public final int Table_ID =1003;
+	public final int Table_ID =102;
 
 	/** テーブル項目情報ID　*/
 	public final String COLUMNNAME_FD_TABLECOLUMN_ID = "FD_TableColumn_ID";

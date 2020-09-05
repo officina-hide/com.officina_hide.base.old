@@ -12,7 +12,7 @@ import com.officina_hide.base.model.X_FD_Table;
  * @version 2.00
  * @since 2020/08/29
  */
-public class TableInformation extends FD_DB {
+public class FDTable extends FD_DB {
 
 	/**
 	 * テーブル情報生成<br>

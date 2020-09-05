@@ -26,7 +26,7 @@ import com.officina_hide.base.model.X_FD_Table;
  * @version 1.20
  * @since 2020/07/30
  */
-public class CreateTable extends FD_DB implements I_DB {
+public class createTable extends FD_DB implements I_DB {
 	/**
 	 * インポートリスト
 	 */
@@ -40,7 +40,7 @@ public class CreateTable extends FD_DB implements I_DB {
 	 * @param tableName テーブル名
 	 * @param name テーブル論理名(COMMENT)
 	 */
-	public CreateTable(FD_EnvData env, int tableId) {
+	public createTable(FD_EnvData env, int tableId) {
 		StringBuffer sql = new StringBuffer();
 		//テーブル情報取得
 		X_FD_Table table = new X_FD_Table(env, tableId);

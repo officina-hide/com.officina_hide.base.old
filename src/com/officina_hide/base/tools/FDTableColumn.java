@@ -2,6 +2,8 @@ package com.officina_hide.base.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_DB;
+import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.X_FD_TableColumn;
 
 /**
@@ -10,7 +12,7 @@ import com.officina_hide.base.model.X_FD_TableColumn;
  * @version 2.00
  * @since 2020/09/01
  */
-public class FDTableColumn extends FD_DB {
+public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 
 	/**
 	 * テーブル項目情報テーブル生成<br>
@@ -43,7 +45,16 @@ public class FDTableColumn extends FD_DB {
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");
 		execute(env, sql.toString());
-	}
+		
+		//テーブル情報登録
+		FDTable table = new FDTable();
+		table.addData(env, Table_ID, Table_Name, "テーブル項目情報");
+		//テーブル項目情報追加
+		add(env, Table_ID, Table_Name+"_ID", "テーブル項目情報ID", "テーブル項目を識別するための情報ID", I_DB.COLUMN_TYPE_INFORMATION_ID, 0
+				, 10, IS_PRIMARY_YES);
+		add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル項目を紐付けるテーブルの情報ID", COLUMN_TYPE_INFORMATION_ID, 0
+				, 20, IS_PRIMARY_NO);
+}
 
 	/**
 	 * テーブル項目情報登録<br>
@@ -58,10 +69,26 @@ public class FDTableColumn extends FD_DB {
 	 * @param sortNo テーブル項目並び順
 	 * @param isPKey プライマリキー判定
 	 */
-	public void add(FD_EnvData env, int tableCoumnId, int tableId, String tableColumnName
+	public void add(FD_EnvData env, int tableId, String tableColumnName
 			, String name, String comment, String type, int size, int sortNo, String isPKey) {
 		X_FD_TableColumn column = new X_FD_TableColumn(env);
-		
+		column.setValue(COLUMNNAME_FD_TABLECOLUMN_ID, getNewID(env, Table_ID));
+		column.setValue(COLUMNNAME_FD_TABLE_ID, tableId);
+		column.setValue(COLUMNNAME_TABLECOLUMN_NAME, tableColumnName);
+		column.setValue(COLUMNNAME_FD_NAME, name);
+		column.setValue(COLUMNNAME_FD_COMMENT, comment);
+		int typeId = getReferenceID(env, type);
+		column.setValue(COLUMNNAME_TABLECOLUMN_TYPE_ID, typeId);
+		column.setValue(COLUMNNAME_TABLECOLUMN_SIZE, size);
+		column.setValue(COLUMNNAME_COLUMN_SORT_ORDER, sortNo);
+		if(isPKey.equals(IS_PRIMARY_YES)) {
+			column.setValue(COLUMNNAME_IS_PRIMARY, IS_PRIMARY_YES);
+			column.setValue(COLUMNNAME_IS_NULL, IS_NULL_YES);
+		} else {
+			column.setValue(COLUMNNAME_IS_PRIMARY, IS_PRIMARY_NO);
+			column.setValue(COLUMNNAME_IS_NULL, IS_NULL_NO);
+		}
+		column.save(env);
 	}
 
 }

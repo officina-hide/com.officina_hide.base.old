@@ -45,6 +45,16 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATE, null, COLUMN_TYPE_DATE));
 		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATED, null, COLUMN_TYPE_INFORMATION_ID));
 }
+
+	/**
+	 * 保存<br>
+	 * @author officina-hide.com ueno
+	 * @since 2.00 2020/09/04
+	 * @param env 環境情報
+	 */
+	public void save(FD_EnvData env) {
+		save(env, Table_Name);
+	}
 }
 	
 //	private FD_EnvData env;
