@@ -5,13 +5,11 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
-import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_Numbering;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
-import com.officina_hide.base.model.X_FD_TableColumn;
 import com.officina_hide.base.system.CreateUserTalbe;
 
 /**
@@ -51,9 +49,6 @@ public class CreatePackageBase {
 		FDTable table = new FDTable();
 		table.createTable(env);
 		table.addData(env, 101, "FD_Table", "テーブル情報");
-		//テーブル項目情報
-		FDTableColumn tableColumn = new FDTableColumn();
-		tableColumn.createTable(env);
 		//採番情報
 		FDNumbering num = new FDNumbering();
 		num.createTable(env);
@@ -61,6 +56,11 @@ public class CreatePackageBase {
 		num.add(env, I_FD_Table.Table_ID, 1000001, 0);
 		num.add(env, I_FD_TableColumn.Table_ID, 1000001, 0);
 		num.add(env, I_FD_Numbering.Table_ID, 1000001, 0);
+		num.add(env, I_Fx_View.Table_ID, 1000001, 0);
+		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
+		//テーブル項目情報
+		FDTableColumn tableColumn = new FDTableColumn();
+		tableColumn.createTable(env);
 		
 		//画面情報
 		FxViewInformation view = new FxViewInformation();
@@ -72,10 +72,7 @@ public class CreatePackageBase {
 		view.addData(env, 100020, "Fx_View", "画面情報画面");
 		//画面項目情報
 		FxViewItem viewItem = new FxViewItem();
-		table.addData(env, I_Fx_ViewItem.Table_ID, I_Fx_ViewItem.Table_Name, "画面項目情報");
 		viewItem.createTable(env);
-		viewItem.addData(env, 100001, 100010, I_FD_Table.COLUMNNAME_TABLE_NAME
-				, "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
 		
 		CreateUserTalbe createUserTable = new CreateUserTalbe();
 		createUserTable.createUserTable(env);
