@@ -63,6 +63,12 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 				, COLUMN_TYPE_INFORMATION_ID, 0, 50, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
 				, COLUMN_TYPE_DATE, 0, 910, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者の情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_UPDATE, "更新日", "情報の更新日"
+				, COLUMN_TYPE_DATE, 0, 930, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者の情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 940, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 	}
 

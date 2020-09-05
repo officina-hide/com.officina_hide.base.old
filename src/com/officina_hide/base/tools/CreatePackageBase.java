@@ -58,25 +58,29 @@ public class CreatePackageBase {
 		num.add(env, I_FD_Numbering.Table_ID, 1000001, 0);
 		num.add(env, I_Fx_View.Table_ID, 1000001, 0);
 		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
-		//テーブル項目情報
-		FDTableColumn tableColumn = new FDTableColumn();
-		tableColumn.createTable(env);
-		
-		//画面情報
-		FxViewInformation view = new FxViewInformation();
-		view.createTable(env);
-		table.addData(env, I_Fx_View.Table_ID, I_Fx_View.Table_Name, "画面情報");
-		view.addData(env, 100001, "Fx_Login", "ログイン画面");
-		view.addData(env, 100002, "Fx_Menu", "総合メニュー画面");
-		view.addData(env, 100010, "Fx_TableInfoemation", "テーブル情報画面");
-		view.addData(env, 100020, "Fx_View", "画面情報画面");
-		//画面項目情報
-		FxViewItem viewItem = new FxViewItem();
-		viewItem.createTable(env);
-		
-		CreateUserTalbe createUserTable = new CreateUserTalbe();
-		createUserTable.createUserTable(env);
-		createUserTable.addData(env, 100, "System", "admin");
+		//リファレンス情報
+		FDReference ref = new FDReference();
+		ref.createTable(env);
+//		//テーブル項目情報
+//		FDTableColumn tableColumn = new FDTableColumn();
+//		tableColumn.createTable(env);
+//		
+//		//画面情報
+//		FxViewInformation view = new FxViewInformation();
+//		view.createTable(env);
+//		table.addData(env, I_Fx_View.Table_ID, I_Fx_View.Table_Name, "画面情報");
+//		view.addData(env,  "Fx_Login", "ログイン画面");
+//		view.addData(env,  "Fx_Menu", "総合メニュー画面");
+//		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面");
+//		view.addData(env,  "Fx_View", "画面情報画面");
+//		//画面項目情報
+//		FxViewItem viewItem = new FxViewItem();
+//		viewItem.createTable(env);
+//		viewItem.addData(env, viewItemId, "Table_Name", "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+//		
+//		CreateUserTalbe createUserTable = new CreateUserTalbe();
+//		createUserTable.createUserTable(env);
+//		createUserTable.addData(env, 100, "System", "admin");
 		/*
 		 * 基本となるテーブルを生成する。
 		 */

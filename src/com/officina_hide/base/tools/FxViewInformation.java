@@ -4,6 +4,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_Fx_View;
+import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_Fx_View;
 
 /**
@@ -47,16 +48,19 @@ public class FxViewInformation extends FD_DB implements I_Fx_View {
 	 * @author officine-hide.com ueno
 	 * @since 2.00 2020/08/25
 	 * @param env 環境情報
-	 * @param ViewId 画面情報ID
 	 * @param ViewName 画面名
 	 * @param name 画面表示名
+	 * @return 画面情報ID
 	 */
-	public void addData(FD_EnvData env, int viewId, String ViewName, String name) {
+	public int addData(FD_EnvData env, String ViewName, String name) {
+		int viewId = getNewID(env, Table_ID);
 		X_Fx_View view = new X_Fx_View(env);
 		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
 		view.setValue(COLUMNNAME_VIEW_NAME, ViewName);
 		view.setValue(COLUMNNAME_FD_NAME, name);
 		view.save(env);
+		
+		return viewId;
 	}
 
 }

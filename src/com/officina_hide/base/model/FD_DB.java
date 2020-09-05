@@ -157,7 +157,53 @@ public class FD_DB implements I_DB {
 	 * @param id 情報ID
 	 */
 	public void load(FD_EnvData env, String tableName, int id) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT * FROM ").append(tableName).append(" ");
+			sql.append("WHERE ").append(tableName).append("_ID = ").append(id).append(" ");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				
+			}
+		} catch (SQLException e) {
+				e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
 		
+	}
+
+	/**
+	 * 項目リスト初期化<br>
+	 * @author officine-hide.com ueno
+	 * @since 2.00 2020/09/05
+	 * @param env 環境情報
+	 * @param tableId テーブル情報ID
+	 */
+	public void createItemList(FD_EnvData env, int tableId) {
+		itemList.clear();
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT * FROM ").append(I_FD_TableColumn.Table_Name).append(" ");
+			sql.append("WHERE ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLE_ID).append(" = ").append(tableId).append(" ");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			while(rs.next()) {
+//				X_FD_Reference ref = new X_FD_Reference(env, rs.getInt(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_TYPE_ID));
+				itemList.add(new FD_Item(rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME), null, ""));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
 	}
 
 	/**
@@ -443,17 +489,17 @@ public class FD_DB implements I_DB {
 //		
 //		return id;
 //	}
-
-	/**
-	 * リファレンス情報登録<br>
-	 * @param env 環境情報
-	 * @param name リファレンス名
-	 */
-	public void addReferenceData(FD_EnvData env, String name) {
-		X_FD_Reference ref = new X_FD_Reference(env);
-		ref.setReference_Name(name);
-		ref.save();
-	}
+//
+//	/**
+//	 * リファレンス情報登録<br>
+//	 * @param env 環境情報
+//	 * @param name リファレンス名
+//	 */
+//	public void addReferenceData(FD_EnvData env, String name) {
+//		X_FD_Reference ref = new X_FD_Reference(env);
+//		ref.setReference_Name(name);
+//		ref.save();
+//	}
 	
 //	/**
 //	 * 採番情報登録<br>

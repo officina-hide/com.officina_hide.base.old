@@ -38,6 +38,7 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param id 情報ID
 	 */
 	public X_Fx_ViewItem(FD_EnvData env, int id) {
+		createItemList(env, Table_ID);
 		load(env, Table_Name, id);
 	}
 
