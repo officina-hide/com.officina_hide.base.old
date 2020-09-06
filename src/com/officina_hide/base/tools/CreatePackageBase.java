@@ -7,10 +7,8 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.I_FD_Numbering;
 import com.officina_hide.base.model.I_FD_Table;
-import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
-import com.officina_hide.base.system.CreateUserTalbe;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
@@ -54,16 +52,19 @@ public class CreatePackageBase {
 		num.createTable(env);
 		table.addData(env, I_FD_Numbering.Table_ID, I_FD_Numbering.Table_Name, "採番情報");
 		num.add(env, I_FD_Table.Table_ID, 1000001, 0);
-		num.add(env, I_FD_TableColumn.Table_ID, 1000001, 0);
 		num.add(env, I_FD_Numbering.Table_ID, 1000001, 0);
 		num.add(env, I_Fx_View.Table_ID, 1000001, 0);
 		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
 		//リファレンス情報
 		FDReference ref = new FDReference();
 		ref.createTable(env);
-//		//テーブル項目情報
-//		FDTableColumn tableColumn = new FDTableColumn();
-//		tableColumn.createTable(env);
+		ref.addBaseData(env);
+		//テーブル項目情報
+		FDTableColumn tableColumn = new FDTableColumn();
+		tableColumn.createTable(env);
+		//テーブル情報、採番情報、リファレンス情報のテーブル項目情報を登録する。
+		table.daaColumnData(env);
+		
 //		
 //		//画面情報
 //		FxViewInformation view = new FxViewInformation();

@@ -49,6 +49,11 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 		//テーブル情報登録
 		FDTable table = new FDTable();
 		table.addData(env, Table_ID, Table_Name, "テーブル項目情報");
+		
+		//採番情報登録<br>
+		FDNumbering num = new FDNumbering();
+		num.add(env, I_FD_TableColumn.Table_ID, 1000001, 0);
+
 		//テーブル項目情報追加
 		add(env, Table_ID, Table_Name+"_ID", "テーブル項目情報ID", "テーブル項目を識別するための情報ID"
 				, I_DB.COLUMN_TYPE_INFORMATION_ID, 0	, 10, IS_PRIMARY_YES);

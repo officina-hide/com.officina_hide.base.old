@@ -4,7 +4,9 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Table;
+import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.X_FD_Table;
+import com.officina_hide.base.model.X_FD_TableColumn;
 
 /**
  * テーブル情報クラス<br>
@@ -12,7 +14,7 @@ import com.officina_hide.base.model.X_FD_Table;
  * @version 2.00
  * @since 2020/08/29
  */
-public class FDTable extends FD_DB {
+public class FDTable extends FD_DB implements I_FD_Table {
 
 	/**
 	 * テーブル情報生成<br>
@@ -56,6 +58,18 @@ public class FDTable extends FD_DB {
 		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, tableName);
 		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, name);
 		table.save(env);
+	}
+
+	/**
+	 * テーブル項目情報登録<br>
+	 * @author officine-hide.com ueno
+	 * @since 2020/09/07
+	 * @param env 
+	 */
+	public void daaColumnData(FD_EnvData env) {
+		FDTableColumn column = new FDTableColumn();
+		column.add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル情報を識別するための情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.COLUMNNAME_IS_PRIMARY);
 	}
 	
  }

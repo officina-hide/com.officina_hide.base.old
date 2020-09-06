@@ -1,6 +1,44 @@
 package com.officina_hide.base.model;
 
+import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Item;
+
 public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
+
+	/**
+	 * コンストラクター<br>
+	 * 実体化時に、項目をクリアする。<br>
+	 * @param env 環境情報<br>
+	 */
+	public X_FD_Reference(FD_EnvData env) {
+		clearItem(env);
+	}
+
+	/**
+	 * 項目リストの初期化<br>
+	 * @param env 環境情報
+	 */
+	private void clearItem(FD_EnvData env) {
+		itemList.clear();
+		itemList.add(new FD_Item(COLUMNNAME_FD_REFERENCE_ID, null, COLUMN_TYPE_INFORMATION_ID));
+		itemList.add(new FD_Item(COLUMNNAME_REFERENCE_NAME, null, COLUMN_TYPE_TEXT));
+		itemList.add(new FD_Item(COLUMNNAME_FD_NAME, null, COLUMN_TYPE_TEXT));
+		itemList.add(new FD_Item(COLUMNNAME_FD_CREATE, null, COLUMN_TYPE_DATE));
+		itemList.add(new FD_Item(COLUMNNAME_FD_CREATED, null, COLUMN_TYPE_INFORMATION_ID));
+		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATE, null, COLUMN_TYPE_DATE));
+		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATED, null, COLUMN_TYPE_INFORMATION_ID));
+	}
+
+	/**
+	 * リファレンス情報を保管する。<br>
+	 * @param env 環境情報
+	 */
+	public void save(FD_EnvData env) {
+		save(env, Table_Name);
+	}
+	
+	
+	
 //	private FD_EnvData env;
 //
 //	public X_FD_Reference(FD_EnvData env) {

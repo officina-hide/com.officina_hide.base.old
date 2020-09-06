@@ -3,6 +3,7 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Reference;
+import com.officina_hide.base.model.X_FD_Reference;
 
 /**
  * リファレンス情報クラス<br>
@@ -36,6 +37,42 @@ public class FDReference extends FD_DB implements I_FD_Reference {
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='リファレンス情報'");
 		execute(env, sql.toString());
 		
+		//テーブル情報登録
+		FDTable table = new FDTable();
+		table.addData(env, Table_ID, Table_Name, "リファレンス情報");
+		//採番情報登録
+		FDNumbering num = new FDNumbering();
+		num.add(env, I_FD_Reference.Table_ID, 1000001, 0);
+
+	}
+
+	/**
+	 * システムのベースとなるリファレンス情報を登録する。<br>
+	 * @author officine-hide.com ueno
+	 * @since 2020/09/07
+	 * @param env 環境情報
+	 */
+	public void addBaseData(FD_EnvData env) {
+		addData(env, "FD_Information_ID", "情報ID");
+		addData(env, "FD_Text", "テキスト");
+		addData(env, "FD_Field_Text", "複数行テキスト");
+		addData(env, "FD_Date", "日時");
+		addData(env, "FD_YESNO", "YESNO");
+		addData(env, "FD_Number", "自然数");
+	}
+
+	/**
+	 * リファレンス情報登録<br>
+	 * @param env 環境情報
+	 * @param refName リファレンス情報名
+	 * @param name リファレンス情報表示名
+	 */
+	private void addData(FD_EnvData env, String refName, String name) {
+		X_FD_Reference ref = new X_FD_Reference(env);
+		ref.setValue(COLUMNNAME_FD_REFERENCE_ID, getNewID(env, Table_ID));
+		ref.setValue(COLUMNNAME_REFERENCE_NAME, refName);
+		ref.setValue(COLUMNNAME_FD_NAME, name);
+		ref.save(env);
 	}
 
 }
