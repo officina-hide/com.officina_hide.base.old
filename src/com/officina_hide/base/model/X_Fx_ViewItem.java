@@ -1,7 +1,7 @@
 package com.officina_hide.base.model;
 
 import com.officina_hide.base.common.FD_EnvData;
-import com.officina_hide.base.common.FD_Item;
+import com.officina_hide.base.common.FD_WhereData;
 
 /**
  * 画面項目情報IOクラス<br>
@@ -19,16 +19,7 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param env 環境情報
 	 */
 	public X_Fx_ViewItem(FD_EnvData env) {
-		itemList.clear();
-		itemList.add(new FD_Item(COLUMNNAME_FX_VIEWITEM_ID	, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(COLUMNNAME_FX_VIEW_ID, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(COLUMNNAME_VIEWITEM_NAME, null, COLUMN_TYPE_FIELD_TEXT));
-		itemList.add(new FD_Item(COLUMNNAME_VIEWITEM_TYPE_ID, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(COLUMNNAME_FD_NAME, null, COLUMN_TYPE_TEXT));
-		itemList.add(new FD_Item(COLUMNNAME_FD_CREATE, null, COLUMN_TYPE_DATE));
-		itemList.add(new FD_Item(COLUMNNAME_FD_CREATED, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATE, null, COLUMN_TYPE_DATE));
-		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATED, null, COLUMN_TYPE_INFORMATION_ID));
+		createItemList(env, Table_ID);
 	}
 
 	/**
@@ -39,7 +30,8 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	 */
 	public X_Fx_ViewItem(FD_EnvData env, int id) {
 		createItemList(env, Table_ID);
-		load(env, Table_Name, id);
+		FD_WhereData where = new FD_WhereData(COLUMNNAME_FX_VIEWITEM_ID, id);
+		load(env, where, Table_Name);
 	}
 
 	/**

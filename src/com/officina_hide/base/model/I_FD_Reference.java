@@ -1,10 +1,16 @@
 package com.officina_hide.base.model;
 
+/**
+ * リファレンス情報インターフェース<br>
+ * @author officina-hide.com ueno
+ * @version 2.00
+ * @since 2020/09/07
+ */
 public interface I_FD_Reference {
-	/** テーブル名	 */
+	/** リファレンス情報 テーブル名	 */
 	public final String Table_Name = "FD_Reference";
 
-	/** テーブルID */
+	/** リファレンス情報 テーブルID */
 	public final int Table_ID =104;
 
 	/** リファレンス情報ID */

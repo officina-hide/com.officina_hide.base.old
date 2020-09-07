@@ -5,9 +5,7 @@ import java.util.Date;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
-import com.officina_hide.base.model.I_FD_Numbering;
 import com.officina_hide.base.model.I_FD_Table;
-import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 
 /**
@@ -37,8 +35,8 @@ public class CreatePackageBase {
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
-		 * ・テーブル情報、テーブル項目情報、採番情報
-		 * ・画面情報
+		 * ・テーブル情報、テーブル項目情報、採番情報、リファレンス情報
+		 * ・画面情報、画面項目情報
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
@@ -50,11 +48,7 @@ public class CreatePackageBase {
 		//採番情報
 		FDNumbering num = new FDNumbering();
 		num.createTable(env);
-		table.addData(env, I_FD_Numbering.Table_ID, I_FD_Numbering.Table_Name, "採番情報");
 		num.add(env, I_FD_Table.Table_ID, 1000001, 0);
-		num.add(env, I_FD_Numbering.Table_ID, 1000001, 0);
-		num.add(env, I_Fx_View.Table_ID, 1000001, 0);
-		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
 		//リファレンス情報
 		FDReference ref = new FDReference();
 		ref.createTable(env);
@@ -63,22 +57,24 @@ public class CreatePackageBase {
 		FDTableColumn tableColumn = new FDTableColumn();
 		tableColumn.createTable(env);
 		//テーブル情報、採番情報、リファレンス情報のテーブル項目情報を登録する。
-		table.daaColumnData(env);
+		table.addColumnData(env);
+		num.addColumnData(env);
+		ref.addColumnData(env);
 		
-//		
-//		//画面情報
-//		FxViewInformation view = new FxViewInformation();
-//		view.createTable(env);
-//		table.addData(env, I_Fx_View.Table_ID, I_Fx_View.Table_Name, "画面情報");
+		//画面情報
+		FxView view = new FxView();
+		view.createTable(env);
+		
+		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
 //		view.addData(env,  "Fx_Login", "ログイン画面");
 //		view.addData(env,  "Fx_Menu", "総合メニュー画面");
-//		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面");
+		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面");
 //		view.addData(env,  "Fx_View", "画面情報画面");
-//		//画面項目情報
-//		FxViewItem viewItem = new FxViewItem();
-//		viewItem.createTable(env);
-//		viewItem.addData(env, viewItemId, "Table_Name", "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
-//		
+		//画面項目情報
+		FxViewItem viewItem = new FxViewItem();
+		viewItem.createTable(env);
+		viewItem.addData(env, viewItemId, "Table_Name", "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);
 //		createUserTable.addData(env, 100, "System", "admin");

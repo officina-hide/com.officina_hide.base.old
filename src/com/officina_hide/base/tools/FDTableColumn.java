@@ -38,7 +38,7 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 		sql.append("Column_Sort_Order INT UNSIGNED COMMENT '項目並び順'").append(",");
 		sql.append("IS_Null INT COMMENT 'NULL必須判定'").append(",");
 		sql.append("IS_Primary INT COMMENT 'プライマリーKey判定'").append(",");
-		sql.append("FD_RefGroup_ID INT UNSIGNED COMMENT 'リファレンスグループ情報ID'").append(",");
+//		sql.append("FD_RefGroup_ID INT UNSIGNED COMMENT 'リファレンスグループ情報ID'").append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
@@ -67,6 +67,22 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 				, COLUMN_TYPE_FIELD_TEXT, 0	, 60, IS_PRIMARY_NO);
 		add(env, Table_ID, COLUMNNAME_TABLECOLUMN_TYPE_ID, "テーブル項目属性ID", "テーブル項目の属性を表すリファレンス情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0	, 70, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_TABLECOLUMN_SIZE, "テーブル項目桁数", "テキスト等の項目の桁数"
+				, COLUMN_TYPE_NUMBER, 0, 70, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_COLUMN_SORT_ORDER, "項目並び順", "項目一覧等で使用する項目の並び順"
+				, COLUMN_TYPE_NUMBER, 0, 80, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_IS_NULL, "null 判定", "YESの時nullでの登録はできない。必須入力となる。"
+				, COLUMN_TYPE_YESNO, 0, 90, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_IS_PRIMARY, "プライマリー判定", "YESの時プライマリーキーとして使用される。"
+				, COLUMN_TYPE_YESNO, 0, 100, IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
+				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者ID（ユーザー情報ID）"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_UPDATE, "更新日", "情報の更新日"
+				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
+		add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者ID（ユーザー情報ID）"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
 }
 
 	/**

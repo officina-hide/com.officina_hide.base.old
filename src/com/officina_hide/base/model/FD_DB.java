@@ -15,6 +15,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Item;
 import com.officina_hide.base.common.FD_JavaDocParam;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.common.FD_WhereData;
 
 /**
  * データベース基本操作<br>
@@ -150,31 +151,53 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
-	 * テーブル情報取得<br>
-	 * <p>指定されたテーブルより、指定された情報IDを持つ情報を抽出する。</p>
+	 * リファレンス情報抽出<br>
+	 * @author officina-hide.com ueno
+	 * @since 2.00 2020/09/07
 	 * @param env 環境情報
-	 * @param tableName テーブル名
-	 * @param id 情報ID
+	 * @param where 抽出条件
+	 * @param tableName テーブル名称
 	 */
-	public void load(FD_EnvData env, String tableName, int id) {
+	public void load(FD_EnvData env, FD_WhereData where, String tableName) {
 		Statement stmt = null;
 		ResultSet rs = null;
 		StringBuffer sql = new StringBuffer();
 		try {
 			sql.append("SELECT * FROM ").append(tableName).append(" ");
-			sql.append("WHERE ").append(tableName).append("_ID = ").append(id).append(" ");
+			if(where != null) {
+				sql.append("WHERE ").append(where.toString()).append(" ");
+			}
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
-				
+				for(FD_Item item : itemList) {
+					switch(item.getItemType()) {
+					case COLUMN_TYPE_INFORMATION_ID:
+					case COLUMN_TYPE_NUMBER:
+						item.setItemData(rs.getInt(item.getItemName()));
+						break;
+					case COLUMN_TYPE_TEXT:
+					case COLUMN_TYPE_FIELD_TEXT:
+						item.setItemData(rs.getString(item.getItemName()));
+						break;
+					case COLUMN_TYPE_DATE:
+						item.setItemData(rs.getDate(item.getItemName()));
+						break;
+					case COLUMN_TYPE_YESNO:
+						if(rs.getInt(item.getItemName()) == 1) {
+							item.setItemData("YES");
+						} else {
+							item.setItemData("NO");
+						}
+					}
+				}
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			close(rs, stmt);
 		}
-		
 	}
 
 	/**
@@ -196,8 +219,9 @@ public class FD_DB implements I_DB {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			while(rs.next()) {
-//				X_FD_Reference ref = new X_FD_Reference(env, rs.getInt(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_TYPE_ID));
-				itemList.add(new FD_Item(rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME), null, ""));
+				X_FD_Reference ref = new X_FD_Reference(env, rs.getInt(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_TYPE_ID));
+				itemList.add(new FD_Item(rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME)
+						, null, ref.getStringOfValue(I_FD_Reference.COLUMNNAME_REFERENCE_NAME)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

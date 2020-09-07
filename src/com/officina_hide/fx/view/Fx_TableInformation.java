@@ -74,11 +74,10 @@ public class Fx_TableInformation extends Application {
 		for(int id : ids) {
 			X_Fx_ViewItem viewItem = new X_Fx_ViewItem(env, id);
 			HBox row = new HBox(5);
-			row.setAlignment(Pos.CENTER);
+			row.setAlignment(Pos.CENTER_LEFT);
 			root.getChildren().add(row);
 			Label label = new Label(viewItem.getStringOfValue(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 			row.getChildren().add(label);
-			System.out.println(viewItem.getIntOfValue(I_Fx_ViewItem.COLUMNNAME_VIEWITEM_TYPE_ID));
 		}
 	}
 

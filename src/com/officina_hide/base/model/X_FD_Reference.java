@@ -2,6 +2,7 @@ package com.officina_hide.base.model;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Item;
+import com.officina_hide.base.common.FD_WhereData;
 
 public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 
@@ -13,6 +14,63 @@ public class X_FD_Reference extends FD_DB implements I_DB, I_FD_Reference {
 	public X_FD_Reference(FD_EnvData env) {
 		clearItem(env);
 	}
+
+	public X_FD_Reference(FD_EnvData env, int referenceId) {
+//		createItemList(env, Table_ID);
+		clearItem(env);
+		FD_WhereData where = new FD_WhereData(COLUMNNAME_FD_REFERENCE_ID, referenceId);
+		load(env, where, Table_Name);
+	}
+//
+//	/**
+//	 * リファレンス情報抽出<br>
+//	 * @author officina-hide.com ueno
+//	 * @since 2.00 2020/09/07
+//	 * @param env 環境情報
+//	 * @param where 抽出条件
+//	 * @param tableName テーブル名称
+//	 */
+//	private void load(FD_EnvData env, FD_WhereData where, String tableName) {
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		StringBuffer sql = new StringBuffer();
+//		try {
+//			sql.append("SELECT * FROM ").append(tableName).append(" ");
+//			if(where != null) {
+//				sql.append("WHERE ").append(where.toString()).append(" ");
+//			}
+//			connection(env);
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql.toString());
+//			if(rs.next()) {
+//				for(FD_Item item : itemList) {
+//					switch(item.getItemType()) {
+//					case COLUMN_TYPE_INFORMATION_ID:
+//					case COLUMN_TYPE_NUMBER:
+//						item.setItemData(rs.getInt(item.getItemName()));
+//						break;
+//					case COLUMN_TYPE_TEXT:
+//					case COLUMN_TYPE_FIELD_TEXT:
+//						item.setItemData(rs.getString(item.getItemName()));
+//						break;
+//					case COLUMN_TYPE_DATE:
+//						item.setItemData(rs.getDate(item.getItemName()));
+//						break;
+//					case COLUMN_TYPE_YESNO:
+//						if(rs.getInt(item.getItemName()) == 1) {
+//							item.setItemData("YES");
+//						} else {
+//							item.setItemData("NO");
+//						}
+//					}
+//				}
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			close(rs, stmt);
+//		}
+//	}
 
 	/**
 	 * 項目リストの初期化<br>

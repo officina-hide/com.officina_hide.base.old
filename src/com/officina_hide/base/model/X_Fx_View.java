@@ -23,7 +23,7 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	 */
 	public X_Fx_View(FD_EnvData env) {
 		//項目リストセット
-		setItemList(env);
+		createItemList(env, Table_ID);
 	}
 
 	/**
@@ -34,69 +34,51 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	 */
 	public X_Fx_View(FD_EnvData env, FD_WhereData where) {
 		//項目リストセット
-		setItemList(env);
+		createItemList(env, Table_ID);
 		//情報抽出
-		load(env, Table_Name, where);
+		load(env, where, Table_Name);
+//		load(env, Table_Name, where);
 	}
-
-	/**
-	 * 項目リストセット<br>
-	 * @author officine-hide.com ueno
-	 * @since 2020/09/01
-	 * @param env 環境情報
-	 */
-	private void setItemList(FD_EnvData env) {
-		//項目リスト初期化
-		// TODO テーブル項目情報から取得できるようにする。(2020/08/30 ueno)
-		itemList.clear();
-		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_FX_VIEW_ID, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_VIEW_NAME, null, COLUMN_TYPE_FIELD_TEXT));
-		itemList.add(new FD_Item(I_Fx_View.COLUMNNAME_FD_NAME, null, COLUMN_TYPE_FIELD_TEXT));
-		itemList.add(new FD_Item(COLUMNNAME_FD_CREATE, null, COLUMN_TYPE_DATE));
-		itemList.add(new FD_Item(COLUMNNAME_FD_CREATED, null, COLUMN_TYPE_INFORMATION_ID));
-		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATE, null, COLUMN_TYPE_DATE));
-		itemList.add(new FD_Item(COLUMNNAME_FD_UPDATED, null, COLUMN_TYPE_INFORMATION_ID));
-	}
-
-	/**
-	 * 情報取得<br>
-	 * @author officine-hide.com ueno
-	 * @since 2.00 2020/09/01
-	 * @param env 環境情報
-	 * @param tableName テーブル名
-	 * @param where 抽出条件
-	 */
-	private void load(FD_EnvData env, String tableName, FD_WhereData where) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		StringBuffer sql = new StringBuffer();
-		try {
-			sql.append("SELECT * FROM ").append(Table_Name).append(" ");
-			sql.append("WHERE ").append(where.toString());
-			connection(env);
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql.toString());
-			if(rs.next()) {
-				for(FD_Item item : itemList) {
-					switch(item.getItemType()) {
-					case COLUMN_TYPE_INFORMATION_ID:
-						setValue(item.getItemName(), rs.getInt(item.getItemName()));
-						break;
-					case COLUMN_TYPE_TEXT:
-					case COLUMN_TYPE_FIELD_TEXT:
-						setValue(item.getItemName(), rs.getString(item.getItemName()));
-						break;
-					case COLUMN_TYPE_DATE:
-						setValue(item.getItemName(), rs.getDate(item.getItemName()));
-						break;
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
+//
+//	/**
+//	 * 情報取得<br>
+//	 * @author officine-hide.com ueno
+//	 * @since 2.00 2020/09/01
+//	 * @param env 環境情報
+//	 * @param tableName テーブル名
+//	 * @param where 抽出条件
+//	 */
+//	private void load(FD_EnvData env, String tableName, FD_WhereData where) {
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		StringBuffer sql = new StringBuffer();
+//		try {
+//			sql.append("SELECT * FROM ").append(Table_Name).append(" ");
+//			sql.append("WHERE ").append(where.toString());
+//			connection(env);
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql.toString());
+//			if(rs.next()) {
+//				for(FD_Item item : itemList) {
+//					switch(item.getItemType()) {
+//					case COLUMN_TYPE_INFORMATION_ID:
+//						setValue(item.getItemName(), rs.getInt(item.getItemName()));
+//						break;
+//					case COLUMN_TYPE_TEXT:
+//					case COLUMN_TYPE_FIELD_TEXT:
+//						setValue(item.getItemName(), rs.getString(item.getItemName()));
+//						break;
+//					case COLUMN_TYPE_DATE:
+//						setValue(item.getItemName(), rs.getDate(item.getItemName()));
+//						break;
+//					}
+//				}
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 
 	/**
 	 * 情報を返す保存する。<br>

@@ -6,7 +6,6 @@ import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.X_FD_Table;
-import com.officina_hide.base.model.X_FD_TableColumn;
 
 /**
  * テーブル情報クラス<br>
@@ -66,10 +65,24 @@ public class FDTable extends FD_DB implements I_FD_Table {
 	 * @since 2020/09/07
 	 * @param env 
 	 */
-	public void daaColumnData(FD_EnvData env) {
+	public void addColumnData(FD_EnvData env) {
 		FDTableColumn column = new FDTableColumn();
 		column.add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル情報を識別するための情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.COLUMNNAME_IS_PRIMARY);
+		column.add(env, Table_ID, COLUMNNAME_TABLE_NAME, "テーブル名", "テーブルの物理名称"
+				, COLUMN_TYPE_TEXT, 100, 20, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_NAME, "テーブル表示名", "テーブルの論理名称"
+				, COLUMN_TYPE_FIELD_TEXT, 100, 30, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_COMMENT, "テーブル説明", "テーブルの説明"
+				, COLUMN_TYPE_FIELD_TEXT, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
+				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者ID（ユーザー情報ID）"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_UPDATE, "更新日", "情報の更新日"
+				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者ID（ユーザー情報ID）"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
 	}
 	
  }
