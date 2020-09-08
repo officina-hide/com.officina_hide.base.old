@@ -21,4 +21,10 @@ public interface I_Fx_View {
 	
 	/** 画面表示名 */
 	public final String COLUMNNAME_FD_NAME = "FD_Name";
+	
+	/** 画面幅初期値 */
+	public final String COLUMNNAME_VIEW_PRE_WIDTH = "View_Pre_Width";
+	
+	/** 画面高さ初期値 */
+	public final String COLUMNNAME_VIEW_PRE_HEIGHT = "View_Pre_Height";
 }

@@ -64,16 +64,25 @@ public class CreatePackageBase {
 		//画面情報
 		FxView view = new FxView();
 		view.createTable(env);
+		//画面項目種別をリファレンス情報に登録する。
+		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT, "テキスト項目");
+		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER, "数値項目");
+		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
 		
-		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
 //		view.addData(env,  "Fx_Login", "ログイン画面");
 //		view.addData(env,  "Fx_Menu", "総合メニュー画面");
-		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面");
+		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面", 700, 300);
 //		view.addData(env,  "Fx_View", "画面情報画面");
+		
 		//画面項目情報
 		FxViewItem viewItem = new FxViewItem();
 		viewItem.createTable(env);
-		viewItem.addData(env, viewItemId, "Table_Name", "テーブル名", I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_TABLE_NAME, "テーブル名"
+				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_NAME, "テーブル表示名"
+				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_COMMENT, "説明"
+				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD);
 
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);

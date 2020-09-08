@@ -32,8 +32,8 @@ public class FxView extends FD_DB implements I_Fx_View {
 		sql.append("Fx_View_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '画面情報ID'").append(",");
 		sql.append("View_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面名").append(FD_SQ).append(",");
 		sql.append("FD_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面表示名").append(FD_SQ).append(",");
-//		sql.append("View_Pre_Width int COMMENT").append(FD_SQ).append("画面幅初期値").append(FD_SQ).append(",");
-//		sql.append("View_Pre_Height int COMMENT").append(FD_SQ).append("画面高さ初期値").append(FD_SQ).append(",");
+		sql.append("View_Pre_Width int COMMENT").append(FD_SQ).append("画面幅初期値").append(FD_SQ).append(",");
+		sql.append("View_Pre_Height int COMMENT").append(FD_SQ).append("画面高さ初期値").append(FD_SQ).append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
@@ -54,6 +54,11 @@ public class FxView extends FD_DB implements I_Fx_View {
 				, COLUMN_TYPE_TEXT, 100, 20, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, Table_ID, COLUMNNAME_FD_NAME, "画面表示名", "画面の論理名、画面タイトル等で使用される。"
 				, COLUMN_TYPE_TEXT, 100, 30, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_VIEW_PRE_WIDTH, "画面幅初期値", "画面表示幅の初期値"
+				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_VIEW_PRE_HEIGHT, "画面高さ初期値", "画面表示高さの初期値"
+				, COLUMN_TYPE_NUMBER, 0, 50, I_FD_TableColumn.IS_PRIMARY_NO);
+		
 		column.add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, Table_ID, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者ID（ユーザー情報ID）"
@@ -75,14 +80,18 @@ public class FxView extends FD_DB implements I_Fx_View {
 	 * @param env 環境情報
 	 * @param ViewName 画面名
 	 * @param name 画面表示名
+	 * @param height 幅初期値
+	 * @param width 高さ初期値
 	 * @return 画面情報ID
 	 */
-	public int addData(FD_EnvData env, String ViewName, String name) {
+	public int addData(FD_EnvData env, String ViewName, String name, int width, int height) {
 		int viewId = getNewID(env, Table_ID);
 		X_Fx_View view = new X_Fx_View(env);
 		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
 		view.setValue(COLUMNNAME_VIEW_NAME, ViewName);
 		view.setValue(COLUMNNAME_FD_NAME, name);
+		view.setValue(COLUMNNAME_VIEW_PRE_WIDTH, width);
+		view.setValue(COLUMNNAME_VIEW_PRE_HEIGHT, height);
 		view.save(env);
 		
 		return viewId;

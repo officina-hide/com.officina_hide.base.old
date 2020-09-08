@@ -90,7 +90,7 @@ public class FDReference extends FD_DB implements I_FD_Reference {
 	 * @param refName リファレンス情報名
 	 * @param name リファレンス情報表示名
 	 */
-	private void addData(FD_EnvData env, String refName, String name) {
+	public void addData(FD_EnvData env, String refName, String name) {
 		X_FD_Reference ref = new X_FD_Reference(env);
 		ref.setValue(COLUMNNAME_FD_REFERENCE_ID, getNewID(env, Table_ID));
 		ref.setValue(COLUMNNAME_REFERENCE_NAME, refName);

@@ -29,7 +29,9 @@ public interface I_Fx_ViewItem {
 	 * 画面項目属性
 	 */
 	/** 画面項目属性ID : テキスト */
-	public final int VIEWTYPE_ID_FX_TEXT = 201;
+	public final String VIEWTYPE_ID_FX_TEXT =  "Fx_Text";
 	/** 画面項目属性ID : 数値 */
-	public final int VIEWTYPE_ID_FX_NUMBER = 202;
+	public final String VIEWTYPE_ID_FX_NUMBER =  "Fx_Number";
+	/** 画面項目属性ID : 複数行テキスト */
+	public final String VIEWTYPE_ID_FX_TEXTFIELD = "Fx_TextField";
 }

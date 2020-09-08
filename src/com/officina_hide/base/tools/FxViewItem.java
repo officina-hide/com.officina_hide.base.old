@@ -70,6 +70,10 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 		column.add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者の情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 940, I_FD_TableColumn.IS_PRIMARY_NO);
 		
+		//採番情報登録
+		FDNumbering num = new FDNumbering();
+		num.add(env, I_Fx_ViewItem.Table_ID, 1000001, 0);
+		
 	}
 
 	/**
@@ -79,17 +83,18 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param env 環境情報
 	 * @param ViewID 画面情報ID
 	 * @param ViewItemName 画面項目名
-	 * @param name 
-	 * @param ViewTypeID 画面項目属性ID
+	 * @param name 画面項目表示名
+	 * @param typeName 画面項目属性名
 	 */
-	public void addData(FD_EnvData env, int viewID, String viewItemName, String name, int viewTypeID) {
+	public void addData(FD_EnvData env, int viewID, String viewItemName, String name, String typeName) {
 		X_Fx_ViewItem item = new X_Fx_ViewItem(env);
 		int viewItemId = getNewID(env, Table_ID);
+		int typeId = getReferenceID(env, typeName);
 		item.setValue(COLUMNNAME_FX_VIEWITEM_ID, viewItemId);
 		item.setValue(COLUMNNAME_FX_VIEW_ID, viewID);
 		item.setValue(COLUMNNAME_VIEWITEM_NAME, viewItemName);
 		item.setValue(COLUMNNAME_FD_NAME, name);
-		item.setValue(COLUMNNAME_VIEWITEM_TYPE_ID, viewTypeID);
+		item.setValue(COLUMNNAME_VIEWITEM_TYPE_ID, typeId);
 		item.save(env);
 	}
 

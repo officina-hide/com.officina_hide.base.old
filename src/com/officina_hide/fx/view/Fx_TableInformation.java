@@ -11,17 +11,24 @@ import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.FD_OrderData;
+import com.officina_hide.base.model.I_FD_Reference;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.base.model.X_FD_Reference;
 import com.officina_hide.base.model.X_Fx_View;
 import com.officina_hide.base.model.X_Fx_ViewItem;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -38,6 +45,8 @@ public class Fx_TableInformation extends Application {
 	private FD_DB DB = new FD_DB();
 	/** 画面情報 */
 	private X_Fx_View view;
+	/** ベースフォント */
+	private Font baseFont = new Font("Meiryo UI", 12);
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -48,16 +57,38 @@ public class Fx_TableInformation extends Application {
 		//画面情報取得
 		FD_WhereData where = new FD_WhereData(I_Fx_View.COLUMNNAME_VIEW_NAME, VIEW_NAME);
 		view = new X_Fx_View(env, where);
-		//画面項目情報取得
+		//ルート設定
 		VBox root = new VBox(5);
+		root.setPadding(new Insets(10, 10, 10, 10));
+		//ヘッダーボタン領域設定
+		setHeaderButton(env, root);
+		//画面項目情報取得
 		getViewItem(env, root, view.getIntOfValue(I_Fx_View.COLUMNNAME_FX_VIEW_ID));
 		
 		
 		
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root
+				, view.getIntOfValue(I_Fx_View.COLUMNNAME_VIEW_PRE_WIDTH)
+				, view.getIntOfValue(I_Fx_View.COLUMNNAME_VIEW_PRE_HEIGHT));
 		stage.setScene(scene);
 		stage.setTitle(view.getStringOfValue(I_Fx_View.COLUMNNAME_FD_NAME));
 		stage.show();
+	}
+
+	/**
+	 * ヘッダーボタン領域設定<br>
+	 * @author officine-hide.com ueno
+	 * @since 2.00 2020/09/08
+	 * @param env 環境情報
+	 * @param root 項目ルート
+	 */
+	private void setHeaderButton(FD_EnvData env, VBox root) {
+		HBox row = new HBox(5);
+		root.getChildren().add(row);
+		//保存ボタン
+		Button saveButton = new Button("保存");
+		row.getChildren().add(saveButton);
+		saveButton.setFont(baseFont);
 	}
 
 	/**
@@ -76,8 +107,29 @@ public class Fx_TableInformation extends Application {
 			HBox row = new HBox(5);
 			row.setAlignment(Pos.CENTER_LEFT);
 			root.getChildren().add(row);
+			//項目ラベル
 			Label label = new Label(viewItem.getStringOfValue(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
+			label.setFont(baseFont);
 			row.getChildren().add(label);
+			//項目
+			X_FD_Reference ref = new X_FD_Reference(env
+					, viewItem.getIntOfValue(I_Fx_ViewItem.COLUMNNAME_VIEWITEM_TYPE_ID));
+			switch(ref.getStringOfValue(I_FD_Reference.COLUMNNAME_REFERENCE_NAME)) {
+			case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT:
+				TextField text = new TextField();
+				text.setFont(baseFont);
+				row.getChildren().add(text);
+				break;
+			case I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER:
+				break;
+			case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD:
+				TextArea textfield = new TextArea();
+				textfield.setFont(baseFont);
+				textfield.setPrefRowCount(3);
+				textfield.setPrefColumnCount(40);
+				row.getChildren().add(textfield);
+				break;
+			}
 		}
 	}
 
