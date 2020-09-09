@@ -1,10 +1,14 @@
 package com.officina_hide.fx.view;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Item;
@@ -13,9 +17,11 @@ import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.FD_OrderData;
 import com.officina_hide.base.model.I_FD_Reference;
+import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_FD_Reference;
+import com.officina_hide.base.model.X_FD_Table;
 import com.officina_hide.base.model.X_Fx_View;
 import com.officina_hide.base.model.X_Fx_ViewItem;
 
@@ -23,10 +29,13 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -67,7 +76,6 @@ public class Fx_TableInformation extends Application {
 		setHeaderButton(env, root);
 		//画面項目情報取得
 		getViewItem(env, root, view.getIntOfValue(I_Fx_View.COLUMNNAME_FX_VIEW_ID));
-		System.out.println(fxItemList.size());
 		
 		Scene scene = new Scene(root
 				, view.getIntOfValue(I_Fx_View.COLUMNNAME_VIEW_PRE_WIDTH)
@@ -92,17 +100,39 @@ public class Fx_TableInformation extends Application {
 		row.getChildren().add(saveButton);
 		saveButton.setFont(baseFont);
 		saveButton.setOnAction(event->{
-			saveData();
+			saveData(env);
 		});
 	}
 
 	/**
 	 * 「保存」ボタン処理<br>
 	 * @author officina-hide.com ueno
+	 * @param env 
 	 * @since 2020/09/09
 	 */
-	private void saveData() {
-		
+	private void saveData(FD_EnvData env) {
+		//保存確認
+		Alert alert = new Alert(AlertType.INFORMATION, "テーブル情報を保存しますか？", ButtonType.OK, ButtonType.CANCEL);
+		alert.setHeaderText("保存確認");
+		Optional<ButtonType> rs = alert.showAndWait();
+		if(rs.get() == ButtonType.CANCEL) {
+			return;
+		}
+		//保存処理
+		try {
+			Class<?> dataClazz = Class.forName("com.officina_hide.base.model."+"X_FD_Table");
+			Constructor<?> con = dataClazz.getConstructor(new Class[] {FD_EnvData.class});
+			Object dataInstance = con.newInstance(new Object[] {env});
+			
+			Method getDataMethod = dataClazz.getMethod("getStringOfValue", String.class);
+			String data = (String) getDataMethod.invoke(dataInstance, I_FD_Table.COLUMNNAME_TABLE_NAME);
+			
+			System.out.println(data);
+		} catch (ClassNotFoundException | NoSuchMethodException |
+				SecurityException | InstantiationException | IllegalAccessException |
+				IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
