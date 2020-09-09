@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Item;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
@@ -47,6 +48,8 @@ public class Fx_TableInformation extends Application {
 	private X_Fx_View view;
 	/** ベースフォント */
 	private Font baseFont = new Font("Meiryo UI", 12);
+	/** 項目リスト */
+	private List<FD_Item> fxItemList = new ArrayList<>();
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -64,8 +67,7 @@ public class Fx_TableInformation extends Application {
 		setHeaderButton(env, root);
 		//画面項目情報取得
 		getViewItem(env, root, view.getIntOfValue(I_Fx_View.COLUMNNAME_FX_VIEW_ID));
-		
-		
+		System.out.println(fxItemList.size());
 		
 		Scene scene = new Scene(root
 				, view.getIntOfValue(I_Fx_View.COLUMNNAME_VIEW_PRE_WIDTH)
@@ -89,6 +91,18 @@ public class Fx_TableInformation extends Application {
 		Button saveButton = new Button("保存");
 		row.getChildren().add(saveButton);
 		saveButton.setFont(baseFont);
+		saveButton.setOnAction(event->{
+			saveData();
+		});
+	}
+
+	/**
+	 * 「保存」ボタン処理<br>
+	 * @author officina-hide.com ueno
+	 * @since 2020/09/09
+	 */
+	private void saveData() {
+		
 	}
 
 	/**
@@ -111,14 +125,19 @@ public class Fx_TableInformation extends Application {
 			Label label = new Label(viewItem.getStringOfValue(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 			label.setFont(baseFont);
 			row.getChildren().add(label);
-			//項目
+			//項目属性用リファレンス情報取得
 			X_FD_Reference ref = new X_FD_Reference(env
 					, viewItem.getIntOfValue(I_Fx_ViewItem.COLUMNNAME_VIEWITEM_TYPE_ID));
+			//項目リスト用情報生成
+			FD_Item fxItem = new FD_Item(viewItem.getStringOfValue(I_Fx_ViewItem.COLUMNNAME_VIEWITEM_NAME)
+					, null, ref.getStringOfValue(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
+			//項目生成
 			switch(ref.getStringOfValue(I_FD_Reference.COLUMNNAME_REFERENCE_NAME)) {
 			case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT:
 				TextField text = new TextField();
 				text.setFont(baseFont);
 				row.getChildren().add(text);
+				fxItem.setItemData(text);
 				break;
 			case I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER:
 				break;
@@ -128,8 +147,11 @@ public class Fx_TableInformation extends Application {
 				textfield.setPrefRowCount(3);
 				textfield.setPrefColumnCount(40);
 				row.getChildren().add(textfield);
+				fxItem.setItemData(textfield);
 				break;
 			}
+			
+			fxItemList.add(fxItem);
 		}
 	}
 
