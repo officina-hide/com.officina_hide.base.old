@@ -101,7 +101,8 @@ public class FD_DB implements I_DB {
 	 * @since 2.00 2020/08/30
 	 * @param env 環境情報
 	 */
-	public void save(FD_EnvData env, String TableName) {
+	public void save(FD_EnvData env, String tableName) {
+		//登録日、更新日設定
 		if(getDateOfValue(COLUMNNAME_FD_CREATE) == null) {
 			setValue(COLUMNNAME_FD_CREATE, new Date());
 			setValue(COLUMNNAME_FD_UPDATE, new Date());
@@ -111,10 +112,14 @@ public class FD_DB implements I_DB {
 			setValue(COLUMNNAME_FD_UPDATE, new Date());
 			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
 		}
+		//情報ID発行
+		if(getIntOfValue(tableName+"_ID") == 0) {
+			setValue(tableName+"_ID", getNewID(env, getTableID(env, tableName)));
+		}
 
 		StringBuffer sql = new StringBuffer();
 		StringBuffer setitem = new StringBuffer();
-		sql.append("INSERT INTO ").append(TableName).append(" SET ");
+		sql.append("INSERT INTO ").append(tableName).append(" SET ");
 		for(FD_Item item : itemList) {
 			if(setitem.toString().length() > 0) {
 				setitem.append(",");

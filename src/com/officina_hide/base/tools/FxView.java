@@ -34,6 +34,8 @@ public class FxView extends FD_DB implements I_Fx_View {
 		sql.append("FD_Name Varchar(100) COMMENT ").append(FD_SQ).append("画面表示名").append(FD_SQ).append(",");
 		sql.append("View_Pre_Width int COMMENT").append(FD_SQ).append("画面幅初期値").append(FD_SQ).append(",");
 		sql.append("View_Pre_Height int COMMENT").append(FD_SQ).append("画面高さ初期値").append(FD_SQ).append(",");
+		sql.append(COLUMNNAME_TABLE_ID).append(" INT UNSIGNED  COMMENT ")
+			.append(FD_SQ).append("画面取扱テーブル情報ID").append(FD_SQ).append(",");
 		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
 		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
 		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
@@ -58,6 +60,8 @@ public class FxView extends FD_DB implements I_Fx_View {
 				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, Table_ID, COLUMNNAME_VIEW_PRE_HEIGHT, "画面高さ初期値", "画面表示高さの初期値"
 				, COLUMN_TYPE_NUMBER, 0, 50, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, Table_ID, COLUMNNAME_TABLE_ID, "画面取扱テーブル情報ID", "画面の対象となるテーブル情報の情報ID"
+				, COLUMN_TYPE_INFORMATION_ID, 0, 60, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
@@ -82,9 +86,10 @@ public class FxView extends FD_DB implements I_Fx_View {
 	 * @param name 画面表示名
 	 * @param height 幅初期値
 	 * @param width 高さ初期値
+	 * @param tableName 
 	 * @return 画面情報ID
 	 */
-	public int addData(FD_EnvData env, String ViewName, String name, int width, int height) {
+	public int addData(FD_EnvData env, String ViewName, String name, int width, int height, String tableName) {
 		int viewId = getNewID(env, Table_ID);
 		X_Fx_View view = new X_Fx_View(env);
 		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
@@ -92,6 +97,7 @@ public class FxView extends FD_DB implements I_Fx_View {
 		view.setValue(COLUMNNAME_FD_NAME, name);
 		view.setValue(COLUMNNAME_VIEW_PRE_WIDTH, width);
 		view.setValue(COLUMNNAME_VIEW_PRE_HEIGHT, height);
+		view.setValue(COLUMNNAME_TABLE_ID, getTableID(env, tableName));
 		view.save(env);
 		
 		return viewId;

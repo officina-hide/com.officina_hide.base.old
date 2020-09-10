@@ -70,8 +70,8 @@ public class CreatePackageBase {
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
 		
 //		view.addData(env,  "Fx_Login", "ログイン画面");
-//		view.addData(env,  "Fx_Menu", "総合メニュー画面");
-		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面", 700, 300);
+//		view.addData(env,  "Fx_Menu", "総合メニュー画面"); 
+		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面", 700, 300, I_FD_Table.Table_Name);
 //		view.addData(env,  "Fx_View", "画面情報画面");
 		
 		//画面項目情報

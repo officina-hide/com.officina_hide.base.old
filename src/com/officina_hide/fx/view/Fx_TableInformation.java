@@ -30,12 +30,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -100,17 +100,20 @@ public class Fx_TableInformation extends Application {
 		row.getChildren().add(saveButton);
 		saveButton.setFont(baseFont);
 		saveButton.setOnAction(event->{
-			saveData(env);
+			saveData(env, view.getIntOfValue(I_Fx_View.COLUMNNAME_TABLE_ID));
 		});
 	}
 
 	/**
 	 * 「保存」ボタン処理<br>
 	 * @author officina-hide.com ueno
-	 * @param env 
+	 * @param env 環境情報
+	 * @param tableId テーブル情報ID
 	 * @since 2020/09/09
 	 */
-	private void saveData(FD_EnvData env) {
+	private void saveData(FD_EnvData env, int tableId) {
+		//テーブル情報取得
+		X_FD_Table table = new X_FD_Table(env, tableId);
 		//保存確認
 		Alert alert = new Alert(AlertType.INFORMATION, "テーブル情報を保存しますか？", ButtonType.OK, ButtonType.CANCEL);
 		alert.setHeaderText("保存確認");
@@ -118,21 +121,41 @@ public class Fx_TableInformation extends Application {
 		if(rs.get() == ButtonType.CANCEL) {
 			return;
 		}
-		//保存処理
 		try {
-			Class<?> dataClazz = Class.forName("com.officina_hide.base.model."+"X_FD_Table");
+			//対象テーブル情報クラス名
+			String tableClazzName = "X_"+table.getStringOfValue(I_FD_Table.COLUMNNAME_TABLE_NAME);
+			//テーブル情報生成
+			Class<?> dataClazz = Class.forName("com.officina_hide.base.model."+tableClazzName);
 			Constructor<?> con = dataClazz.getConstructor(new Class[] {FD_EnvData.class});
 			Object dataInstance = con.newInstance(new Object[] {env});
 			
-			Method getDataMethod = dataClazz.getMethod("getStringOfValue", String.class);
-			String data = (String) getDataMethod.invoke(dataInstance, I_FD_Table.COLUMNNAME_TABLE_NAME);
+			Method setValueMethod = dataClazz.getMethod("setValue", String.class, Object.class);
+			Method saveMethod = dataClazz.getMethod("save", FD_EnvData.class);
 			
-			System.out.println(data);
-		} catch (ClassNotFoundException | NoSuchMethodException |
-				SecurityException | InstantiationException | IllegalAccessException |
-				IllegalArgumentException | InvocationTargetException e) {
+			//保存処理
+			// TODO とりあえず新規保存で項目チェックも無しで保存のみを行う。(2020/09/10 ueno)
+			for(FD_Item item : fxItemList) {
+				switch(item.getItemType()) {
+				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT:
+					TextField textField = (TextField) item.getItemData();
+					setValueMethod.invoke(dataInstance, item.getItemName(), textField.getText());
+					break;
+				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD:
+					TextArea textArea = (TextArea) item.getItemData();
+					setValueMethod.invoke(dataInstance, item.getItemName(), textArea.getText());
+				}
+			}
+			//データ保存
+			setValueMethod.invoke(dataInstance, I_FD_Table.COLUMNNAME_FD_TABLE_ID, 0);
+			saveMethod.invoke(dataInstance, env);
+			
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "テーブル情報登録完了");
+		alert = new Alert(AlertType.INFORMATION, "登録完了しました。", ButtonType.OK);
+		alert.showAndWait();
 	}
 
 	/**

@@ -27,4 +27,7 @@ public interface I_Fx_View {
 	
 	/** 画面高さ初期値 */
 	public final String COLUMNNAME_VIEW_PRE_HEIGHT = "View_Pre_Height";
+	
+	/** 画面取扱テーブル情報ID */
+	public final String COLUMNNAME_TABLE_ID = "FD_Table_ID";
 }
