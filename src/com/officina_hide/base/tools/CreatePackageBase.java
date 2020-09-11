@@ -35,11 +35,16 @@ public class CreatePackageBase {
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
+		 * ・ログ情報テーブル生成
 		 * ・テーブル情報、テーブル項目情報、採番情報、リファレンス情報
 		 * ・画面情報、画面項目情報
 		 * ・ユーザー情報テーブル
 		 * ・アクセスログ情報テーブル
 		 */
+		
+		//ログ情報
+		FDLog log = new FDLog();
+		log.createTable(env);
 		
 		//テーブル情報
 		FDTable table = new FDTable();
