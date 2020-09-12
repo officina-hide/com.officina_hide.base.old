@@ -23,9 +23,15 @@ public class CreateDocumnetPackage {
 		//開始メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築開始");
 		
-		//プロジェクト情報生成
+		/*
+		 * プロジェクト情報生成<br>
+		 * TODO プロジェクト情報については、機能横断的な要素があるため、管理プロジェクトについては検討する事（2020/09/12 ueno)
+		 */
 		DDProject project = new DDProject();
 		project.createTable(env);
+		//ドキュメント情報生成
+		DDDocument doc = new DDDocument();
+		doc.createTable(env);
 		
 		//終了メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築終了");

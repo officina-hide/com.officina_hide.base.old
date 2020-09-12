@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Item;
@@ -486,132 +488,6 @@ public class FD_DB implements I_DB {
 		}
 		return source.toString();
 	}
-//
-//	/**
-//	 * テーブル情報登録<br>
-//	 * @author ueno hideo
-//	 * @since 1.20 2020/07/16
-//	 * @param env 環境情報
-//	 * @param Id テーブル情報ID
-//	 * @param tableName テーブル識別名
-//	 * @param name テーブル表示名
-//	 * @param comment コメント
-//	 * @return 
-//	 */
-//	public int addTableData(FD_EnvData env, int id, String tableName, String name, String comment) {
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		//Idが0の時は新規に情報IDを発行する。
-//		if(id == 0) {
-//			id = getNewID(env, I_FD_Table.Table_Name);
-//		}
-//		StringBuffer sql = new StringBuffer();
-//		sql.append("INSERT INTO FD_Table SET ");
-//		sql.append("FD_Table_ID = ").append(id).append(",");
-//		sql.append("Table_Name = '").append(tableName).append("'").append(",");
-//		sql.append("FD_Name = '").append(name).append("'").append(",");
-//		sql.append("FD_Comment = '").append(comment).append("'").append(",");
-//		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-//		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Updated = ").append(env.getSystemUserID());
-//		execute(env, sql.toString());
-//		
-//		return id;
-//	}
-//
-//	/**
-//	 * リファレンス情報登録<br>
-//	 * @param env 環境情報
-//	 * @param name リファレンス名
-//	 */
-//	public void addReferenceData(FD_EnvData env, String name) {
-//		X_FD_Reference ref = new X_FD_Reference(env);
-//		ref.setReference_Name(name);
-//		ref.save();
-//	}
-	
-//	/**
-//	 * 採番情報登録<br>
-//	 * @param env　環境情報
-//	 * @param tableId テーブル情報ID
-//	 * @param current 現在値
-//	 * @param start 開始値
-//	 */
-//	public void addNumberingData(FD_EnvData env, int tableId, int current, int start) {
-//		X_FD_Numbering num = new X_FD_Numbering(env);
-//		num.setFD_Table_ID(tableId);
-//		num.setStart_Number(start);
-//		num.setCurrent_Number(current);
-//		num.save();
-//	}
-//
-//	/**
-//	 * テーフル項目情報登録<br>
-//	 * @author ueno hideo
-//	 * @since 1.20 2020/07/16
-//	 * @param env 環境情報
-//	 * @param tableId テーブル情報ID
-//	 * @param culimnName 項目名
-//	 * @param columnType 項目種別
-//	 * @param size 桁数
-//	 * @param name 項目表示名
-//	 * @param comment 項目説明
-//	 * @param order 項目並び順
-//	 * @param priKey プライマリーキー
-//	 */
-//	public void addTableColumnData(FD_EnvData env, int tableId, String culimnName, String columnType, int size, String name, String comment,
-//			int order, boolean priKey) {
-//		//テーブル項目情報ID生成
-//		int columnId = getNewID(env, "FD_TableColumn");
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		StringBuffer sql = new StringBuffer();
-//		sql.append("INSERT INTO FD_TableColumn SET ");
-//		sql.append("FD_TableColumn_ID = ").append(columnId).append(",");
-//		sql.append("FD_Table_ID = ").append(tableId).append(",");
-//		sql.append("Column_Name = '").append(culimnName).append("'").append(",");
-//		sql.append("Column_Type_ID = ").append(getReferenceID(env, columnType)).append(",");
-//		sql.append("Column_Size = ").append(size).append(",");
-//		sql.append("FD_Name = '").append(name).append("'").append(",");
-//		sql.append("FD_Comment = '").append(comment).append("'").append(",");
-//		sql.append("Column_Sort_Order = ").append(order).append(",");
-//		if(priKey == true) {
-//			sql.append("Primary_Key_Check = 1").append(",");
-//		} else {
-//			sql.append("Primary_Key_Check = 0").append(",");
-//		}
-//		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-//		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Updated = ").append(env.getSystemUserID());
-//		execute(env, sql.toString());
-//	}
-//
-//	/**
-//	 * リファレンス用パラメータ情報登録<br>
-//	 * @author ueno hideo
-//	 * @since 1.20 2020/07/16
-//	 * @param referenceID リファレンス情報ID
-//	 * @param paramName パラメータ名
-//	 * @param paramType　パラメータ種別名
-//	 * @param paramData パラメータ情報
-//	 * @param comment 説明
-//	 */
-//	public void addRefParamData(int referenceID, String paramName, String paramType, String paramData, String comment) {
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		StringBuffer sql = new StringBuffer();
-//		sql.append("INSERT INTO FD_RefParam SET ");
-//		sql.append("FD_RefParam_ID = ").append(getNewID(env, "FD_RefParam")).append(",");
-//		sql.append("FD_Reference_ID = ").append(referenceID).append(",");
-//		sql.append("Parameter_Name = ").append(FD_SQ).append(paramName).append(FD_SQ).append(",");
-//		sql.append("Parameter_Type_ID = ").append(getReferenceID(env, paramType)).append(",");
-//		sql.append("Parameter_Data  = ").append(FD_SQ).append(paramData).append(FD_SQ).append(",");
-//		sql.append("FD_Comment = ").append(FD_SQ).append(paramData).append(FD_SQ).append(",");
-//		sql.append("FD_Create = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Created = ").append(env.getSystemUserID()).append(",");
-//		sql.append("FD_Update = '").append(dateFormat.format(new Date())).append("'").append(",");
-//		sql.append("FD_Updated = ").append(env.getSystemUserID());
-//		execute(env, sql.toString());
-//	}
 
 	/**
 	 * インポートクラスを追加する。<br>
@@ -681,6 +557,102 @@ public class FD_DB implements I_DB {
 			e.printStackTrace();
 		}
 		return stmt;
+	}
+
+	/**
+	 * データベーステーブルの生成<br>
+	 * @author officina-hide.com
+	 * @sinse 1.00 2020/09/12
+	 * @param env 環境情報
+	 */
+	public void createDBTable(FD_EnvData env, String TableName) {
+		ResultSet rs = null;
+		Statement stmt = null;
+		StringBuffer sql = new StringBuffer();
+		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+		//テーブル情報ID取得
+		int tableId = getTableID(env, TableName);
+		X_FD_Table table = new X_FD_Table(env, tableId);
+		//既にテーブルが存在するときは削除する。
+		sql.append("DROP TABLE IF EXISTS ").append(TableName);
+		execute(env, sql.toString());
+		//テーブルの新規作成
+		try {
+			//テーブル項目情報一覧取得
+			sql = new StringBuffer();
+			sql.append("SELECT * FROM FD_TableColumn ");
+			sql.append("LEFT JOIN FD_Reference ON FD_Reference.FD_Reference_ID = FD_TableColumn.")
+				.append(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_TYPE_ID).append(" ");
+			sql.append("WHERE ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLE_ID).append(" = ").append(tableId).append(" ");
+			sql.append("ORDER BY Column_Sort_Order");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			while(rs.next()) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME, rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME));
+				map.put("Column_Type_Name", rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
+				map.put(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE, rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE));
+				map.put(I_FD_TableColumn.COLUMNNAME_FD_NAME, rs.getString(I_FD_TableColumn.COLUMNNAME_FD_NAME));
+				if(rs.getInt(I_FD_TableColumn.COLUMNNAME_IS_PRIMARY) == 1) {
+					map.put(I_FD_TableColumn.COLUMNNAME_IS_PRIMARY, I_FD_TableColumn.IS_PRIMARY_YES);
+				} else {
+					map.put(I_FD_TableColumn.COLUMNNAME_IS_PRIMARY, I_FD_TableColumn.IS_PRIMARY_NO);
+				}
+				if(rs.getInt(I_FD_TableColumn.COLUMNNAME_IS_NULL) == 1) {
+					map.put(I_FD_TableColumn.COLUMNNAME_IS_NULL, I_FD_TableColumn.IS_NULL_YES);
+				} else {
+					map.put(I_FD_TableColumn.COLUMNNAME_IS_NULL, I_FD_TableColumn.IS_NULL_NO);
+				}
+				list.add(map);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		//テーブル生成
+		sql = new StringBuffer();
+		sql.append("CREATE TABLE IF NOT EXISTS ").append(TableName);
+		sql.append("(");
+		StringBuffer items = new StringBuffer();	//項目用SQL文
+		for(Map<String, String> map : list) {
+			if(items.length() > 0) {
+				items.append(", ");
+			}
+			items.append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).toString()).append(" ");
+			switch(map.get("Column_Type_Name").toString()) {
+			case COLUMN_TYPE_INFORMATION_ID:
+			case COLUMN_TYPE_NUMBER:
+				items.append("INT UNSIGNED").append(" ");
+				break;
+			case COLUMN_TYPE_TEXT:
+				items.append("Varchar(").append(map.get(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE).toString()).append(")").append(" ");
+				break;
+			case COLUMN_TYPE_DATE:
+				items.append("Datetime").append(" ");
+				break;
+			}
+			if(map.get(I_FD_TableColumn.COLUMNNAME_IS_NULL).toString().equals(I_FD_TableColumn.IS_NULL_YES)){
+				items.append("NOT NULL").append(" ");
+			}
+			if(map.get(I_FD_TableColumn.COLUMNNAME_IS_PRIMARY).toString().equals(I_FD_TableColumn.IS_PRIMARY_YES)){
+				items.append("PRIMARY KEY").append(" ");
+			}
+			if(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME) != null &&
+					map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).toString().length() > 0) {
+				items.append("COMMENT ")
+					.append(FD_SQ).append(map.get(I_FD_TableColumn.COLUMNNAME_FD_NAME).toString()).append(FD_SQ).append(" ");
+			}
+		}
+		sql.append(items.toString()).append(")");
+		if(table.getStringOfValue(I_FD_TableColumn.COLUMNNAME_FD_NAME).length() > 0) {
+			sql.append(" COMMENT ").append(FD_SQ)
+				.append(table.getStringOfValue(I_FD_TableColumn.COLUMNNAME_FD_NAME)).append(FD_SQ).append(" ");
+		}
+		
+		//生成処理実行
+		execute(env, sql.toString());
 	}
 
 }
