@@ -3,8 +3,6 @@ package com.officina_hide.fx.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
-import com.officina_hide.base.model.X_FD_FxView;
-import com.officina_hide.base.model.X_FD_FxViewParam;
 
 /**
  * 画面リソース生成<br>
@@ -34,9 +32,9 @@ public class CreateFxResource extends FD_DB {
 //		//項目用リファレンス登録
 //		addReferenceData(env, "Fx_Text");
 		//ログイン画面情報登録
-		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
-		addFxViewParam(env, viewId, "View_Pre_Width", 300);
-		addFxViewParam(env, viewId, "View_Pre_Height", 200);
+//		int viewId = addFxViewData(env, "Fx_Login", "ログイン画面");
+//		addFxViewParam(env, viewId, "View_Pre_Width", 300);
+//		addFxViewParam(env, viewId, "View_Pre_Height", 200);
 		//ログイン画面項目情報登録
 	}
 //
@@ -139,40 +137,40 @@ public class CreateFxResource extends FD_DB {
 //		new createTable(env, I_FD_FxViewItem.Table_ID);
 //	}
 
-	/**
-	 * 画面情報登録<br>
-	 * @author ueno hideo
-	 * @since 2020/08/02
-	 * TODO 汎用クラス化予定(2020/08/02 ueno)
-	 * @param env 環境情報
-	 * @param viewName 画面名
-	 * @param name　画面表示名
-	 * @return Fx画面情報ID
-	 */
-	private int addFxViewData(FD_EnvData env, String viewName, String name) {
-		X_FD_FxView view = new X_FD_FxView(env);
-		view.setFxView_Name(viewName);
-		view.setFD_Name(name);
-		view.save();
-		return view.getFD_FxView_ID();
-	}
-
-	/**
-	 * 画面変数情報登録<br>
-	 * @author ueno hideo
-	 * @since 2020/08/05
-	 * TODO 汎用クラス化予定(2020/08/05 ueno)
-	 * @param env 環境情報
-	 * @param viewId 画面情報ID
-	 * @param paramName 変数名
-	 * @param paramData(int) 変数情報
-	 */
-	private void addFxViewParam(FD_EnvData env, int viewId, String paramName, int paramData) {
-		X_FD_FxViewParam param = new X_FD_FxViewParam(env);
-		param.setFD_FxView_ID(viewId);
-		param.setFxView_ParamName(paramName);
-		param.setFxView_ParamData(Integer.toString(paramData));
-		param.save();
-	}
+//	/**
+//	 * 画面情報登録<br>
+//	 * @author ueno hideo
+//	 * @since 2020/08/02
+//	 * TODO 汎用クラス化予定(2020/08/02 ueno)
+//	 * @param env 環境情報
+//	 * @param viewName 画面名
+//	 * @param name　画面表示名
+//	 * @return Fx画面情報ID
+//	 */
+//	private int addFxViewData(FD_EnvData env, String viewName, String name) {
+//		X_FD_FxView view = new X_FD_FxView(env);
+//		view.setFxView_Name(viewName);
+//		view.setFD_Name(name);
+//		view.save();
+//		return view.getFD_FxView_ID();
+//	}
+//
+//	/**
+//	 * 画面変数情報登録<br>
+//	 * @author ueno hideo
+//	 * @since 2020/08/05
+//	 * TODO 汎用クラス化予定(2020/08/05 ueno)
+//	 * @param env 環境情報
+//	 * @param viewId 画面情報ID
+//	 * @param paramName 変数名
+//	 * @param paramData(int) 変数情報
+//	 */
+//	private void addFxViewParam(FD_EnvData env, int viewId, String paramName, int paramData) {
+//		X_FD_FxViewParam param = new X_FD_FxViewParam(env);
+//		param.setFD_FxView_ID(viewId);
+//		param.setFxView_ParamName(paramName);
+//		param.setFxView_ParamData(Integer.toString(paramData));
+//		param.save();
+//	}
 
 }

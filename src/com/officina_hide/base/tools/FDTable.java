@@ -10,7 +10,7 @@ import com.officina_hide.base.model.X_FD_Table;
 /**
  * テーブル情報クラス<br>
  * @author ueno hideo
- * @version 2.00
+ * @version 2.00 新規作成
  * @since 2020/08/29
  */
 public class FDTable extends FD_DB implements I_FD_Table {
@@ -44,14 +44,16 @@ public class FDTable extends FD_DB implements I_FD_Table {
 
 	/**
 	 * テーブル情報登録<br>
+	 * <p>version 2.10 テーブル情報IDを返す。</p>
 	 * @author ueno hideo
 	 * @since 2.00 2020/08/29
 	 * @param env 環境情報
 	 * @param tableId テーブル情報ID
 	 * @param tableName テーブル物理名
 	 * @param name テーブル論理名
+	 * @return テーブル情報ID
 	 */
-	public void addData(FD_EnvData env, int tableId, String tableName, String name) {
+	public int addData(FD_EnvData env, int tableId, String tableName, String name) {
 		if(tableId == 0) {
 			tableId = getNewID(env, Table_ID);
 		}
@@ -60,6 +62,8 @@ public class FDTable extends FD_DB implements I_FD_Table {
 		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, tableName);
 		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, name);
 		table.save(env);
+		
+		return tableId;
 	}
 
 	/**

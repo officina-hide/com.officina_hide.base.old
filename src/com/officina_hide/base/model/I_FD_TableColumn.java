@@ -41,25 +41,4 @@ public interface I_FD_TableColumn {
 	public static final String IS_PRIMARY_YES = "YES";
 	public static final String IS_PRIMARY_NO = "NO";
 
-//
-//	/**
-//	 * 登録日.<br>
-//	 */
-//	public final String COLUMNNAME_FD_CREATE = "FD_Create";
-//
-//	/**
-//	 * 登録者ID.<br>
-//	 */
-//	public final String COLUMNNAME_FD_CREATED = "FD_Created";
-//
-//	/**
-//	 * 更新日.<br>
-//	 */
-//	public final String COLUMNNAME_FD_UPDATE = "FD_Update";
-//
-//	/**
-//	 * 更新者ID.<br>
-//	 */
-//	public final String COLUMNNAME_FD_UPDATED = "FD_Updated";
-
 }

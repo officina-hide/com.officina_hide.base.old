@@ -1,8 +1,5 @@
 package com.officina_hide.base.tools;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.officina_hide.base.common.FD_EnvData;
-import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_RefParam;
 import com.officina_hide.base.model.I_FD_Reference;
 import com.officina_hide.base.model.I_FD_TableColumn;
-import com.officina_hide.base.model.X_FD_Table;
 
 /**
  * テーブル生成<br>
@@ -31,52 +26,52 @@ public class createTable extends FD_DB implements I_DB {
 	 * インポートリスト
 	 */
 	private List<String> importClassList = new ArrayList<String>();
-
-	/**
-	 * コンストラクタ－<br>
-	 * @author ueno hideo
-	 * @since 2020-04-28
-	 * @param env 環境情報
-	 * @param tableName テーブル名
-	 * @param name テーブル論理名(COMMENT)
-	 */
-	public createTable(FD_EnvData env, int tableId) {
-		StringBuffer sql = new StringBuffer();
-		//テーブル情報取得
-		X_FD_Table table = new X_FD_Table(env, tableId);
-		//テーブル削除
-		sql.append("DROP TABLE IF EXISTS ").append(table.getTable_Name());
-		execute(env, sql.toString());
-		//テーブル作成
-		List<Map<String,String>> columns = getColumnData(env, tableId);
-		sql = new StringBuffer();
-		sql.append("CREATE TABLE IF NOT EXISTS ").append(table.getTable_Name());
-		sql.append("(");
-		StringBuffer items = new StringBuffer();	//項目用SQL文
-		for(Map<String, String> map : columns) {
-			if(items.length() > 0) {
-				items.append(", ");
-			}
-			try {
-				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
-				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
-				Object obj = con.newInstance(new Object[] {importClassList});
-				Method method = cl.getMethod("toTableCreateSQL", Map.class);
-				items.append(method.invoke(obj, map).toString());
-			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		sql.append(items.toString()).append(")");
-		if(table.getFD_Name().length() > 0) {
-			sql.append(" COMMENT ").append(FD_SQ).append(table.getFD_Name()).append(FD_SQ).append(" ");
-		}
-		execute(env, sql.toString());
-		
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Table created : "+table.getTable_Name());
-	}
+//
+//	/**
+//	 * コンストラクタ－<br>
+//	 * @author ueno hideo
+//	 * @since 2020-04-28
+//	 * @param env 環境情報
+//	 * @param tableName テーブル名
+//	 * @param name テーブル論理名(COMMENT)
+//	 */
+//	public createTable(FD_EnvData env, int tableId) {
+//		StringBuffer sql = new StringBuffer();
+//		//テーブル情報取得
+//		X_FD_Table table = new X_FD_Table(env, tableId);
+//		//テーブル削除
+//		sql.append("DROP TABLE IF EXISTS ").append(table.getTable_Name());
+//		execute(env, sql.toString());
+//		//テーブル作成
+//		List<Map<String,String>> columns = getColumnData(env, tableId);
+//		sql = new StringBuffer();
+//		sql.append("CREATE TABLE IF NOT EXISTS ").append(table.getTable_Name());
+//		sql.append("(");
+//		StringBuffer items = new StringBuffer();	//項目用SQL文
+//		for(Map<String, String> map : columns) {
+//			if(items.length() > 0) {
+//				items.append(", ");
+//			}
+//			try {
+//				Class<?> cl = Class.forName(map.get("Parameter_Data").toString());
+//				Constructor<?> con = cl.getConstructor(new Class[] {List.class});
+//				Object obj = con.newInstance(new Object[] {importClassList});
+//				Method method = cl.getMethod("toTableCreateSQL", Map.class);
+//				items.append(method.invoke(obj, map).toString());
+//			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+//					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		sql.append(items.toString()).append(")");
+//		if(table.getFD_Name().length() > 0) {
+//			sql.append(" COMMENT ").append(FD_SQ).append(table.getFD_Name()).append(FD_SQ).append(" ");
+//		}
+//		execute(env, sql.toString());
+//		
+//		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Table created : "+table.getTable_Name());
+//	}
 
 	/**
 	 * テーブル項目情報一覧取得<br>

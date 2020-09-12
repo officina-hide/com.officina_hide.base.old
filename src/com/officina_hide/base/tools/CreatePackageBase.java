@@ -14,6 +14,7 @@ import com.officina_hide.documents.tools.CreateDocumnetPackage;
  * @author ueno hideo
  * @version 1.20 新規作成<br>
  * @version 2.00 システム機能の作りこみを優先する。<br>
+ * @version 2.10 ドキュメント管理機能の構築を開始する。(ドキュメント管理機能のバージョンは1.00)<br>
  * @since 2020/07/13
  * @param args 
  */
@@ -32,6 +33,7 @@ public class CreatePackageBase {
 		FD_EnvData env = new FD_EnvData();
 		//開始メッセージ
 		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_DEBAG);
+//		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_NORMAL);
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Start Package Base Creating");
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
@@ -93,6 +95,7 @@ public class CreatePackageBase {
 		
 		/*
 		 * ドキュメント管理に必要な設定を行って行きます。
+		 * @sinse 2.10 2020/09/12
 		 */
 		new CreateDocumnetPackage(env);
 		
