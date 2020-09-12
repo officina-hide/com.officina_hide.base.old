@@ -52,6 +52,9 @@ public class FDTable extends FD_DB implements I_FD_Table {
 	 * @param name テーブル論理名
 	 */
 	public void addData(FD_EnvData env, int tableId, String tableName, String name) {
+		if(tableId == 0) {
+			tableId = getNewID(env, Table_ID);
+		}
 		X_FD_Table table = new X_FD_Table(env);
 		table.setValue(I_FD_Table.COLUMNNAME_FD_TABLE_ID, tableId);
 		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, tableName);

@@ -7,6 +7,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.documents.tools.CreateDocumnetPackage;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
@@ -89,18 +90,15 @@ public class CreatePackageBase {
 		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_COMMENT, "説明"
 				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD);
 
+		
+		/*
+		 * ドキュメント管理に必要な設定を行って行きます。
+		 */
+		new CreateDocumnetPackage(env);
+		
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);
 //		createUserTable.addData(env, 100, "System", "admin");
-		/*
-		 * 基本となるテーブルを生成する。
-		 */
-//		new CreateBaseTable(env);
-//		new CreateBaseResource(env);
-		/*
-		 * 画面用リソース生成
-		 */
-//		new CreateFxResource(env);
 		
 		//終了メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Package Base Creating is completed!!");

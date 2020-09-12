@@ -1,6 +1,5 @@
 package com.officina_hide.base.model;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
