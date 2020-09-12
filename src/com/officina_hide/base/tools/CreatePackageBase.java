@@ -3,6 +3,7 @@ package com.officina_hide.base.tools;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+import com.officina_hide.accounts.tools.CreateAccountPackage;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.I_FD_Table;
@@ -15,6 +16,7 @@ import com.officina_hide.documents.tools.CreateDocumnetPackage;
  * @version 1.20 新規作成<br>
  * @version 2.00 システム機能の作りこみを優先する。<br>
  * @version 2.10 ドキュメント管理機能の構築を開始する。(ドキュメント管理機能のバージョンは1.00)<br>
+ * @version 2.11 会計管理機能の構築を開始する。(会計管理機能のバージョンは1.00)<br>
  * @since 2020/07/13
  * @param args 
  */
@@ -69,6 +71,10 @@ public class CreatePackageBase {
 		num.addColumnData(env);
 		ref.addColumnData(env);
 		
+		//クライアント情報
+		FDClient client = new FDClient();
+		client.createDBTable(env);
+		
 		//画面情報
 		FxView view = new FxView();
 		view.createTable(env);
@@ -94,10 +100,16 @@ public class CreatePackageBase {
 
 		
 		/*
-		 * ドキュメント管理に必要な設定を行って行きます。
+		 * ドキュメント管理に必要な設定を行う。
 		 * @sinse 2.10 2020/09/12
 		 */
 		new CreateDocumnetPackage(env);
+		
+		/*
+		 * 会計管理に必要な設定を行う。
+		 * @sinse 2.11 2020/0912
+		 */
+		new CreateAccountPackage(env);
 		
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);
