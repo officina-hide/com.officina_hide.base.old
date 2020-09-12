@@ -61,4 +61,25 @@ public class DDDocument extends FD_DB implements I_DD_Document {
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント情報テーブル生成完了");		
 	}
 
+	/**
+	 * ドキュメント情報登録<br>
+	 * @author officine-hide.com
+	 * @since 1.00 2020/09/12
+	 * @param env 環境情報
+	 * @param projectId プロジェクト情報ID
+	 * @param documentName ドキュメント名
+	 * @param name ドキュメント表示名
+	 * @param sortNo 並び順
+	 */
+	public void addData(FD_EnvData env, int projectId, String documentName, String name, int sortNo) {
+		X_DD_Document doc = new X_DD_Document(env);
+		doc.setValue(COLUMNNAME_DD_DOCUMENT_ID, 0);
+		doc.setValue(COLUMNNAME_DD_PROJECT_ID, projectId);
+		doc.setValue(COLUMNNAME_DOCUMENT_NAME, documentName);
+		doc.setValue(COLUMNNAME_FD_NAME, name);
+		doc.setValue(COLUMNNAME_DOCUMENT_SORT_NO, sortNo);
+		
+		doc.save(env);
+	}
+
 }

@@ -38,6 +38,7 @@ public class CreateDocumnetPackage {
 		 * 本パッケージの開発に関するドキュメントを管理するためのプロジェクトを登録します。<br>
 		 */
 		int projectId = project.addData(env, "FDPackageProject", "パッケージ管理プロジェクト");
+		doc.addData(env, projectId, "Overview", "システム概要", 10);
 		
 		//終了メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築終了");
