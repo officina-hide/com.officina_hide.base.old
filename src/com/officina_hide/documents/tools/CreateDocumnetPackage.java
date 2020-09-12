@@ -33,6 +33,12 @@ public class CreateDocumnetPackage {
 		DDDocument doc = new DDDocument();
 		doc.createTable(env);
 		
+		/*
+		 * システムプロジェクト登録<br>
+		 * 本パッケージの開発に関するドキュメントを管理するためのプロジェクトを登録します。<br>
+		 */
+		int projectId = project.addData(env, "FDPackageProject", "パッケージ管理プロジェクト");
+		
 		//終了メッセージ
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築終了");
 	}

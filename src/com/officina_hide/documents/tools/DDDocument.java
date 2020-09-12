@@ -4,6 +4,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.tools.FDNumbering;
 import com.officina_hide.base.tools.FDTable;
 import com.officina_hide.base.tools.FDTableColumn;
 import com.officina_hide.documents.model.I_DD_Document;
@@ -52,6 +53,10 @@ public class DDDocument extends FD_DB implements I_DD_Document {
 		
 		//テーブル生成
 		createDBTable(env, Table_Name);
+		
+		//採番情報登録
+		FDNumbering num = new FDNumbering();
+		num.add(env, tableId, 1000001, 0);
 		
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント情報テーブル生成完了");		
 	}

@@ -4,6 +4,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.tools.FDNumbering;
 import com.officina_hide.base.tools.FDTable;
 import com.officina_hide.base.tools.FDTableColumn;
 import com.officina_hide.documents.model.I_DD_Project;
@@ -48,6 +49,27 @@ public class DDProject extends FD_DB implements I_DD_Project {
 		//テーブル生成
 		createDBTable(env, Table_Name);
 		
+		//採番情報登録
+		FDNumbering num = new FDNumbering();
+		num.add(env, tableId, 1000001, 0);
+		
 		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "プロジェクト情報テーブル生成完了");
+	}
+
+	/**
+	 * プロジェクト情報登録<br>
+	 * @param env 環境情報
+	 * @param projectName プロジェクト名
+	 * @param name プロジェクト表示名
+	 * @return プロジェクト情報ID
+	 */
+	public int addData(FD_EnvData env, String projectName, String name) {
+		X_DD_Project project = new X_DD_Project(env);
+		project.setValue(COLUMNNAME_DD_PROJECT_ID, 0);
+		project.setValue(COLUMNNAME_PROJECT_NAME, projectName);
+		project.setValue(COLUMNNAME_FD_NAME, name);
+		project.save(env);
+		
+		return project.getIntOfValue(COLUMNNAME_DD_PROJECT_ID);
 	}
 }
