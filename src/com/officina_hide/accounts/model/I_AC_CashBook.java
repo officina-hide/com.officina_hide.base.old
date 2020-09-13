@@ -19,5 +19,11 @@ public interface I_AC_CashBook {
 	/** 出納日 */
 	public final String COLUMNNAME_TREASURER_DATE  = "Treasirer_Date";
 	/** 勘定科目 */
-	public final String COLUMNNAME_AC_CCOUNT_CODE_ID = "AC_Account_Code_ID";
+	public final String COLUMNNAME_AC_ACOUNT_CODE_ID = "AC_Account_Code_ID";
+	/** 収支区分 */
+	public final String COLUMNNAME_BALANCE_CODE = "Income_Balance_Code";
+	/** 金額 */
+	public final String COLUMNNAME_CASH_AMOUNT = "Cash_Amount";
+	/** 備考 */
+	public final String COLUMNNAME_FD_MEMO = "FD_Memo";
 }
