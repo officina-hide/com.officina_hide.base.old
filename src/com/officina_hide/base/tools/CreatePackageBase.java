@@ -73,7 +73,7 @@ public class CreatePackageBase {
 		
 		//クライアント情報
 		FDClient client = new FDClient();
-		client.createDBTable(env);
+		client.createTable(env);
 		
 		//画面情報
 		FxView view = new FxView();

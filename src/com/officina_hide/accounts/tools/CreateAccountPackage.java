@@ -1,5 +1,6 @@
 package com.officina_hide.accounts.tools;
 
+import com.officina_hide.accounts.model.ACCashBook;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 
@@ -26,7 +27,8 @@ public class CreateAccountPackage {
 		 * 金銭出納帳情報は、クライアント単位に構築する。<br>
 		 * クライアント情報はbaseの管理下に有る。
 		 */
-		
+		ACCashBook cash = new ACCashBook();
+		cash.createTable(env);
 	}
 
 }

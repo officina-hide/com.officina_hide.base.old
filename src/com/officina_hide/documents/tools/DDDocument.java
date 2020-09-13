@@ -8,6 +8,7 @@ import com.officina_hide.base.tools.FDNumbering;
 import com.officina_hide.base.tools.FDTable;
 import com.officina_hide.base.tools.FDTableColumn;
 import com.officina_hide.documents.model.I_DD_Document;
+import com.officina_hide.documents.model.X_DD_Document;
 
 /**
  * ドキュメント情報クラス<br>

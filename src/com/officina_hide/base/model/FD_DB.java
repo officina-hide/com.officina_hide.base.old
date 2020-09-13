@@ -632,6 +632,9 @@ public class FD_DB implements I_DB {
 			case COLUMN_TYPE_DATE:
 				items.append("Datetime").append(" ");
 				break;
+			case COLUMN_TYPE_FIELD_TEXT:
+				items.append("Text").append(" ");
+				break;
 			}
 			if(map.get(I_FD_TableColumn.COLUMNNAME_IS_NULL).toString().equals(I_FD_TableColumn.IS_NULL_YES)){
 				items.append("NOT NULL").append(" ");
