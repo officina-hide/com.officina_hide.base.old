@@ -1,6 +1,5 @@
 package com.officina_hide.accounts.tools;
 
-import com.officina_hide.accounts.model.ACCashBook;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 
@@ -29,6 +28,8 @@ public class CreateAccountPackage {
 		 */
 		ACCashBook cash = new ACCashBook();
 		cash.createTable(env);
+		ACAcountCode code = new ACAcountCode();
+		code.createTable(env);
 	}
 
 }

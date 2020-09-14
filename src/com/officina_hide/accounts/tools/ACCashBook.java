@@ -1,5 +1,6 @@
-package com.officina_hide.accounts.model;
+package com.officina_hide.accounts.tools;
 
+import com.officina_hide.accounts.model.I_AC_CashBook;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;

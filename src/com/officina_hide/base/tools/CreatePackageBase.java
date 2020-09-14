@@ -31,7 +31,12 @@ public class CreatePackageBase {
 	public static void main(String[] args) {
 		Date StartDate = new Date();
 
-		//環境情報設定
+		/*
+		 * 環境情報設定
+		 * FIXME データベースのログインの隠蔽化を早急に行うこと。(2020/09/14)
+		 * ・環境情報ファイルの内、データベース接続、ログインについてはトークンファイルとして作成する。
+		 * ・トークンファイルはローカル環境に置いて、FD_EnvData実体化毎に取り込むようにする。
+		 */
 		FD_EnvData env = new FD_EnvData();
 		//開始メッセージ
 		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_DEBAG);
@@ -108,6 +113,7 @@ public class CreatePackageBase {
 		/*
 		 * 会計管理に必要な設定を行う。
 		 * @sinse 2.11 2020/0912
+		 * 今回のバージョンでは、現金出納を中心にパッケージを作成する。
 		 */
 		new CreateAccountPackage(env);
 		
