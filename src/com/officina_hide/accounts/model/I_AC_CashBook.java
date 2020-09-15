@@ -18,6 +18,8 @@ public interface I_AC_CashBook {
 	public final String COLUMNNAME_FD_CLIENT_ID = "FD_Client_ID";
 	/** 出納日 */
 	public final String COLUMNNAME_TREASURER_DATE  = "Treasirer_Date";
+	public final String NAME_TREASURER_DATE = "出納日";
+	public final String COMMENT_TREASURER_DATE = "出納の発生日";
 	/** 勘定科目 */
 	public final String COLUMNNAME_AC_ACOUNT_CODE_ID = "AC_Account_Code_ID";
 	/** 収支区分 */

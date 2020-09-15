@@ -30,6 +30,9 @@ public class CreateAccountPackage {
 		cash.createTable(env);
 		ACAcountCode code = new ACAcountCode();
 		code.createTable(env);
+
+		FxCashBookView cb = new FxCashBookView();
+		cb.createViewData(env);
 	}
 
 }

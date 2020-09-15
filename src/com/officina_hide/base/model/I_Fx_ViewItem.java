@@ -34,4 +34,6 @@ public interface I_Fx_ViewItem {
 	public final String VIEWTYPE_ID_FX_NUMBER =  "Fx_Number";
 	/** 画面項目属性ID : 複数行テキスト */
 	public final String VIEWTYPE_ID_FX_TEXTFIELD = "Fx_TextField";
+	/** 画面項目属性ID : 日付 */
+	public final String VIEWTYPE_ID_FX_DATE = "Fx_Date";
 }

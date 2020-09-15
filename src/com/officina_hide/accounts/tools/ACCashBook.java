@@ -32,7 +32,7 @@ public class ACCashBook extends FD_DB implements I_AC_CashBook {
 		FDTableColumn column = new FDTableColumn();
 		column.add(env, tableId, COLUMNNAME_AC_CASHBOOK_ID, "現金出納情報ID", "現金出納情報を識別するための情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
-		column.add(env, tableId, COLUMNNAME_TREASURER_DATE, "出納日", "出納の発生日"
+		column.add(env, tableId, COLUMNNAME_TREASURER_DATE,  NAME_TREASURER_DATE, COMMENT_TREASURER_DATE
 				, COLUMN_TYPE_DATE, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_AC_ACOUNT_CODE_ID, "勘定科目情報ID", "出納の勘定科目の情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
