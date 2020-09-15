@@ -52,10 +52,6 @@ public class CreatePackageBase {
 		 * ・アクセスログ情報テーブル
 		 */
 		
-		//ログ情報
-		FDLog log = new FDLog();
-		log.createTable(env);
-		
 		//テーブル情報
 		FDTable table = new FDTable();
 		table.createTable(env);
@@ -79,6 +75,10 @@ public class CreatePackageBase {
 		//クライアント情報
 		FDClient client = new FDClient();
 		client.createTable(env);
+		
+		//DB対応ログ情報
+		FDLog log = new FDLog();
+		log.createTable(env);
 		
 		//画面情報
 		FxView view = new FxView();

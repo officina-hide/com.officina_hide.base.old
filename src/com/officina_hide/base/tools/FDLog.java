@@ -3,6 +3,8 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_FD_Log;
+import com.officina_hide.base.model.I_FD_TableColumn;
 
 /**
  * ログ情報クラス<br>
@@ -10,29 +12,48 @@ import com.officina_hide.base.model.FD_DB;
  * @version 2.00
  * @since 2020/09/11
  */
-public class FDLog extends FD_DB {
+public class FDLog extends FD_DB implements I_FD_Log {
 
 	/**
 	 * ログ情報テーブル生成
 	 * @param env 環境情報
 	 */
 	public void createTable(FD_EnvData env) {
-		StringBuffer sql = new StringBuffer();
-		//既に登録されているテーフル情報を削除する。
-		sql.append("DROP TABLE IF EXISTS FD_Log");
-		execute(env, sql.toString());
-		//テーフル情報を生成する。
-		sql = new StringBuffer();
-		sql.append("CREATE TABLE IF NOT EXISTS FD_Log (");
-		sql.append("FD_Log_ID INT UNSIGNED NOT NULL PRIMARY KEY COMMENT 'ログ情報ID'").append(",");
-		sql.append("SQL_Text Text COMMENT ").append(FD_SQ).append("使用SQL文").append(FD_SQ).append(",");
-		sql.append("FD_Create DATETIME  COMMENT '登録日'").append(",");
-		sql.append("FD_Created INT UNSIGNED  COMMENT '登録者ID'").append(",");
-		sql.append("FD_Update DATETIME  COMMENT '更新日'").append(",");
-		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
-		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ログ情報'");
-		execute(env, sql.toString());
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "テーブル情報構築");
+		//テーブル情報登録
+		FDTable table = new FDTable();
+		int tableId = table.addData(env, 0, Table_Name, Name);
+		
+		//テーブル項目情報生成
+		FDTableColumn column = new FDTableColumn();
+		column.add(env, tableId, CLUMNNAME_FD_LOG_ID, NAME_FD_LOG_ID, COMMENT_FD_LOG_ID
+				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
+		column.add(env, tableId, CLUMNNAME_LOG_PROCESS_ID, NAME_LOG_PROCESS_ID, COMMENT_LOG_PROCESS_ID
+				, COLUMN_TYPE_INFORMATION_ID, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, CLUMNNAME_MESSAGE_TYPE_CODE, NAME_MESSAGE_TYPE_CODE, COMMENT_MESSAGE_TYPE_CODE
+				, COLUMN_TYPE_NUMBER, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, CLUMNNAME_MESSAGE_MODE_CODE, NAME_MESSAGE_MODE_CODE, CLUMNNAME_MESSAGE_MODE_CODE
+				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, CLUMNNAME_MESSAGE_TEXT, NAME_MESSAGE_TEXT, COMMENT_MESSAGE_TEXT
+				, COLUMN_TYPE_TEXT, 200, 50, I_FD_TableColumn.IS_PRIMARY_NO);
+		
+		column.add(env, tableId, COLUMNNAME_FD_CREATE, NAME_FD_CREATE, COMMENT_FD_CREATE
+				, COLUMN_TYPE_DATE, 0, 910, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_FD_CREATED, NAME_FD_CREATED, COMMENT_FD_CREATED
+				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_FD_UPDATE, NAME_FD_UPDATE, COMMENT_FD_UPDATE
+				, COLUMN_TYPE_DATE, 0, 930, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_FD_UPDATED, NAME_FD_UPDATED, COMMENT_FD_UPDATED
+				, COLUMN_TYPE_INFORMATION_ID, 0, 940, I_FD_TableColumn.IS_PRIMARY_NO);
+		
+		//テーブル生成
+		createDBTable(env, Table_Name);
+		
+		//採番情報登録
+		FDNumbering num = new FDNumbering();
+		num.add(env, tableId, 1000001, 0);
+		
+		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ログ情報テーブル生成完了");		
+		
 	}
 
 }
