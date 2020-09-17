@@ -5,6 +5,7 @@ import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Log;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.model.X_FD_Log;
 
 /**
  * ログ情報クラス<br>
@@ -25,15 +26,15 @@ public class FDLog extends FD_DB implements I_FD_Log {
 		
 		//テーブル項目情報生成
 		FDTableColumn column = new FDTableColumn();
-		column.add(env, tableId, CLUMNNAME_FD_LOG_ID, NAME_FD_LOG_ID, COMMENT_FD_LOG_ID
+		column.add(env, tableId, COLUMNNAME_FD_LOG_ID, NAME_FD_LOG_ID, COMMENT_FD_LOG_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
-		column.add(env, tableId, CLUMNNAME_LOG_PROCESS_ID, NAME_LOG_PROCESS_ID, COMMENT_LOG_PROCESS_ID
+		column.add(env, tableId, COLUMNNAME_LOG_PROCESS_ID, NAME_LOG_PROCESS_ID, COMMENT_LOG_PROCESS_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_TYPE_CODE, NAME_MESSAGE_TYPE_CODE, COMMENT_MESSAGE_TYPE_CODE
+		column.add(env, tableId, COLUMNNAME_MESSAGE_TYPE_CODE, NAME_MESSAGE_TYPE_CODE, COMMENT_MESSAGE_TYPE_CODE
 				, COLUMN_TYPE_NUMBER, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_MODE_CODE, NAME_MESSAGE_MODE_CODE, CLUMNNAME_MESSAGE_MODE_CODE
+		column.add(env, tableId, COLUMNNAME_MESSAGE_MODE_CODE, NAME_MESSAGE_MODE_CODE, COMMENT_MESSAGE_MODE_CODE
 				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_TEXT, NAME_MESSAGE_TEXT, COMMENT_MESSAGE_TEXT
+		column.add(env, tableId, COLUMNNAME_MESSAGE_TEXT, NAME_MESSAGE_TEXT, COMMENT_MESSAGE_TEXT
 				, COLUMN_TYPE_TEXT, 200, 50, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, tableId, COLUMNNAME_FD_CREATE, NAME_FD_CREATE, COMMENT_FD_CREATE
@@ -54,6 +55,25 @@ public class FDLog extends FD_DB implements I_FD_Log {
 		
 		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ログ情報テーブル生成完了");		
 		
+	}
+
+	/**
+	 * ログ情報登録<br>
+	 * @author officine-hide.com
+	 * @since 2020/09/17
+	 * @param env 環境情報
+	 * @param typeCD メッセージ種別
+	 * @param modeCD メッセージモード
+	 * @param message メッセージ本文
+	 */
+	public void addData(FD_EnvData env, int typeCD, int modeCD, String message) {
+		X_FD_Log log = new X_FD_Log(env);
+		log.setValue(COLUMNNAME_FD_LOG_ID, getNewID(env, getTableID(env, Table_Name)));
+		log.setValue(COLUMNNAME_LOG_PROCESS_ID, env.getProcessId());
+		log.setValue(COLUMNNAME_MESSAGE_TYPE_CODE, typeCD);
+		log.setValue(COLUMNNAME_MESSAGE_MODE_CODE, modeCD);
+		log.setValue(COLUMNNAME_MESSAGE_TEXT, changeEscape(message));
+		log.save(env);
 	}
 
 }

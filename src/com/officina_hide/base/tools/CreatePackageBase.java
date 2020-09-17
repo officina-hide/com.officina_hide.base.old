@@ -6,7 +6,9 @@ import java.util.Date;
 import com.officina_hide.accounts.tools.CreateAccountPackage;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Log;
+import com.officina_hide.base.model.I_FD_Process;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.documents.tools.CreateDocumnetPackage;
@@ -21,7 +23,7 @@ import com.officina_hide.documents.tools.CreateDocumnetPackage;
  * @since 2020/07/13
  * @param args 
  */
-public class CreatePackageBase {
+public class CreatePackageBase extends FD_DB {
 
 	/**
 	 * メイン処理<br>
@@ -83,9 +85,11 @@ public class CreatePackageBase {
 		//プロセス情報
 		FDProcess process = new FDProcess();
 		process.createTable(env);
+		//新規プロセス情報追加
+		process.startProcess(env, "SystemManage");
 		
 		//ログモードを変更。(テスト中のみ:初期構築はファイルとする。）
-		env.getLog().open(env, FD_Logging.LOG_DB_OUT, FD_Logging.MODE_DEBAG);
+//		env.getLog().open(env, FD_Logging.LOG_DB_OUT, FD_Logging.MODE_DEBAG);
 		
 		//画面情報
 //		FxView view = new FxView();

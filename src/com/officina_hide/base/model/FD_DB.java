@@ -31,10 +31,6 @@ public class FD_DB implements I_DB {
 	/** 項目リスト */
 	protected List<FD_Item> itemList = new ArrayList<>();
 	
-//	/**
-//	 * 環境情報
-//	 */
-//	private FD_EnvData env;
 	/**
 	 * データベース接続情報
 	 */
@@ -88,7 +84,6 @@ public class FD_DB implements I_DB {
 			connection(env);
 			stmt = conn.createStatement();
 			chk = stmt.executeUpdate(sql.toString());
-			env.getLog().add(env, FD_Logging.TYPE_DB, FD_Logging.MODE_DEBAG, sql.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -98,7 +93,7 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
-	 * テーブル情報を初夏保存する。<br>
+	 * テーブル情報を保存する。<br>
 	 * @author officina-hide.com ueno
 	 * @since 2.00 2020/08/30
 	 * @param env 環境情報
@@ -539,7 +534,7 @@ public class FD_DB implements I_DB {
 		String out = data;
 		out = out.replaceAll("\'", "\"");
 		out = out.replaceAll("\\\\", "\\\\\\\\");
-		System.out.println(out);
+//		System.out.println(out);
 		return out;
 	}
 

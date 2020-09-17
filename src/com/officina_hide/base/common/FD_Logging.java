@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.officina_hide.base.model.I_FD_Log;
 import com.officina_hide.base.model.X_FD_Log;
+import com.officina_hide.base.tools.FDLog;
 
 /**
  * ログ管理クラス<br>
@@ -120,27 +121,34 @@ public class FD_Logging implements I_FD_Log {
 	 * @param message メッセージ
 	 */
 	public void add(FD_EnvData env, String type, String mode, String message) {
+		int typeCD = 0;
+		int debugCD = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		StringBuffer msg = new StringBuffer();
 		switch(type) {
 			case TYPE_MESSAGE:
 				msg.append(df.format(new Date())).append(" info : ").append(message);
+				typeCD = MESSAGE_TYPE_INFORMATION;
 				break;
 			case TYPE_ERROR:
 				msg.append(df.format(new Date())).append(" error!! : ").append(message);
+				typeCD = MESSAGE_TYPE_ERROR;
 				break;
 			case TYPE_DB:
 				msg.append(df.format(new Date())).append(" DB : ").append(message);
+				typeCD = MESSAGE_TYPE_DB;
 				break;
 		}
 		//コンソール表示
 		switch(dispMode) {
 		case MODE_NORMAL:
+			debugCD = MESSAGE_MODE_NORMAL;
 			if(mode.equals(MODE_NORMAL)) {
 				System.out.println(msg.toString());
 			}
 			break;
 		case MODE_DEBAG:
+			debugCD = MESSAGE_MODE_DEBUG;
 			if(mode.equals(MODE_DEBAG) || mode.equals(MODE_NORMAL)) {
 				System.out.println(msg.toString());
 			}
@@ -149,9 +157,8 @@ public class FD_Logging implements I_FD_Log {
 		//ログファイル記録
 		if(isDBOut()) {
 			//ログをDBに出力する。
-			X_FD_Log log = new X_FD_Log(env);
-			// TODO ログプロセスIDの取得を構築する。(2020/09/17 ueno)
-			log.setValue(COMMENT_LOG_PROCESS_ID, 0);
+			FDLog log = new FDLog();
+			log.addData(env, typeCD, debugCD, message);
 		} else {
 			//ログをファイルに出力する。
 			try {

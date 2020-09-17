@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  * @version 1.00
  * @since 2020/09/15
  */
-public class Fx_VashBook_View extends Application implements I_Fx_CashBook_View {
+public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View {
 
 	/** 環境情報 */
 	private FD_EnvData env;
@@ -26,7 +26,7 @@ public class Fx_VashBook_View extends Application implements I_Fx_CashBook_View 
 	 * @author officine-hide.com
 	 * @since 1.00 2020/09/15
 	 */
-	public Fx_VashBook_View() {
+	public Fx_CashBook_View() {
 		env = new FD_EnvData();
 		/*
 		 * ログの出力モードをデータベースにする。

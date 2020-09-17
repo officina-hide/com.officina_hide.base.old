@@ -6,8 +6,8 @@ import java.io.IOException;
 /**
  * 環境情報<br>
  * <p>本クラスはパッケージを利用する上で普遍的な情報を扱う。</p>
- * @author ueno hideo
- * @version 1.20
+ * @author officine-hide.com
+ * @version 1.20 新規作成<br>
  * @since 2020/07/13
  */
 public class FD_EnvData {
@@ -78,6 +78,8 @@ public class FD_EnvData {
 	private String logFile_Path;
 	/** ログDB出力判定 */
 	private boolean DBOut;
+	/** プロセスID */
+	private int processId;
 	/**
 	 * システムユーザーID
 	 */
@@ -173,6 +175,20 @@ public class FD_EnvData {
 	 */
 	public void setDBOut(boolean dBOut) {
 		DBOut = dBOut;
+	}
+
+	/**
+	 * @return processId
+	 */
+	public int getProcessId() {
+		return processId;
+	}
+
+	/**
+	 * @param processId セットする processId
+	 */
+	public void setProcessId(int processId) {
+		this.processId = processId;
 	}
 
 }

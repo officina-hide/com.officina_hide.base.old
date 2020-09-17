@@ -1,10 +1,14 @@
 package com.officina_hide.base.tools;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Process;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.model.X_FD_Process;
 
 /**
  * プロセス情報クラス<br>
@@ -52,7 +56,24 @@ public class FDProcess extends FD_DB implements I_FD_Process {
 		FDNumbering num  = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
 		
-		env.getLog().add(env, FD_Logging.MODE_NORMAL, FD_Logging.MODE_NORMAL, "プロセス情報テーブル生成完了");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "プロセス情報テーブル生成完了");
+	}
+
+	/**
+	 * プロセス開始処理<br>
+	 * <p>プロセス情報を新規に作成し、プロセスの開始を記録する。</p>
+	 * @author officine-hide.com
+	 * @since 2020/09/17
+	 * @param env 環境情報
+	 * @param processName プロセス名
+	 */
+	public void startProcess(FD_EnvData env, String processName) {
+		X_FD_Process process = new X_FD_Process(env);
+		process.setValue(COLUMNNAME_FD_PROCESS_ID, getNewID(env, getTableID(env, Table_Name)));
+		process.setValue(COLUMNNAME_PROCESS_NAME, processName);
+		process.setValue(NAME_PROCESS_START, new Timestamp(new Date().getTime()));
+		process.save(env);
+		env.setProcessId(process.getIntOfValue(COLUMNNAME_FD_PROCESS_ID));
 	}
 
 }
