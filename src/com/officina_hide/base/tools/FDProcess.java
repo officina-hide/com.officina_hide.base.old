@@ -3,19 +3,21 @@ package com.officina_hide.base.tools;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
-import com.officina_hide.base.model.I_FD_Log;
+import com.officina_hide.base.model.I_FD_Process;
 import com.officina_hide.base.model.I_FD_TableColumn;
 
 /**
- * ログ情報クラス<br>
- * @author officine-hide.com ueno
- * @version 2.00
- * @since 2020/09/11
+ * プロセス情報クラス<br>
+ * @author officine-hide.com
+ * @version 2.11
+ * @since 2020/09/17
  */
-public class FDLog extends FD_DB implements I_FD_Log {
+public class FDProcess extends FD_DB implements I_FD_Process {
 
 	/**
-	 * ログ情報テーブル生成
+	 * プロセス情報テーブル生成<br>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/17
 	 * @param env 環境情報
 	 */
 	public void createTable(FD_EnvData env) {
@@ -23,18 +25,16 @@ public class FDLog extends FD_DB implements I_FD_Log {
 		FDTable table = new FDTable();
 		int tableId = table.addData(env, 0, Table_Name, Name);
 		
-		//テーブル項目情報生成
+		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
-		column.add(env, tableId, CLUMNNAME_FD_LOG_ID, NAME_FD_LOG_ID, COMMENT_FD_LOG_ID
+		column.add(env, tableId, COLUMNNAME_FD_PROCESS_ID, NAME_FD_PROCESS_ID, COMMENT_FD_PROCESS_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
-		column.add(env, tableId, CLUMNNAME_LOG_PROCESS_ID, NAME_LOG_PROCESS_ID, COMMENT_LOG_PROCESS_ID
-				, COLUMN_TYPE_INFORMATION_ID, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_TYPE_CODE, NAME_MESSAGE_TYPE_CODE, COMMENT_MESSAGE_TYPE_CODE
-				, COLUMN_TYPE_NUMBER, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_MODE_CODE, NAME_MESSAGE_MODE_CODE, CLUMNNAME_MESSAGE_MODE_CODE
-				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, CLUMNNAME_MESSAGE_TEXT, NAME_MESSAGE_TEXT, COMMENT_MESSAGE_TEXT
-				, COLUMN_TYPE_TEXT, 200, 50, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_PROCESS_NAME, NAME_PROCESS_NAME, COMMENT_PROCESS_NAME
+				, COLUMN_TYPE_TEXT, 100, 20, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_PROCESS_START, NAME_PROCESS_START, COMMENT_PROCESS_START
+				, COLUMN_TYPE_DATE, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_PROCESS_END, NAME_PROCESS_END, COMMENT_PROCESS_END
+				, COLUMN_TYPE_DATE, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, tableId, COLUMNNAME_FD_CREATE, NAME_FD_CREATE, COMMENT_FD_CREATE
 				, COLUMN_TYPE_DATE, 0, 910, I_FD_TableColumn.IS_PRIMARY_NO);
@@ -49,11 +49,10 @@ public class FDLog extends FD_DB implements I_FD_Log {
 		createDBTable(env, Table_Name);
 		
 		//採番情報登録
-		FDNumbering num = new FDNumbering();
+		FDNumbering num  = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
 		
-		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ログ情報テーブル生成完了");		
-		
+		env.getLog().add(env, FD_Logging.MODE_NORMAL, FD_Logging.MODE_NORMAL, "プロセス情報テーブル生成完了");
 	}
 
 }

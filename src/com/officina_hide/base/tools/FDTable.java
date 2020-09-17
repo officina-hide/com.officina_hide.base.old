@@ -39,7 +39,8 @@ public class FDTable extends FD_DB implements I_FD_Table {
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル情報'");
 		execute(env, sql.toString());
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "テーブル情報構築");
+		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "テーブル情報構築");
 	}
 
 	/**

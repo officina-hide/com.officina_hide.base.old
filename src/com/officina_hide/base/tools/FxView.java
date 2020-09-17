@@ -42,7 +42,7 @@ public class FxView extends FD_DB implements I_Fx_View {
 		sql.append("FD_Updated INT UNSIGNED  COMMENT '更新者ID'");
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='画面情報'");
 		execute(env, sql.toString());
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面情報構築");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面情報構築");
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();

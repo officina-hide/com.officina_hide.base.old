@@ -1,6 +1,7 @@
 package com.officina_hide.base.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
@@ -83,6 +84,8 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
 		add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者ID（ユーザー情報ID）"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
+		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "テーブル項目情報構築");
 }
 
 	/**

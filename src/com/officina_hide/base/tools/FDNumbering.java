@@ -47,7 +47,7 @@ public class FDNumbering extends FD_DB implements I_FD_Numbering {
 		//採番情報登録
 		add(env, I_FD_Numbering.Table_ID, 1000001, 0);
 
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "採番情報テーブル構築完了");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "採番情報テーブル構築完了");
 	}
 
 	/**

@@ -76,6 +76,8 @@ public class FD_EnvData {
 	 * ログファイルパス
 	 */
 	private String logFile_Path;
+	/** ログDB出力判定 */
+	private boolean DBOut;
 	/**
 	 * システムユーザーID
 	 */
@@ -159,6 +161,18 @@ public class FD_EnvData {
 	 */
 	public void setLoginUserID(int loginUserID) {
 		this.loginUserID = loginUserID;
+	}
+	/**
+	 * @return dBOut
+	 */
+	public boolean isDBOut() {
+		return DBOut;
+	}
+	/**
+	 * @param dBOut セットする dBOut
+	 */
+	public void setDBOut(boolean dBOut) {
+		DBOut = dBOut;
 	}
 
 }

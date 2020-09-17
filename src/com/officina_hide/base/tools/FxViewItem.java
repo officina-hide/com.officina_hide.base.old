@@ -43,7 +43,7 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 		sql.append(COLUMNNAME_FD_UPDATED).append(" INT UNSIGNED COMMENT ").append(FD_SQ).append("更新者ID").append(FD_SQ);
 		sql.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='テーブル項目情報'");
 		execute(env, sql.toString());
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面項目情報テーブル構築");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面項目情報テーブル構築");
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();

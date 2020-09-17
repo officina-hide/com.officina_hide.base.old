@@ -6,6 +6,7 @@ import java.util.Date;
 import com.officina_hide.accounts.tools.CreateAccountPackage;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_Logging;
+import com.officina_hide.base.model.I_FD_Log;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.documents.tools.CreateDocumnetPackage;
@@ -41,7 +42,7 @@ public class CreatePackageBase {
 		//開始メッセージ
 		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_DEBAG);
 //		env.getLog().open(env, FD_Logging.LOG_INITIALIZE, FD_Logging.MODE_NORMAL);
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Start Package Base Creating");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Start Package Base Creating");
 		/*
 		 * システムに関する機能を優先して構築していくこととした。(Ver 2.00 2020/08/27 ueno)
 		 * ログインに必要なテーブルの作成
@@ -79,55 +80,61 @@ public class CreatePackageBase {
 		//DB対応ログ情報
 		FDLog log = new FDLog();
 		log.createTable(env);
+		//プロセス情報
+		FDProcess process = new FDProcess();
+		process.createTable(env);
+		
+		//ログモードを変更。(テスト中のみ:初期構築はファイルとする。）
+		env.getLog().open(env, FD_Logging.LOG_DB_OUT, FD_Logging.MODE_DEBAG);
 		
 		//画面情報
-		FxView view = new FxView();
-		view.createTable(env);
+//		FxView view = new FxView();
+//		view.createTable(env);
 		//画面項目種別をリファレンス情報に登録する。
-		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT, "テキスト項目");
-		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER, "数値項目");
-		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
+//		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT, "テキスト項目");
+//		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER, "数値項目");
+//		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
 		
 //		view.addData(env,  "Fx_Login", "ログイン画面");
 //		view.addData(env,  "Fx_Menu", "総合メニュー画面"); 
-		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面", 700, 300, I_FD_Table.Table_Name);
+//		int viewItemId = view.addData(env,  "Fx_TableInfoemation", "テーブル情報画面", 700, 300, I_FD_Table.Table_Name);
 //		view.addData(env,  "Fx_View", "画面情報画面");
 		
 		//画面項目情報
-		FxViewItem viewItem = new FxViewItem();
-		viewItem.createTable(env);
-		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_TABLE_NAME, "テーブル名"
-				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
-		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_NAME, "テーブル表示名"
-				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
-		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_COMMENT, "説明"
-				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD);
+//		FxViewItem viewItem = new FxViewItem();
+//		viewItem.createTable(env);
+//		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_TABLE_NAME, "テーブル名"
+//				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+//		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_NAME, "テーブル表示名"
+//				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT);
+//		viewItem.addData(env, viewItemId, I_FD_Table.COLUMNNAME_FD_COMMENT, "説明"
+//				, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD);
 
 		
 		/*
 		 * ドキュメント管理に必要な設定を行う。
 		 * @sinse 2.10 2020/09/12
 		 */
-		new CreateDocumnetPackage(env);
+//		new CreateDocumnetPackage(env);
 		
 		/*
 		 * 会計管理に必要な設定を行う。
 		 * @sinse 2.11 2020/0912
 		 * 今回のバージョンでは、現金出納を中心にパッケージを作成する。
 		 */
-		new CreateAccountPackage(env);
+//		new CreateAccountPackage(env);
 		
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);
 //		createUserTable.addData(env, 100, "System", "admin");
 		
 		//終了メッセージ
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Package Base Creating is completed!!");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Package Base Creating is completed!!");
 		double startTime = StartDate.getTime();
 		double endTime = new Date().getTime();
 		double elapseTime = (endTime - startTime) / 1000;
 		DecimalFormat df = new DecimalFormat("0.000");
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "elapsed time " + df.format(elapseTime) + " Seconds");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "elapsed time " + df.format(elapseTime) + " Seconds");
 		env.getLog().close();
 	}
 

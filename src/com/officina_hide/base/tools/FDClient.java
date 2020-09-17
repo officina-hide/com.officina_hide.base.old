@@ -48,7 +48,7 @@ public class FDClient extends FD_DB implements I_FD_Client {
 		//テーブル生成
 		createDBTable(env, Table_Name);
 		
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "クライアント情報テーブル生成完了");		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "クライアント情報テーブル生成完了");		
 	}
 
 }

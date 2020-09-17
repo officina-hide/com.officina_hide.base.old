@@ -88,7 +88,7 @@ public class FD_DB implements I_DB {
 			connection(env);
 			stmt = conn.createStatement();
 			chk = stmt.executeUpdate(sql.toString());
-			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_DEBAG, sql.toString());
+			env.getLog().add(env, FD_Logging.TYPE_DB, FD_Logging.MODE_DEBAG, sql.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -299,7 +299,7 @@ public class FD_DB implements I_DB {
 						.append(":3306/")
 						.append(env.getDB_Name());
 				conn = DriverManager.getConnection(url.toString(), env.getDB_User(), env.getDB_Password());
-				env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_DEBAG, "Database Connected.");
+				env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_DEBAG, "Database Connected.");
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -328,7 +328,7 @@ public class FD_DB implements I_DB {
 			if(rs.next()) {
 				id = rs.getInt("FD_Table_ID");
 			} else {
-				env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Table ID not found ["+tableName+"]");
+				env.getLog().add(env, FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Table ID not found ["+tableName+"]");
 				new Exception();
 			}
 		} catch (SQLException e) {
@@ -391,7 +391,7 @@ public class FD_DB implements I_DB {
 			if(rs.next()) {
 				id = rs.getInt("FD_Reference_ID");
 			} else {
-				env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Reference not found ["+referenceName+"]");
+				env.getLog().add(env, FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Reference not found ["+referenceName+"]");
 				new Exception();
 			}
 		} catch (SQLException e) {
@@ -429,7 +429,7 @@ public class FD_DB implements I_DB {
 					number = rs.getInt("Current_Number") + 1;
 				}
 			} else {
-				env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Numbering Table not found ["+tableId+"]");
+				env.getLog().add(env, FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "Numbering Table not found ["+tableId+"]");
 				new Exception();
 			}
 			//採番情報更新
