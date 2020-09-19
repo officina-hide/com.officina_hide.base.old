@@ -24,7 +24,8 @@ import com.officina_hide.base.common.FD_WhereData;
  * <p>本クラスでは、データベースの基本的な操作に関する機能を提供します。<br>
  * This class provides functions related to basic database operations.</p>
  * @author ueno hideo
- * @version 1.20
+ * @version 1.20 新規作成
+ * @version 2.11 SetValueに環境情報(FD_envData)を追加
  * @since 2020/07/15
  */
 public class FD_DB implements I_DB {
@@ -57,15 +58,25 @@ public class FD_DB implements I_DB {
 
 	/**
 	 * 項目リストにデータを登録する。
+	 * @sinse 2.11 2020/09/19 環境情報をSetValueに追加する。
+	 * @param env 環境情報
 	 * @param itemName 項目名
 	 * @param data データ
 	 */
-	public void setValue(String itemName, Object data) {
+	public void setValue(FD_EnvData env, String itemName, Object data) {
+		boolean see = false;
 		for(FD_Item item : itemList) {
 			if(item.getItemName().equals(itemName)) {
+				see = true;
 				item.setItemData(data);
 				break;
 			}
+		}
+		
+		if(see == false) {
+			String message = "table not found column name : "+itemName;
+			env.getLog().add(env, FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, message);
+			new Exception(message);
 		}
 	}
 	
@@ -101,17 +112,17 @@ public class FD_DB implements I_DB {
 	public void save(FD_EnvData env, String tableName) {
 		//登録日、更新日設定
 		if(getDateOfValue(COLUMNNAME_FD_CREATE) == null) {
-			setValue(COLUMNNAME_FD_CREATE, new Date());
-			setValue(COLUMNNAME_FD_UPDATE, new Date());
-			setValue(COLUMNNAME_FD_CREATED, env.getLoginUserID());
-			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
+			setValue(env, COLUMNNAME_FD_CREATE, new Date());
+			setValue(env, COLUMNNAME_FD_UPDATE, new Date());
+			setValue(env, COLUMNNAME_FD_CREATED, env.getLoginUserID());
+			setValue(env, COLUMNNAME_FD_UPDATED, env.getLoginUserID());
 		} else {
-			setValue(COLUMNNAME_FD_UPDATE, new Date());
-			setValue(COLUMNNAME_FD_UPDATED, env.getLoginUserID());
+			setValue(env, COLUMNNAME_FD_UPDATE, new Date());
+			setValue(env, COLUMNNAME_FD_UPDATED, env.getLoginUserID());
 		}
 		//情報ID発行
 		if(getIntOfValue(tableName+"_ID") == 0) {
-			setValue(tableName+"_ID", getNewID(env, getTableID(env, tableName)));
+			setValue(env, tableName+"_ID", getNewID(env, getTableID(env, tableName)));
 		}
 
 		StringBuffer sql = new StringBuffer();

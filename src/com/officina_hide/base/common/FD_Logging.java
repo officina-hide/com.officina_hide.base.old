@@ -66,17 +66,17 @@ public class FD_Logging implements I_FD_Log {
 	 * @author officine-hide.com
 	 * @since 1.20 2020/07/16
 	 * @param env 環境情報
-	 * @param start オープン時処理
+	 * @param openMode オープン時処理
 	 * @param mode ログ対象モード
 	 */
-	public void open(FD_EnvData env, String start, String mode) {
+	public void open(FD_EnvData env, String openMode, String mode) {
 		//表示モードセット
 		this.dispMode = mode;
 
 		/*
 		 * startが LOG_DB_OUT の時、出力先をDBのログ情報とする。<br>
 		 */
-		if(start.equals(LOG_DB_OUT)) {
+		if(openMode.equals(LOG_DB_OUT)) {
 			//ログファイルをクローズする。
 			close();
 			setDBOut(true);
@@ -99,7 +99,7 @@ public class FD_Logging implements I_FD_Log {
 			}
 			DecimalFormat nf = new DecimalFormat("00");
 			try {
-				if(start.equals(LOG_INITIALIZE)) {
+				if(openMode.equals(LOG_INITIALIZE)) {
 					fileName = "Log_"+fileName + "_" + nf.format(count + 1)+".log";
 					logFile = new FileWriter(env.getLogFile_Path()+"\\"+fileName, false);
 				} else {
@@ -176,7 +176,9 @@ public class FD_Logging implements I_FD_Log {
 	 */
 	public void close() {
 		try {
-			logFile.close();
+			if(logFile != null) {
+				logFile.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

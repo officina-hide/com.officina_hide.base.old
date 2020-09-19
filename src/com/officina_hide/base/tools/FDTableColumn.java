@@ -104,21 +104,21 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 	public void add(FD_EnvData env, int tableId, String tableColumnName
 			, String name, String comment, String type, int size, int sortNo, String isPKey) {
 		X_FD_TableColumn column = new X_FD_TableColumn(env);
-		column.setValue(COLUMNNAME_FD_TABLECOLUMN_ID, getNewID(env, Table_ID));
-		column.setValue(COLUMNNAME_FD_TABLE_ID, tableId);
-		column.setValue(COLUMNNAME_TABLECOLUMN_NAME, tableColumnName);
-		column.setValue(COLUMNNAME_FD_NAME, name);
-		column.setValue(COLUMNNAME_FD_COMMENT, comment);
+		column.setValue(env, COLUMNNAME_FD_TABLECOLUMN_ID, getNewID(env, Table_ID));
+		column.setValue(env, COLUMNNAME_FD_TABLE_ID, tableId);
+		column.setValue(env, COLUMNNAME_TABLECOLUMN_NAME, tableColumnName);
+		column.setValue(env, COLUMNNAME_FD_NAME, name);
+		column.setValue(env, COLUMNNAME_FD_COMMENT, comment);
 		int typeId = getReferenceID(env, type);
-		column.setValue(COLUMNNAME_TABLECOLUMN_TYPE_ID, typeId);
-		column.setValue(COLUMNNAME_TABLECOLUMN_SIZE, size);
-		column.setValue(COLUMNNAME_COLUMN_SORT_ORDER, sortNo);
+		column.setValue(env, COLUMNNAME_TABLECOLUMN_TYPE_ID, typeId);
+		column.setValue(env, COLUMNNAME_TABLECOLUMN_SIZE, size);
+		column.setValue(env, COLUMNNAME_COLUMN_SORT_ORDER, sortNo);
 		if(isPKey.equals(IS_PRIMARY_YES)) {
-			column.setValue(COLUMNNAME_IS_PRIMARY, IS_PRIMARY_YES);
-			column.setValue(COLUMNNAME_IS_NULL, IS_NULL_YES);
+			column.setValue(env, COLUMNNAME_IS_PRIMARY, IS_PRIMARY_YES);
+			column.setValue(env, COLUMNNAME_IS_NULL, IS_NULL_YES);
 		} else {
-			column.setValue(COLUMNNAME_IS_PRIMARY, IS_PRIMARY_NO);
-			column.setValue(COLUMNNAME_IS_NULL, IS_NULL_NO);
+			column.setValue(env, COLUMNNAME_IS_PRIMARY, IS_PRIMARY_NO);
+			column.setValue(env, COLUMNNAME_IS_NULL, IS_NULL_NO);
 		}
 		column.save(env);
 	}

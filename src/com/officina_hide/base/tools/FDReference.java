@@ -92,9 +92,9 @@ public class FDReference extends FD_DB implements I_FD_Reference {
 	 */
 	public void addData(FD_EnvData env, String refName, String name) {
 		X_FD_Reference ref = new X_FD_Reference(env);
-		ref.setValue(COLUMNNAME_FD_REFERENCE_ID, getNewID(env, Table_ID));
-		ref.setValue(COLUMNNAME_REFERENCE_NAME, refName);
-		ref.setValue(COLUMNNAME_FD_NAME, name);
+		ref.setValue(env, COLUMNNAME_FD_REFERENCE_ID, getNewID(env, Table_ID));
+		ref.setValue(env, COLUMNNAME_REFERENCE_NAME, refName);
+		ref.setValue(env, COLUMNNAME_FD_NAME, name);
 		ref.save(env);
 	}
 

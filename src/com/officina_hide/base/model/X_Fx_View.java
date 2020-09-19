@@ -18,7 +18,7 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	 */
 	public X_Fx_View(FD_EnvData env) {
 		//項目リストセット
-		createItemList(env, Table_ID);
+		createItemList(env, getTableID(env, Table_Name));
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class X_Fx_View extends FD_DB implements I_Fx_View {
 	 */
 	public X_Fx_View(FD_EnvData env, FD_WhereData where) {
 		//項目リストセット
-		createItemList(env, Table_ID);
+		createItemList(env, getTableID(env, Table_Name));
 		//情報抽出
 		load(env, where, Table_Name);
 	}

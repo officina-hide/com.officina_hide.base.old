@@ -59,9 +59,9 @@ public class FDTable extends FD_DB implements I_FD_Table {
 			tableId = getNewID(env, Table_ID);
 		}
 		X_FD_Table table = new X_FD_Table(env);
-		table.setValue(I_FD_Table.COLUMNNAME_FD_TABLE_ID, tableId);
-		table.setValue(I_FD_Table.COLUMNNAME_TABLE_NAME, tableName);
-		table.setValue(I_FD_Table.COLUMNNAME_FD_NAME, name);
+		table.setValue(env, COLUMNNAME_FD_TABLE_ID, tableId);
+		table.setValue(env, COLUMNNAME_TABLE_NAME, tableName);
+		table.setValue(env, COLUMNNAME_FD_NAME, name);
 		table.save(env);
 		
 		return tableId;

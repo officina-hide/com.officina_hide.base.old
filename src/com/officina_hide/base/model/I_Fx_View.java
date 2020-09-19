@@ -10,9 +10,6 @@ public interface I_Fx_View {
 	/** テーブル名.<br> */
 	public final String Table_Name = "Fx_View";
 
-	/** テーブルID */
-	public final int Table_ID =110;
-
 	/** 画面情報ID */
 	public final String COLUMNNAME_FX_VIEW_ID = "Fx_View_ID";
 	

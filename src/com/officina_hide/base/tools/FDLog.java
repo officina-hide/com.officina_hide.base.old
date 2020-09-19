@@ -68,11 +68,11 @@ public class FDLog extends FD_DB implements I_FD_Log {
 	 */
 	public void addData(FD_EnvData env, int typeCD, int modeCD, String message) {
 		X_FD_Log log = new X_FD_Log(env);
-		log.setValue(COLUMNNAME_FD_LOG_ID, getNewID(env, getTableID(env, Table_Name)));
-		log.setValue(COLUMNNAME_LOG_PROCESS_ID, env.getProcessId());
-		log.setValue(COLUMNNAME_MESSAGE_TYPE_CODE, typeCD);
-		log.setValue(COLUMNNAME_MESSAGE_MODE_CODE, modeCD);
-		log.setValue(COLUMNNAME_MESSAGE_TEXT, changeEscape(message));
+		log.setValue(env, COLUMNNAME_FD_LOG_ID, getNewID(env, getTableID(env, Table_Name)));
+		log.setValue(env, COLUMNNAME_LOG_PROCESS_ID, env.getProcessId());
+		log.setValue(env, COLUMNNAME_MESSAGE_TYPE_CODE, typeCD);
+		log.setValue(env, COLUMNNAME_MESSAGE_MODE_CODE, modeCD);
+		log.setValue(env, COLUMNNAME_MESSAGE_TEXT, changeEscape(message));
 		log.save(env);
 	}
 

@@ -69,9 +69,9 @@ public class FDProcess extends FD_DB implements I_FD_Process {
 	 */
 	public void startProcess(FD_EnvData env, String processName) {
 		X_FD_Process process = new X_FD_Process(env);
-		process.setValue(COLUMNNAME_FD_PROCESS_ID, getNewID(env, getTableID(env, Table_Name)));
-		process.setValue(COLUMNNAME_PROCESS_NAME, processName);
-		process.setValue(NAME_PROCESS_START, new Timestamp(new Date().getTime()));
+		process.setValue(env, COLUMNNAME_FD_PROCESS_ID, getNewID(env, getTableID(env, Table_Name)));
+		process.setValue(env, COLUMNNAME_PROCESS_NAME, processName);
+		process.setValue(env, COLUMNNAME_PROCESS_START, new Timestamp(new Date().getTime()));
 		process.save(env);
 		env.setProcessId(process.getIntOfValue(COLUMNNAME_FD_PROCESS_ID));
 	}

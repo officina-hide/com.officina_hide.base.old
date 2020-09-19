@@ -20,7 +20,7 @@ public class CreateAccountPackage {
 	 */
 	public CreateAccountPackage(FD_EnvData env) {
 		//開始メッセージ
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "会計管理リソース構築開始");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "会計管理リソース構築開始");
 		
 		/*
 		 * 金銭出納帳情報は、クライアント単位に構築する。<br>

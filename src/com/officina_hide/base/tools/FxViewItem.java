@@ -90,11 +90,11 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 		X_Fx_ViewItem item = new X_Fx_ViewItem(env);
 		int viewItemId = getNewID(env, Table_ID);
 		int typeId = getReferenceID(env, typeName);
-		item.setValue(COLUMNNAME_FX_VIEWITEM_ID, viewItemId);
-		item.setValue(COLUMNNAME_FX_VIEW_ID, viewID);
-		item.setValue(COLUMNNAME_VIEWITEM_NAME, viewItemName);
-		item.setValue(COLUMNNAME_FD_NAME, name);
-		item.setValue(COLUMNNAME_VIEWITEM_TYPE_ID, typeId);
+		item.setValue(env, COLUMNNAME_FX_VIEWITEM_ID, viewItemId);
+		item.setValue(env, COLUMNNAME_FX_VIEW_ID, viewID);
+		item.setValue(env, COLUMNNAME_VIEWITEM_NAME, viewItemName);
+		item.setValue(env, COLUMNNAME_FD_NAME, name);
+		item.setValue(env, COLUMNNAME_VIEWITEM_TYPE_ID, typeId);
 		item.save(env);
 	}
 

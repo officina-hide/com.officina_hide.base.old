@@ -5,8 +5,11 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.X_Fx_View;
+import com.officina_hide.base.tools.FDProcess;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -19,6 +22,8 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 
 	/** 環境情報 */
 	private FD_EnvData env;
+	/** プロセス情報クラス */
+	FDProcess process = new FDProcess();
 	
 	/**
 	 * コンストラクター<br>
@@ -27,11 +32,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	 * @since 1.00 2020/09/15
 	 */
 	public Fx_CashBook_View() {
-		env = new FD_EnvData();
-		/*
-		 * ログの出力モードをデータベースにする。
-		 * FIXME データーベースでのログ管理を作成する。(2020/09/15 ueno)
-		 */
+		env = new FD_EnvData(View_Name);
 	}
 
 	@Override
@@ -39,7 +40,14 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 		//画面情報取得
 		FD_WhereData where = new FD_WhereData(I_Fx_View.COLUMNNAME_VIEW_NAME, View_Name);
 		X_Fx_View view = new X_Fx_View(env, where);
-		System.out.println(view.getIntOfValue(I_Fx_View.COLUMNNAME_TABLE_ID));
+		
+		//ルート設定
+		VBox root = new VBox(5);
+		
+		//画面表示
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	public static void main(String[] args) {

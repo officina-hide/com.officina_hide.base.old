@@ -46,35 +46,35 @@ public class FxView extends FD_DB implements I_Fx_View {
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		table.addData(env, I_Fx_View.Table_ID, I_Fx_View.Table_Name, "画面情報");
+		int tableId = table.addData(env, 0, Table_Name, "画面情報");
 
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
-		column.add(env, Table_ID, COLUMNNAME_FX_VIEW_ID, "画面情報ID", "画面情報を識別するための情報ID"
+		column.add(env, tableId, COLUMNNAME_FX_VIEW_ID, "画面情報ID", "画面情報を識別するための情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
-		column.add(env, Table_ID, COLUMNNAME_VIEW_NAME, "画面名", "画面の物理名"
+		column.add(env, tableId, COLUMNNAME_VIEW_NAME, "画面名", "画面の物理名"
 				, COLUMN_TYPE_TEXT, 100, 20, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_FD_NAME, "画面表示名", "画面の論理名、画面タイトル等で使用される。"
+		column.add(env, tableId, COLUMNNAME_FD_NAME, "画面表示名", "画面の論理名、画面タイトル等で使用される。"
 				, COLUMN_TYPE_TEXT, 100, 30, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_VIEW_PRE_WIDTH, "画面幅初期値", "画面表示幅の初期値"
+		column.add(env, tableId, COLUMNNAME_VIEW_PRE_WIDTH, "画面幅初期値", "画面表示幅の初期値"
 				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_VIEW_PRE_HEIGHT, "画面高さ初期値", "画面表示高さの初期値"
+		column.add(env, tableId, COLUMNNAME_VIEW_PRE_HEIGHT, "画面高さ初期値", "画面表示高さの初期値"
 				, COLUMN_TYPE_NUMBER, 0, 50, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_TABLE_ID, "画面取扱テーブル情報ID", "画面の対象となるテーブル情報の情報ID"
+		column.add(env, tableId, COLUMNNAME_TABLE_ID, "画面取扱テーブル情報ID", "画面の対象となるテーブル情報の情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 60, I_FD_TableColumn.IS_PRIMARY_NO);
 		
-		column.add(env, Table_ID, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
+		column.add(env, tableId, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者ID（ユーザー情報ID）"
+		column.add(env, tableId, COLUMNNAME_FD_CREATED, "登録者ID", "情報の登録者ID（ユーザー情報ID）"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_FD_UPDATE, "更新日", "情報の更新日"
+		column.add(env, tableId, COLUMNNAME_FD_UPDATE, "更新日", "情報の更新日"
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, Table_ID, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者ID（ユーザー情報ID）"
+		column.add(env, tableId, COLUMNNAME_FD_UPDATED, "更新者ID", "情報の更新者ID（ユーザー情報ID）"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 920, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		//採番情報登録
 		FDNumbering num = new FDNumbering();
-		num.add(env, I_Fx_View.Table_ID, 1000001, 0);
+		num.add(env, tableId, 1000001, 0);
 	}
 
 	/**
@@ -90,14 +90,14 @@ public class FxView extends FD_DB implements I_Fx_View {
 	 * @return 画面情報ID
 	 */
 	public int addData(FD_EnvData env, String ViewName, String name, int width, int height, String tableName) {
-		int viewId = getNewID(env, Table_ID);
+		int viewId = getNewID(env, getTableID(env, I_Fx_View.Table_Name));
 		X_Fx_View view = new X_Fx_View(env);
-		view.setValue(COLUMNNAME_FX_VIEW_ID, viewId);
-		view.setValue(COLUMNNAME_VIEW_NAME, ViewName);
-		view.setValue(COLUMNNAME_FD_NAME, name);
-		view.setValue(COLUMNNAME_VIEW_PRE_WIDTH, width);
-		view.setValue(COLUMNNAME_VIEW_PRE_HEIGHT, height);
-		view.setValue(COLUMNNAME_TABLE_ID, getTableID(env, tableName));
+		view.setValue(env, COLUMNNAME_FX_VIEW_ID, viewId);
+		view.setValue(env, COLUMNNAME_VIEW_NAME, ViewName);
+		view.setValue(env, COLUMNNAME_FD_NAME, name);
+		view.setValue(env, COLUMNNAME_VIEW_PRE_WIDTH, width);
+		view.setValue(env, COLUMNNAME_VIEW_PRE_HEIGHT, height);
+		view.setValue(env, COLUMNNAME_TABLE_ID, getTableID(env, tableName));
 		view.save(env);
 		
 		return viewId;

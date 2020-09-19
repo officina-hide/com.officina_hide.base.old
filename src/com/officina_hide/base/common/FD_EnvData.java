@@ -3,6 +3,8 @@ package com.officina_hide.base.common;
 import java.io.File;
 import java.io.IOException;
 
+import com.officina_hide.base.tools.FDProcess;
+
 /**
  * 環境情報<br>
  * <p>本クラスはパッケージを利用する上で普遍的な情報を扱う。</p>
@@ -20,6 +22,20 @@ public class FD_EnvData {
 	 */
 	public FD_EnvData() {
 		getEnvData();
+	}
+
+	/**
+	 * コンストラクター<br>
+	 * <p>実体化時に、DB出力モードでログをOpenする。</p>
+	 * @param processName プロセス名
+	 */
+	public FD_EnvData(String processName) {
+		getEnvData();
+		//ログOpen(DBモード)
+		this.getLog().open(this, FD_Logging.LOG_DB_OUT, FD_Logging.MODE_DEBAG);
+		//プロセススタート
+		FDProcess process = new FDProcess();
+		process.startProcess(this, processName);
 	}
 
 	/**

@@ -59,7 +59,7 @@ public class ACCashBook extends FD_DB implements I_AC_CashBook {
 		FDNumbering num = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
 		
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "現金出納情報テーブル生成完了");		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "現金出納情報テーブル生成完了");		
 	}
 
 }
