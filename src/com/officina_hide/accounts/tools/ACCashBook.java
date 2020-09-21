@@ -34,7 +34,7 @@ public class ACCashBook extends FD_DB implements I_AC_CashBook {
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
 		column.add(env, tableId, COLUMNNAME_TREASURER_DATE,  NAME_TREASURER_DATE, COMMENT_TREASURER_DATE
 				, COLUMN_TYPE_DATE, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, COLUMNNAME_AC_ACOUNT_CODE_ID, "勘定科目情報ID", "出納の勘定科目の情報ID"
+		column.add(env, tableId, COLUMNNAME_AC_ACOUNT_CODE_ID, NAME_AC_ACOUNT_CODE_ID, COMMENT_AC_ACOUNT_CODE_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_BALANCE_CODE, "収支区分", "出納の収支を表す区分"
 				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);

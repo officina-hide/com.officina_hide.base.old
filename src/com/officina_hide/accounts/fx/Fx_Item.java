@@ -1,5 +1,7 @@
 package com.officina_hide.accounts.fx;
 
+import javafx.scene.Node;
+
 /**
  * 画面項目クラス<br>
  * @author officine-hide.com
@@ -10,8 +12,10 @@ public class Fx_Item {
 
 	/** 項目名 */
 	private String itemName;
-	/**  */
+	/** 項目種別名 */
 	private String itemType;
+	/** 画面ノード */
+	private Node itemNode;
 
 	/**
 	 * @return itemName
@@ -40,5 +44,12 @@ public class Fx_Item {
 	public void setItemType(String itemType) {
 		this.itemType = itemType;
 	}
-	
+
+	public Node getItemNode() {
+		return itemNode;
+	}
+
+	public void setItemNode(Node itemNode) {
+		this.itemNode = itemNode;
+	}
 }

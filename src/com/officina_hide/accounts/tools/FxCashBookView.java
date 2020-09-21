@@ -1,9 +1,12 @@
 package com.officina_hide.accounts.tools;
 
+import com.officina_hide.accounts.fx.I_Fx_CashBook_View;
+import com.officina_hide.accounts.model.I_AC_Acount_Code;
 import com.officina_hide.accounts.model.I_AC_CashBook;
-import com.officina_hide.accounts.model.I_Fx_CashBook_View;
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.base.model.X_Fx_ViewItem;
 import com.officina_hide.base.tools.FxView;
 import com.officina_hide.base.tools.FxViewItem;
 
@@ -13,7 +16,7 @@ import com.officina_hide.base.tools.FxViewItem;
  * @version 1.00
  * @since 2020/09/15
  */
-public class FxCashBookView implements I_Fx_CashBook_View, I_AC_CashBook {
+public class FxCashBookView extends FD_DB implements I_Fx_CashBook_View, I_AC_CashBook {
 
 	/**
 	 * Fx現金出納画面の生成<br>
@@ -28,7 +31,13 @@ public class FxCashBookView implements I_Fx_CashBook_View, I_AC_CashBook {
 		
 		//画面項目登録
 		FxViewItem item = new FxViewItem();
-		item.addData(env, viewId, COLUMNNAME_TREASURER_DATE, NAME_TREASURER_DATE, I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE);
+		item.addData(env, viewId, COLUMNNAME_TREASURER_DATE, NAME_TREASURER_DATE, I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE
+				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_TREASURER_DATE));
+		int viewItemId = item.addData(env, viewId, COLUMNNAME_AC_ACOUNT_CODE_ID, "勘定科目", I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE
+				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_AC_ACOUNT_CODE_ID));
+		X_Fx_ViewItem acode = new X_Fx_ViewItem(env, viewItemId);
+		acode.setValue(env, I_Fx_ViewItem.COLUMNNAME_SEARCH_TABLE_ID, getTableID(env, I_AC_Acount_Code.Table_Name));
+		acode.save(env);
 	}
 
 }

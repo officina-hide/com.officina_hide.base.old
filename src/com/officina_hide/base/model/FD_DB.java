@@ -25,10 +25,11 @@ import com.officina_hide.base.common.FD_WhereData;
  * This class provides functions related to basic database operations.</p>
  * @author ueno hideo
  * @version 1.20 新規作成
- * @version 2.11 SetValueに環境情報(FD_envData)を追加
+ * @version 2.11 SetValueに環境情報(FD_envData)を追加、getTableColumnID追加
  * @since 2020/07/15
  */
 public class FD_DB implements I_DB {
+	
 	/** 項目リスト */
 	protected List<FD_Item> itemList = new ArrayList<>();
 	
@@ -110,6 +111,10 @@ public class FD_DB implements I_DB {
 	 * @param env 環境情報
 	 */
 	public void save(FD_EnvData env, String tableName) {
+		StringBuffer sql = new StringBuffer();
+		StringBuffer setitem = new StringBuffer();
+		FD_WhereData where = new FD_WhereData();
+
 		//登録日、更新日設定
 		if(getDateOfValue(COLUMNNAME_FD_CREATE) == null) {
 			setValue(env, COLUMNNAME_FD_CREATE, new Date());
@@ -120,14 +125,22 @@ public class FD_DB implements I_DB {
 			setValue(env, COLUMNNAME_FD_UPDATE, new Date());
 			setValue(env, COLUMNNAME_FD_UPDATED, env.getLoginUserID());
 		}
-		//情報ID発行
-		if(getIntOfValue(tableName+"_ID") == 0) {
-			setValue(env, tableName+"_ID", getNewID(env, getTableID(env, tableName)));
+		//情報ID登録チェック
+		int id = getIntOfValue(tableName+"_ID");
+		if(id > 0 && InformationIDExists(env, tableName, id) == true) {
+			//更新
+			sql.append("UPDATE ").append(tableName).append(" SET ");
+			where.getWhere().append(tableName).append("_ID = ").append(getIntOfValue(tableName+"_ID"));
+		} else {
+			//新規登録
+			if(id == 0) {
+				//情報ID発行
+				setValue(env, tableName+"_ID", getNewID(env, getTableID(env, tableName)));
+			}
+			sql.append("INSERT INTO ").append(tableName).append(" SET ");
+			where.clear();
 		}
 
-		StringBuffer sql = new StringBuffer();
-		StringBuffer setitem = new StringBuffer();
-		sql.append("INSERT INTO ").append(tableName).append(" SET ");
 		for(FD_Item item : itemList) {
 			if(setitem.toString().length() > 0) {
 				setitem.append(",");
@@ -158,13 +171,52 @@ public class FD_DB implements I_DB {
 				setitem.append(item.getItemName()).append(" = null");
 			}
 		}
-		sql.append(setitem);
+		sql.append(setitem.toString()).append(" ");
+		if(where.toString().length() > 0) {
+			sql.append("WHERE ").append(where.toString());
+		}
+//		System.out.println(sql.toString());
 
 		execute(env, sql.toString());
 	}
 
 	/**
-	 * リファレンス情報抽出<br>
+	 * 情報ID登録チェック<br>
+	 * <p>指定されたテーブルに指定された情報IDを持つ情報が登録されているか判定する。</p>
+	 * @author officina-hide.com
+	 * @sinse 2.11 2020/09/21
+	 * @param env 環境情報
+	 * @param tableName テーブル名
+	 * @param id 情報ID
+	 * @return 判定結果 true - 登録済、false - 未登録
+	 */
+	public boolean InformationIDExists(FD_EnvData env, String tableName, int id) {
+		boolean chk = false;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT ").append(tableName).append("_ID FROM ").append(tableName).append(" ");
+			sql.append("WHERE ").append(tableName).append("_ID = ").append(id).append(" ");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				chk = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return chk;
+	}
+
+	/**
+	 * 情報抽出<br>
+	 * <p>指定され条件で、指定されたテーブルから情報を行う抽出する。<br>
+	 * もし、情報が複数件のときは、最初にヒットした情報を行う１件のみ返す。<br>
+	 * １件も対象の情報がないときは、すべての項目の内容は不定となる。</p>
 	 * @author officina-hide.com ueno
 	 * @since 2.00 2020/09/07
 	 * @param env 環境情報
@@ -184,32 +236,78 @@ public class FD_DB implements I_DB {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
 			if(rs.next()) {
-				for(FD_Item item : itemList) {
-					switch(item.getItemType()) {
-					case COLUMN_TYPE_INFORMATION_ID:
-					case COLUMN_TYPE_NUMBER:
-						item.setItemData(rs.getInt(item.getItemName()));
-						break;
-					case COLUMN_TYPE_TEXT:
-					case COLUMN_TYPE_FIELD_TEXT:
-						item.setItemData(rs.getString(item.getItemName()));
-						break;
-					case COLUMN_TYPE_DATE:
-						item.setItemData(rs.getDate(item.getItemName()));
-						break;
-					case COLUMN_TYPE_YESNO:
-						if(rs.getInt(item.getItemName()) == 1) {
-							item.setItemData("YES");
-						} else {
-							item.setItemData("NO");
-						}
-					}
-				}
+				setItem(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rs, stmt);
+		}
+	}
+
+	/**
+	 * 情報抽出<br>
+	 * <p>指定されたテーブルから指定された情報IDを持つ情報を抽出する。<br>
+	 * もし、対象の情報IDを持つ情報が登録されていないときは、falseを返す。</p>
+	 * @param env 環境情報
+	 * @param tableName テーブル名
+	 * @param id 情報ID
+	 * @return 抽出結果 true - 成功、false - 失敗
+	 */
+	public boolean load(FD_EnvData env, String tableName, int id) {
+		boolean status = false;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT * FROM ").append(tableName).append(" ");
+			sql.append("WHERE ").append(tableName).append("_ID = ").append(id).append(" ");
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				setItem(rs);
+				status = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return status;
+	}
+
+	/**
+	 * 週出結果からテーブル項目に情報を抽出セットする。<br>
+	 * @author officina-hide.com
+	 * @sinse 2.11 2020/09/21
+	 * @param rs 抽出結果
+	 */
+	private void setItem(ResultSet rs) {
+		for(FD_Item item : itemList) {
+			try {
+				switch(item.getItemType()) {
+				case COLUMN_TYPE_INFORMATION_ID:
+				case COLUMN_TYPE_NUMBER:
+					item.setItemData(rs.getInt(item.getItemName()));
+					break;
+				case COLUMN_TYPE_TEXT:
+				case COLUMN_TYPE_FIELD_TEXT:
+					item.setItemData(rs.getString(item.getItemName()));
+					break;
+				case COLUMN_TYPE_DATE:
+					item.setItemData(rs.getDate(item.getItemName()));
+					break;
+				case COLUMN_TYPE_YESNO:
+					if(rs.getInt(item.getItemName()) == 1) {
+						item.setItemData("YES");
+					} else {
+						item.setItemData("NO");
+					}
+				}
+			} catch (SQLException e) {
+				item.setItemData(null);
+			}
 		}
 	}
 
@@ -343,6 +441,41 @@ public class FD_DB implements I_DB {
 			close(rs, stmt);
 		}
 		return id;
+	}
+
+	/**
+	 * テーブル項目情報ID取得<br>
+	 * @author officina-hide.com
+	 * @sinse 2.11 2020/09/21
+	 * @param env 環境情報
+	 * @param tableName テーブル名
+	 * @param columnName テーブル項目名
+	 * @return テーブル項目情報ID
+	 */
+	public int getTableColumnID(FD_EnvData env, String tableName, String columnName) {
+		int columnId = 0;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID).append(" FROM ").append(I_FD_TableColumn.Table_Name).append(" ");
+			sql.append("LEFT JOIN ").append(I_FD_Table.Table_Name).append(" ON ")
+				.append(I_FD_Table.COLUMNNAME_TABLE_NAME).append(" = ").append(FD_SQ).append(tableName).append(FD_SQ).append(" ");
+			sql.append("WHERE ").append(I_FD_TableColumn.Table_Name).append(".").append(I_FD_TableColumn.COLUMNNAME_FD_TABLE_ID).append(" = ")
+				.append(I_FD_Table.Table_Name).append(".").append(I_FD_Table.COLUMNNAME_FD_TABLE_ID).append(" ");
+			sql.append("AND ").append(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME).append(" = ").append(FD_SQ).append(columnName).append(FD_SQ);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				columnId = rs.getInt(I_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		
+		return columnId;
 	}
 
 	/**

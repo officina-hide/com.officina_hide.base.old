@@ -9,7 +9,6 @@ import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
-import com.officina_hide.base.system.CreateUserTalbe;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
@@ -97,6 +96,7 @@ public class CreatePackageBase extends FD_DB {
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_NUMBER, "数値項目");
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE, "日付");
+		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE, "テーブル");
 		//画面項目情報
 		FxViewItem viewItem = new FxViewItem();
 		viewItem.createTable(env);
@@ -127,9 +127,9 @@ public class CreatePackageBase extends FD_DB {
 		 */
 		new CreateAccountPackage(env);
 		
-		CreateUserTalbe createUserTable = new CreateUserTalbe();
-		createUserTable.createUserTable(env);
-		createUserTable.addData(env, 100, "System", "admin");
+//		CreateUserTalbe createUserTable = new CreateUserTalbe();
+//		createUserTable.createUserTable(env);
+//		createUserTable.addData(env, 100, "System", "admin");
 		
 		//終了メッセージ
 		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "Package Base Creating is completed!!");

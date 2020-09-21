@@ -1,4 +1,4 @@
-package com.officina_hide.accounts.model;
+package com.officina_hide.accounts.fx;
 
 /**
  * Fx現金出納画面インターフェースクラス<br>

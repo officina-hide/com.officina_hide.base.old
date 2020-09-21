@@ -1,7 +1,6 @@
 package com.officina_hide.fx.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
-import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 
 /**
@@ -17,10 +16,11 @@ public class CreateFxResource extends FD_DB {
 	 * @author ueno hideo
 	 * @since 1.20 2020/07/28
 	 * @param env 環境情報
+	 * @deprecated 2020/09/20
 	 */
 	public CreateFxResource(FD_EnvData env) {
 		//生成開始メッセージ
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面リソース生成開始");
+//		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "画面リソース生成開始");
 //		//リファレンスグループ情報テーブル生成
 //		createRefGroupTable(env);
 //		//画面情報テーブル生成

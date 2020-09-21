@@ -1,7 +1,6 @@
 package com.officina_hide.base.model;
 
 import com.officina_hide.base.common.FD_EnvData;
-import com.officina_hide.base.common.FD_WhereData;
 
 /**
  * 画面項目情報IOクラス<br>
@@ -19,7 +18,7 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param env 環境情報
 	 */
 	public X_Fx_ViewItem(FD_EnvData env) {
-		createItemList(env, Table_ID);
+		createItemList(env, getTableID(env, Table_Name));
 	}
 
 	/**
@@ -29,9 +28,8 @@ public class X_Fx_ViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param id 情報ID
 	 */
 	public X_Fx_ViewItem(FD_EnvData env, int id) {
-		createItemList(env, Table_ID);
-		FD_WhereData where = new FD_WhereData(COLUMNNAME_FX_VIEWITEM_ID, id);
-		load(env, where, Table_Name);
+		createItemList(env, getTableID(env, Table_Name));
+		load(env, Table_Name, id);
 	}
 
 	/**

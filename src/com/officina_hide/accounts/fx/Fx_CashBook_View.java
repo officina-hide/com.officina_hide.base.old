@@ -6,7 +6,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.officina_hide.accounts.model.I_Fx_CashBook_View;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
@@ -17,10 +16,15 @@ import com.officina_hide.base.model.X_Fx_View;
 import com.officina_hide.base.tools.FDProcess;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -38,7 +42,8 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	FD_DB DB = new FD_DB();
 	/** 画面項目リスト */
 	List<Fx_Item> fxItemList = new ArrayList<>();
-
+	/** フォント:Meiryo UI 12Pt */
+	Font fontMeiryo12 = new Font("Meiryo UI", 12);
 	
 	/**
 	 * コンストラクター<br>
@@ -76,13 +81,16 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	 * @param root ルート
 	 */
 	private void createItem(VBox root) {
+		root.setPadding(new Insets(10, 20, 10, 20));
 		for(Fx_Item item : fxItemList) {
 			HBox row = new HBox(5);
+			row.setAlignment(Pos.CENTER_LEFT);
 			root.getChildren().add(row);
 			//ラベル設定
-			System.out.println(item.getItemName());
 			Label label = new Label(item.getItemName());
-			row.getChildren().add(label);
+			row.getChildren().addAll(label, item.getItemNode());
+			label.setFont(fontMeiryo12);
+			//項目設定
 		}
 	}
 
@@ -106,11 +114,26 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 			DB.connection(env);
 			stmt = DB.createStatement();
 			rs = stmt.executeQuery(sql.toString());
-			System.out.println(sql.toString());
 			while(rs.next()) {
 				Fx_Item item = new Fx_Item();
 				item.setItemName(rs.getString(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 				item.setItemType(rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
+				
+				//ノードの設定
+				switch(item.getItemType()) {
+				case I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE:
+					DatePicker date = new DatePicker();
+					date.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
+					date.setPrefWidth(110);
+					item.setItemNode(date);
+					break;
+				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE:
+					TextField text = new TextField();
+					text.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
+					text.setPrefWidth(200);
+					item.setItemNode(text);
+					break;
+				}
 				fxItemList.add(item);
 			}
 		} catch (SQLException e) {

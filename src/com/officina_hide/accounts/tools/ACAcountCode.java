@@ -1,6 +1,7 @@
 package com.officina_hide.accounts.tools;
 
 import com.officina_hide.accounts.model.I_AC_Acount_Code;
+import com.officina_hide.accounts.model.X_AC_Acount_Code;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
@@ -11,7 +12,7 @@ import com.officina_hide.base.tools.FDTableColumn;
 /**
  * 勘定科目情報クラス<br>
  * @author officine-hide.com
- * @version 1.00
+ * @version 2.11 新規作成
  * @since 2020/09/14
  */
 public class ACAcountCode extends FD_DB implements I_AC_Acount_Code {
@@ -53,4 +54,19 @@ public class ACAcountCode extends FD_DB implements I_AC_Acount_Code {
 		num.add(env, tableId, 1000001, 0);
 	}
 
+	/**
+	 * 勘定科目情報登録<br>
+	 * @author officina-hide.com ueno
+	 * @sinse 2.11 2020/09/20
+	 * @param env 環境情報
+	 * @param acountCode 勘定科目コード
+	 * @param name 勘定科目名
+	 */
+	public void addData(FD_EnvData env, String acountCode, String name) {
+		X_AC_Acount_Code acode = new X_AC_Acount_Code(env);
+		acode.setValue(env, COLUMNNAME_AC_ACOUNT_CODE_ID, getNewID(env, getTableID(env, Table_Name)));
+		acode.setValue(env, COLUMNNAME_ACOUNT_CODE, acountCode);
+		acode.setValue(env, COLUMNNAME_ACOUNT_CODE_NAME, name);
+		acode.save(env);
+	}
 }

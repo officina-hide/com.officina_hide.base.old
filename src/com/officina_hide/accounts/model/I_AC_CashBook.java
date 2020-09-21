@@ -22,6 +22,8 @@ public interface I_AC_CashBook {
 	public final String COMMENT_TREASURER_DATE = "出納の発生日";
 	/** 勘定科目 */
 	public final String COLUMNNAME_AC_ACOUNT_CODE_ID = "AC_Account_Code_ID";
+	public final String NAME_AC_ACOUNT_CODE_ID = "勘定科目情報ID";
+	public final String COMMENT_AC_ACOUNT_CODE_ID = "出納の勘定科目の情報ID";
 	/** 収支区分 */
 	public final String COLUMNNAME_BALANCE_CODE = "Income_Balance_Code";
 	/** 金額 */
