@@ -16,6 +16,8 @@ public class Fx_Item {
 	private String itemType;
 	/** 画面ノード */
 	private Node itemNode;
+	/** 項目桁数 */
+	private int itemSize;
 
 	/**
 	 * @return itemName
@@ -51,5 +53,13 @@ public class Fx_Item {
 
 	public void setItemNode(Node itemNode) {
 		this.itemNode = itemNode;
+	}
+
+	public int getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(int itemSize) {
+		this.itemSize = itemSize;
 	}
 }

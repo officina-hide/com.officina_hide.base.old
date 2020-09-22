@@ -23,7 +23,7 @@ public class FDClient extends FD_DB implements I_FD_Client {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, I_FD_Client.Table_Name, I_FD_Client.Name);
+		int tableId = table.addData(env, 0, I_FD_Client.Table_Name, I_FD_Client.Name, "");
 		
 		//テーブル項目情報
 		FDTableColumn column = new FDTableColumn();

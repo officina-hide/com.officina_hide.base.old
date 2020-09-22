@@ -22,7 +22,7 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, Table_Name, Name);
+		int tableId = table.addData(env, 0, Table_Name, Name, Comment);
 
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
@@ -42,6 +42,8 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 				, COLUMN_TYPE_INFORMATION_ID, 0, 70, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_SEARCH_COLUMN_ID, NAME_SEARCH_COLUMN_ID, COMMENT_SEARCH_COLUMN_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 80, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_SEARCH_DISP_ID, NAME_SEARCH_DISP_ID, COMMENT_SEARCH_TABLE_ID
+				, COLUMN_TYPE_INFORMATION_ID, 0, 90, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, tableId, COLUMNNAME_FD_CREATE, NAME_FD_CREATE, COMMENT_FD_CREATE
 				, COLUMN_TYPE_DATE, 0, 910, I_FD_TableColumn.IS_PRIMARY_NO);

@@ -27,7 +27,7 @@ public class DDDocument extends FD_DB implements I_DD_Document {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, Table_Name, "ドキュメント情報");
+		int tableId = table.addData(env, 0, Table_Name, "ドキュメント情報", "");
 		
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
@@ -59,7 +59,7 @@ public class DDDocument extends FD_DB implements I_DD_Document {
 		FDNumbering num = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
 		
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント情報テーブル生成完了");		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント情報テーブル生成完了");		
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class DDDocument extends FD_DB implements I_DD_Document {
 	 */
 	public void addData(FD_EnvData env, int projectId, String documentName, String name, int sortNo) {
 		X_DD_Document doc = new X_DD_Document(env);
-		doc.setValue(COLUMNNAME_DD_DOCUMENT_ID, 0);
-		doc.setValue(COLUMNNAME_DD_PROJECT_ID, projectId);
-		doc.setValue(COLUMNNAME_DOCUMENT_NAME, documentName);
-		doc.setValue(COLUMNNAME_FD_NAME, name);
-		doc.setValue(COLUMNNAME_DOCUMENT_SORT_NO, sortNo);
+		doc.setValue(env, COLUMNNAME_DD_DOCUMENT_ID, 0);
+		doc.setValue(env, COLUMNNAME_DD_PROJECT_ID, projectId);
+		doc.setValue(env, COLUMNNAME_DOCUMENT_NAME, documentName);
+		doc.setValue(env, COLUMNNAME_FD_NAME, name);
+		doc.setValue(env, COLUMNNAME_DOCUMENT_SORT_NO, sortNo);
 		
 		doc.save(env);
 	}

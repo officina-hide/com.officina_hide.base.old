@@ -22,7 +22,7 @@ public class FDLog extends FD_DB implements I_FD_Log {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, Table_Name, Name);
+		int tableId = table.addData(env, 0, Table_Name, Name, "");
 		
 		//テーブル項目情報生成
 		FDTableColumn column = new FDTableColumn();

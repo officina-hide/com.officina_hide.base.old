@@ -49,7 +49,7 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		table.addData(env, Table_ID, Table_Name, "テーブル項目情報");
+		table.addData(env, Table_ID, Table_Name, "テーブル項目情報", "");
 		
 		//採番情報登録<br>
 		FDNumbering num = new FDNumbering();

@@ -21,7 +21,7 @@ public class CreateDocumnetPackage {
 	 */
 	public CreateDocumnetPackage(FD_EnvData env) {
 		//開始メッセージ
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築開始");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築開始");
 		
 		/*
 		 * プロジェクト情報生成<br>
@@ -41,7 +41,7 @@ public class CreateDocumnetPackage {
 		doc.addData(env, projectId, "Overview", "システム概要", 10);
 		
 		//終了メッセージ
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築終了");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "ドキュメント管理リソース構築終了");
 	}
 
 }

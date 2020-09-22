@@ -42,7 +42,7 @@ public class FDNumbering extends FD_DB implements I_FD_Numbering {
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		table.addData(env, I_FD_Numbering.Table_ID, I_FD_Numbering.Table_Name, "採番情報");
+		table.addData(env, Table_ID, I_FD_Numbering.Table_Name, "採番情報", "");
 		
 		//採番情報登録
 		add(env, I_FD_Numbering.Table_ID, 1000001, 0);

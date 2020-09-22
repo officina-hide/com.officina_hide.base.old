@@ -1,8 +1,8 @@
 package com.officina_hide.accounts.tools;
 
-import com.officina_hide.accounts.fx.I_Fx_CashBook_View;
 import com.officina_hide.accounts.model.I_AC_Acount_Code;
 import com.officina_hide.accounts.model.I_AC_CashBook;
+import com.officina_hide.accounts.model.I_Fx_CashBook_View;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_Fx_ViewItem;
@@ -37,6 +37,10 @@ public class FxCashBookView extends FD_DB implements I_Fx_CashBook_View, I_AC_Ca
 				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_AC_ACOUNT_CODE_ID));
 		X_Fx_ViewItem acode = new X_Fx_ViewItem(env, viewItemId);
 		acode.setValue(env, I_Fx_ViewItem.COLUMNNAME_SEARCH_TABLE_ID, getTableID(env, I_AC_Acount_Code.Table_Name));
+		acode.setValue(env, I_Fx_ViewItem.COLUMNNAME_SEARCH_COLUMN_ID
+				, getTableColumnID(env, I_AC_Acount_Code.Table_Name, I_AC_Acount_Code.COLUMNNAME_ACOUNT_CODE));
+		acode.setValue(env, I_Fx_ViewItem.COLUMNNAME_SEARCH_DISP_ID
+				, getTableColumnID(env, I_AC_Acount_Code.Table_Name, I_AC_Acount_Code.COLUMNNAME_ACOUNT_CODE_NAME));
 		acode.save(env);
 	}
 

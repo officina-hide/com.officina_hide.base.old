@@ -3,6 +3,7 @@ package com.officina_hide.accounts.tools;
 import com.officina_hide.accounts.model.I_AC_Acount_Code;
 import com.officina_hide.accounts.model.X_AC_Acount_Code;
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.tools.FDNumbering;
@@ -26,7 +27,7 @@ public class ACAcountCode extends FD_DB implements I_AC_Acount_Code {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, Table_Name, Name);
+		int tableId = table.addData(env, 0, Table_Name, Name, "");
 		
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
@@ -52,6 +53,8 @@ public class ACAcountCode extends FD_DB implements I_AC_Acount_Code {
 		//採番情報登録
 		FDNumbering num = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
+		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, Name+"テーブル構築");
 	}
 
 	/**

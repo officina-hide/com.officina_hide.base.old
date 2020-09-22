@@ -40,7 +40,7 @@ public class FDReference extends FD_DB implements I_FD_Reference {
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		table.addData(env, Table_ID, Table_Name, "リファレンス情報");
+		table.addData(env, Table_ID, Table_Name, "リファレンス情報", "");
 		//採番情報登録
 		FDNumbering num = new FDNumbering();
 		num.add(env, I_FD_Reference.Table_ID, 1000001, 0);

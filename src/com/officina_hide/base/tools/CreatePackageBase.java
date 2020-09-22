@@ -9,14 +9,15 @@ import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.documents.tools.CreateDocumnetPackage;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
  * @author ueno hideo
  * @version 1.20 新規作成<br>
  * @version 2.00 システム機能の作りこみを優先する。<br>
- * @version 2.10 ドキュメント管理機能の構築を開始する。(ドキュメント管理機能のバージョンは1.00)<br>
- * @version 2.11 会計管理機能の構築を開始する。(会計管理機能のバージョンは1.00)<br>
+ * @version 2.10 ドキュメント管理機能の構築を開始する。<br>
+ * @version 2.11 会計管理機能の構築を開始する<br>
  * @since 2020/07/13
  * @param args 
  */
@@ -55,7 +56,7 @@ public class CreatePackageBase extends FD_DB {
 		//テーブル情報
 		FDTable table = new FDTable();
 		table.createTable(env);
-		table.addData(env, 101, "FD_Table", "テーブル情報");
+		table.addData(env, 101, "FD_Table", "テーブル情報", "");
 		//採番情報
 		FDNumbering num = new FDNumbering();
 		num.createTable(env);
@@ -118,11 +119,11 @@ public class CreatePackageBase extends FD_DB {
 		 * ドキュメント管理に必要な設定を行う。
 		 * @sinse 2.10 2020/09/12
 		 */
-//		new CreateDocumnetPackage(env);
+		new CreateDocumnetPackage(env);
 		
 		/*
 		 * 会計管理に必要な設定を行う。
-		 * @sinse 2.11 2020/0912
+		 * @sinse 2.11 2020/09/12
 		 * 今回のバージョンでは、現金出納を中心にパッケージを作成する。
 		 */
 		new CreateAccountPackage(env);

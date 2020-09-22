@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.officina_hide.accounts.model.I_Fx_CashBook_View;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
@@ -19,6 +20,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -88,9 +90,9 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 			root.getChildren().add(row);
 			//ラベル設定
 			Label label = new Label(item.getItemName());
-			row.getChildren().addAll(label, item.getItemNode());
 			label.setFont(fontMeiryo12);
-			//項目設定
+
+			row.getChildren().addAll(label, item.getItemNode());
 		}
 	}
 
@@ -118,6 +120,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 				Fx_Item item = new Fx_Item();
 				item.setItemName(rs.getString(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 				item.setItemType(rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
+				System.out.println(rs.getInt(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
 				
 				//ノードの設定
 				switch(item.getItemType()) {
@@ -128,10 +131,15 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 					item.setItemNode(date);
 					break;
 				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE:
+					HBox TableBox = new HBox(0);
+					TableBox.setAlignment(Pos.CENTER);
+					TableBox.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
+					item.setItemNode(TableBox);
 					TextField text = new TextField();
-					text.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
 					text.setPrefWidth(200);
-					item.setItemNode(text);
+					Button searchButton = new Button("?");
+					Button clearButton = new Button("X");
+					TableBox.getChildren().addAll(text, searchButton, clearButton);
 					break;
 				}
 				fxItemList.add(item);

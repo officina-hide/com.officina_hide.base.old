@@ -46,7 +46,7 @@ public class FxView extends FD_DB implements I_Fx_View {
 		
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, Table_Name, "画面情報");
+		int tableId = table.addData(env, 0, Table_Name, "画面情報", "");
 
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();

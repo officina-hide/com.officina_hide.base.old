@@ -27,7 +27,7 @@ public class DDProject extends FD_DB implements I_DD_Project {
 	public void createTable(FD_EnvData env) {
 		//テーブル情報登録
 		FDTable table = new FDTable();
-		int tableId = table.addData(env, 0, I_DD_Project.Table_Name, "プロジェクト情報");
+		int tableId = table.addData(env, 0, I_DD_Project.Table_Name, "プロジェクト情報", "");
 		
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
@@ -54,7 +54,7 @@ public class DDProject extends FD_DB implements I_DD_Project {
 		FDNumbering num = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
 		
-		env.getLog().add(FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "プロジェクト情報テーブル生成完了");
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "プロジェクト情報テーブル生成完了");
 	}
 
 	/**
@@ -66,9 +66,9 @@ public class DDProject extends FD_DB implements I_DD_Project {
 	 */
 	public int addData(FD_EnvData env, String projectName, String name) {
 		X_DD_Project project = new X_DD_Project(env);
-		project.setValue(COLUMNNAME_DD_PROJECT_ID, 0);
-		project.setValue(COLUMNNAME_PROJECT_NAME, projectName);
-		project.setValue(COLUMNNAME_FD_NAME, name);
+		project.setValue(env, COLUMNNAME_DD_PROJECT_ID, 0);
+		project.setValue(env, COLUMNNAME_PROJECT_NAME, projectName);
+		project.setValue(env, COLUMNNAME_FD_NAME, name);
 		project.save(env);
 		
 		return project.getIntOfValue(COLUMNNAME_DD_PROJECT_ID);

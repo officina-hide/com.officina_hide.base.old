@@ -13,6 +13,8 @@ public interface I_Fx_ViewItem {
 	public final String Table_Name = "Fx_ViewItem";
 	/** 画面項目情報 : テーブル論理名 */
 	public final String Name = "画面項目情報";
+	/** 画面項目情報 : テーブル説明 */
+	public final String Comment = "Fx画面に表示される項目の情報";
 	
 	/** 画面項目情報ID */
 	public final String COLUMNNAME_FX_VIEWITEM_ID = "Fx_ViewItem_ID";
@@ -42,6 +44,13 @@ public interface I_Fx_ViewItem {
 	public final String COLUMNNAME_SEARCH_COLUMN_ID = "Search_Column_ID";
 	public final String NAME_SEARCH_COLUMN_ID = "検索対象検索項目情報ID";
 	public final String COMMENT_SEARCH_COLUMN_ID = "項目属性がFx_Tableの時に、画面項目の入力に対して検索の対象となるテーブル項目の情報ID";
+	/**
+	 * 検索対象表示項目<br>
+	 * 項目属性がFx_Tableの時に、画面項目に表示する対象となる項目の情報IDを設定する。<br>
+	 */
+	public final String COLUMNNAME_SEARCH_DISP_ID = "Search_Disp_ID";
+	public final String NAME_SEARCH_DISP_ID = "検索対象表示項目";
+	public final String COMMENT_SEARCH_DISP_ID = "項目属性がFx_Tableの時に、画面項目に表示する対象となる項目の情報ID";
 	
 	/**
 	 * 画面項目属性
