@@ -175,12 +175,23 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 			
 			@Override
 			public void handle(KeyEvent event) {
-				System.out.println(text.getText().length()+":"+event);
-				if(event.getEventType() == KeyEvent.KEY_PRESSED) {
-					if(text.getText().length() >= item.getItemSize()) {
-						event.consume();
-						return;
-					}
+//				if(event.getEventType() == KeyEvent.KEY_PRESSED) {
+//					System.out.println("PresseD");
+//					if(text.getText().length() >= item.getItemSize()) {
+//						event.consume();
+//						return;
+//					}
+//				}
+//				if(event.getEventType() == KeyEvent.KEY_RELEASED) {
+//					System.out.println("Released");
+//					if(text.getText().length() >= item.getItemSize()) {
+//						event.consume();
+//						return;
+//					}
+//				}
+				if(event.getEventType() == KeyEvent.KEY_TYPED) {
+					//event.getCharacter().getBytes()[0]で13が改行
+					System.out.println(event.getCharacter().getBytes()[0]);
 				}
 			}
 		};
