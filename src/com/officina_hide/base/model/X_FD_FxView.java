@@ -151,40 +151,40 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 	public void setFD_Updated( int fD_Updated) {
 		this.fD_Updated = fD_Updated;
 	}
-	/**
-	 * FD_FxViewを保存する。.<br>
-	 */
-	public void save() {
-		StringBuffer sql = new StringBuffer();
-		boolean isNewData = false;
-		if(getFD_FxView_ID() == 0 ) {
-			setFD_FxView_ID(getNewID(env, "FD_FxView"));
-			isNewData = true;
-		}
-		if(isNewData) {
-			sql.append("INSERT INTO ").append(I_FD_FxView.Table_Name);
-			getFD_Create().setTime(new Date());
-			getFD_Update().setTime(new Date());
-			setFD_Created(env.getLoginUserID());
-			setFD_Updated(env.getLoginUserID());
-		} else {
-			sql.append("UPDATE ").append(I_FD_FxView.Table_Name);
-			getFD_Update().setTime(new Date());
-			setFD_Updated(env.getLoginUserID());
-		}
-		sql.append(" SET ");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(getFD_FxView_ID()).append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FXVIEW_NAME).append(" = '").append(getFxView_Name()).append("'").append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
-		sql.append(I_FD_FxView.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
-		if(isNewData == false) {
-			sql.append(" WHERE ").append(I_FD_FxView.COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(getFD_FxView_ID());
-		}
-		execute(env, sql.toString());
-	}
+//	/**
+//	 * FD_FxViewを保存する。.<br>
+//	 */
+//	public void save() {
+//		StringBuffer sql = new StringBuffer();
+//		boolean isNewData = false;
+//		if(getFD_FxView_ID() == 0 ) {
+//			setFD_FxView_ID(getNewID(env, "FD_FxView"));
+//			isNewData = true;
+//		}
+//		if(isNewData) {
+//			sql.append("INSERT INTO ").append(I_FD_FxView.Table_Name);
+//			getFD_Create().setTime(new Date());
+//			getFD_Update().setTime(new Date());
+//			setFD_Created(env.getLoginUserID());
+//			setFD_Updated(env.getLoginUserID());
+//		} else {
+//			sql.append("UPDATE ").append(I_FD_FxView.Table_Name);
+//			getFD_Update().setTime(new Date());
+//			setFD_Updated(env.getLoginUserID());
+//		}
+//		sql.append(" SET ");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(getFD_FxView_ID()).append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FXVIEW_NAME).append(" = '").append(getFxView_Name()).append("'").append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_NAME).append(" = '").append(getFD_Name()).append("'").append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATE).append(" = '").append(dateFormat.format(getFD_Create().getTime())).append("'").append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_CREATED).append(" = ").append(getFD_Created()).append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_UPDATE).append(" = '").append(dateFormat.format(getFD_Update().getTime())).append("'").append(",");
+//		sql.append(I_FD_FxView.COLUMNNAME_FD_UPDATED).append(" = ").append(getFD_Updated());
+//		if(isNewData == false) {
+//			sql.append(" WHERE ").append(I_FD_FxView.COLUMNNAME_FD_FXVIEW_ID).append(" = ").append(getFD_FxView_ID());
+//		}
+//		execute(env, sql.toString());
+//	}
 
 	/**
 	 * 条件文に該当する情報のIDリストを取得する。<br>.<br>
@@ -241,7 +241,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 			connection(env);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
-			env.getLog().add(FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
+			env.getLog().add(env, FD_Logging.TYPE_DB, FD_Logging.MODE_NORMAL, sql.toString());
 			if(rs.next()) {
 				setFD_FxView_ID(rs.getInt(COLUMNNAME_FD_FXVIEW_ID));
 				if(rs.getString(COLUMNNAME_FXVIEW_NAME) != null) {
@@ -264,7 +264,7 @@ public class X_FD_FxView extends FD_DB implements I_DB, I_FD_FxView {
 				setFD_Updated(rs.getInt(COLUMNNAME_FD_UPDATED));
 			}
 		} catch (SQLException e) {
-			env.getLog().add(FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");
+			env.getLog().add(env, FD_Logging.TYPE_ERROR, FD_Logging.MODE_NORMAL, "SQL Execution Error !!");
 		} finally {
 			close(rs, stmt);
 		}

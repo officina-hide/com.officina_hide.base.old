@@ -19,6 +19,7 @@ import com.officina_hide.base.common.FD_JavaDocParam;
 import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.common.FD_WhereData;
 
+
 /**
  * データベース基本操作<br>
  * <p>本クラスでは、データベースの基本的な操作に関する機能を提供します。<br>
@@ -476,6 +477,35 @@ public class FD_DB implements I_DB {
 		}
 		
 		return columnId;
+	}
+
+	/**
+	 * テーブル項目情報IDよりテーブル項目名を取得する。<br>
+	 * @param env 環境情報
+	 * @param columnId テーブル項目情報ID
+	 * @return テーブル項目名
+	 */
+	public String getTableColumnName(FD_EnvData env, int columnId) {
+		String columnName = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT ").append(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME)
+				.append(" FROM ").append(I_FD_TableColumn.Table_Name).append(" ");
+			sql.append("WHERE ").append(I_FD_TableColumn.COLUMNNAME_FD_TABLECOLUMN_ID).append(" = ").append(columnId);
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				columnName = rs.getString(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_NAME);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return columnName;
 	}
 
 	/**

@@ -24,6 +24,20 @@ public class X_FD_TableColumn extends FD_DB implements I_DB, I_FD_TableColumn {
 	}
 
 	/**
+	 * コンストラクター<br>
+	 * <p>実体化時に、テーブル項目を初期化し、指定された情報IDを持つ情報を抽出する。<br>
+	 * もし、情報が見つからない時は、項目内容は初期化される。</p>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/22
+	 * @param env 環境情報
+	 * @param id 情報ID
+	 */
+	public X_FD_TableColumn(FD_EnvData env, int id) {
+		createItemList(env, getTableID(env, Table_Name));
+		load(env, Table_Name, id);
+	}
+
+	/**
 	 * 項目一覧リストをクリアな状態で生成する。<br>
 	 * @author officine-hide.com ueno
 	 * @since 2.00 2020/09/03

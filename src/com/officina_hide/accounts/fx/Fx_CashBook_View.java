@@ -11,12 +11,16 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Reference;
+import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
+import com.officina_hide.base.model.X_FD_TableColumn;
 import com.officina_hide.base.model.X_Fx_View;
 import com.officina_hide.base.tools.FDProcess;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,6 +28,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -41,6 +46,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	private FD_EnvData env;
 	/** プロセス情報クラス */
 	FDProcess process = new FDProcess();
+	/** データベースIOクラス */
 	FD_DB DB = new FD_DB();
 	/** 画面項目リスト */
 	List<Fx_Item> fxItemList = new ArrayList<>();
@@ -100,6 +106,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	 * 画面項目リスト生成<br>
 	 * @author officine-hide.com
 	 * @since 2.11 2020/09/19
+	 * FIXME 汎用化予定(2020/09/22 ueno)
 	 * @param viewId 画面情報ID
 	 */
 	private void createFxItemList(int viewId) {
@@ -120,7 +127,14 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 				Fx_Item item = new Fx_Item();
 				item.setItemName(rs.getString(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 				item.setItemType(rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
-				System.out.println(rs.getInt(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
+				//項目桁数取得
+				X_FD_TableColumn column = null;
+				if(item.getItemType().equals(I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE)) {
+					column = new X_FD_TableColumn(env, rs.getInt(I_Fx_ViewItem.COLUMNNAME_SEARCH_COLUMN_ID));
+				} else {
+					column = new X_FD_TableColumn(env, rs.getInt(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
+				}
+				item.setItemSize(column.getIntOfValue(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE));
 				
 				//ノードの設定
 				switch(item.getItemType()) {
@@ -136,6 +150,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 					TableBox.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
 					item.setItemNode(TableBox);
 					TextField text = new TextField();
+					text.addEventFilter(KeyEvent.ANY,  textEvents(text, item));
 					text.setPrefWidth(200);
 					Button searchButton = new Button("?");
 					Button clearButton = new Button("X");
@@ -149,8 +164,26 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 		}
 	}
 
-	public static void main(String[] args) {
-		launch(args);
+	/**
+	 * 
+	 * @param text
+	 * @param item
+	 * @return
+	 */
+	private EventHandler<KeyEvent> textEvents(TextField text, Fx_Item item) {
+		return new EventHandler<KeyEvent>() {
+			
+			@Override
+			public void handle(KeyEvent event) {
+				System.out.println(text.getText().length()+":"+event);
+				if(event.getEventType() == KeyEvent.KEY_PRESSED) {
+					if(text.getText().length() >= item.getItemSize()) {
+						event.consume();
+						return;
+					}
+				}
+			}
+		};
 	}
 
 }
