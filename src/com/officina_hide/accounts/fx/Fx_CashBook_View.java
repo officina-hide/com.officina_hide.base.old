@@ -10,17 +10,18 @@ import com.officina_hide.accounts.model.I_Fx_CashBook_View;
 import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.model.FD_DB;
+import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_Reference;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_FD_TableColumn;
 import com.officina_hide.base.model.X_Fx_View;
+import com.officina_hide.base.model.X_Fx_ViewItem;
 import com.officina_hide.base.tools.FDProcess;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -127,12 +128,14 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 				Fx_Item item = new Fx_Item();
 				item.setItemName(rs.getString(I_Fx_ViewItem.COLUMNNAME_FD_NAME));
 				item.setItemType(rs.getString(I_FD_Reference.COLUMNNAME_REFERENCE_NAME));
+				//画面項目情報
+				item.setViewItem(new X_Fx_ViewItem(env, rs.getInt(I_Fx_ViewItem.COLUMNNAME_FX_VIEWITEM_ID)));
 				//項目桁数取得
 				X_FD_TableColumn column = null;
 				if(item.getItemType().equals(I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE)) {
-					column = new X_FD_TableColumn(env, rs.getInt(I_Fx_ViewItem.COLUMNNAME_SEARCH_COLUMN_ID));
+					column = new X_FD_TableColumn(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_SEARCH_COLUMN_ID));
 				} else {
-					column = new X_FD_TableColumn(env, rs.getInt(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
+					column = new X_FD_TableColumn(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
 				}
 				item.setItemSize(column.getIntOfValue(I_FD_TableColumn.COLUMNNAME_TABLECOLUMN_SIZE));
 				
@@ -145,16 +148,24 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 					item.setItemNode(date);
 					break;
 				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE:
-					HBox TableBox = new HBox(0);
+					HBox TableBox = new HBox(5);
 					TableBox.setAlignment(Pos.CENTER);
 					TableBox.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
 					item.setItemNode(TableBox);
 					TextField text = new TextField();
-					text.addEventFilter(KeyEvent.ANY,  textEvents(text, item));
-					text.setPrefWidth(200);
+					text.addEventFilter(KeyEvent.KEY_TYPED,  textEvents(text, item));
+					text.setPrefWidth(100);
 					Button searchButton = new Button("?");
 					Button clearButton = new Button("X");
-					TableBox.getChildren().addAll(text, searchButton, clearButton);
+					clearButton.setOnMouseClicked(event->{
+						text.clear();
+					});
+					TextField dispText = new TextField();
+					dispText.setDisable(true);
+					searchButton.setOnMouseClicked(event->{
+						searchData(item, text);
+					});
+					TableBox.getChildren().addAll(text, searchButton, clearButton, dispText);
 					break;
 				}
 				fxItemList.add(item);
@@ -165,36 +176,61 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	}
 
 	/**
-	 * 
-	 * @param text
-	 * @param item
+	 * Table属性テキスト処理<br>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/24
+	 * @param text 検索対象項目
+	 * @param item 項目情報
 	 * @return
 	 */
 	private EventHandler<KeyEvent> textEvents(TextField text, Fx_Item item) {
 		return new EventHandler<KeyEvent>() {
-			
 			@Override
 			public void handle(KeyEvent event) {
-//				if(event.getEventType() == KeyEvent.KEY_PRESSED) {
-//					System.out.println("PresseD");
-//					if(text.getText().length() >= item.getItemSize()) {
-//						event.consume();
-//						return;
-//					}
-//				}
-//				if(event.getEventType() == KeyEvent.KEY_RELEASED) {
-//					System.out.println("Released");
-//					if(text.getText().length() >= item.getItemSize()) {
-//						event.consume();
-//						return;
-//					}
-//				}
-				if(event.getEventType() == KeyEvent.KEY_TYPED) {
-					//event.getCharacter().getBytes()[0]で13が改行
-					System.out.println(event.getCharacter().getBytes()[0]);
+				//event.getCharacter().getBytes()[0]で13が改行
+				//改行キーが押された時に検索処理を行う。
+				if(event.getCharacter().getBytes()[0] == 13) {
+					searchData(item, text);
 				}
 			}
 		};
+	}
+
+	/**
+	 * 項目検索処理<br>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/24
+	 * @param item 項目情報
+	 * @param text 項目
+	 * @param dispText 
+	 */
+	protected void searchData(Fx_Item item, TextField text) {
+		String TableName =  DB.getTableName(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_SEARCH_TABLE_ID));
+		String searchColumnName = DB.getTableColumnName(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_SEARCH_COLUMN_ID));
+		String dispColumnName = DB.getTableColumnName(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_SEARCH_DISP_ID));
+		HBox tableBox = (HBox) item.getItemNode();
+		TextField dispText = (TextField) tableBox.getChildren().get(3);
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT ").append(dispColumnName).append(" FROM ").append(TableName).append(" ");
+			sql.append("WHERE ")
+				.append(searchColumnName).append(" = ").append(I_DB.FD_SQ).append(text.getText()).append(I_DB.FD_SQ);
+			DB.connection(env);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				dispText.setText(rs.getString(dispColumnName));
+			} else {
+				// TODO 検索画面を表示して選択できるようにする。(2020/09/24 ueno)
+				dispText.setText("Error!! not found");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(rs, stmt);
+		}
 	}
 
 }

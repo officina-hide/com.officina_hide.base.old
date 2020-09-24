@@ -1,5 +1,7 @@
 package com.officina_hide.accounts.fx;
 
+import com.officina_hide.base.model.X_Fx_ViewItem;
+
 import javafx.scene.Node;
 
 /**
@@ -18,6 +20,8 @@ public class Fx_Item {
 	private Node itemNode;
 	/** 項目桁数 */
 	private int itemSize;
+	/** 画面項目情報 */
+	private X_Fx_ViewItem viewItem;
 
 	/**
 	 * @return itemName
@@ -61,5 +65,16 @@ public class Fx_Item {
 
 	public void setItemSize(int itemSize) {
 		this.itemSize = itemSize;
+	}
+
+	/**
+	 * @return viewItem
+	 */
+	public X_Fx_ViewItem getViewItem() {
+		return viewItem;
+	}
+
+	public void setViewItem(X_Fx_ViewItem viewItem) {
+		this.viewItem = viewItem;
 	}
 }

@@ -445,6 +445,36 @@ public class FD_DB implements I_DB {
 	}
 
 	/**
+	 * テーブル名取得<br>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/24
+	 * @param env 環境情報
+	 * @param tableId テーブル情報ID
+	 * @return テーブル名
+	 */
+	public String getTableName(FD_EnvData env, int tableId) {
+		String tableName = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT ").append(I_FD_Table.COLUMNNAME_TABLE_NAME).append(" FROM ").append(I_FD_Table.Table_Name).append(" ");
+			sql.append("WHERE ").append(I_FD_Table.COLUMNNAME_FD_TABLE_ID).append(" = ").append(tableId);
+			connection(env);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			if(rs.next()) {
+				tableName = rs.getString(I_FD_Table.COLUMNNAME_TABLE_NAME);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt);
+		}
+		return tableName;
+	}
+
+	/**
 	 * テーブル項目情報ID取得<br>
 	 * @author officina-hide.com
 	 * @sinse 2.11 2020/09/21

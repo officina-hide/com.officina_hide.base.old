@@ -30,13 +30,13 @@ public interface I_DB {
 	/**
 	 * タブ
 	 */
-	public static final String FD_TAB = "\t";
+	public final String FD_TAB = "\t";
 
 	/** ダブルクォーテーション */
-	public static final String FD_DQ ="\"";
+	public final String FD_DQ ="\"";
 	
 	/** シングルクォーテーション */
-	public static final String FD_SQ = "'";
+	public final String FD_SQ = "'";
 
 	//テーブル共通項目
 	/** 登録日 */
