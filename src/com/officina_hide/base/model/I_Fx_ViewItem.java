@@ -69,4 +69,6 @@ public interface I_Fx_ViewItem {
 	 * 画面上では項目表示用のテキストフィールドと検索・クリアボタンが同時に表示される。</p>
 	 */
 	public final String VIEWTYPE_ID_FX_TABLE = "Fx_Table";
+	/** 画面項目属性ID : リスト */
+	public final String VIEWTYPE_ID_FX_LIST = "Fx_List";
 }

@@ -33,6 +33,7 @@ public class FxCashBookView extends FD_DB implements I_Fx_CashBook_View, I_AC_Ca
 		FxViewItem item = new FxViewItem();
 		item.addData(env, viewId, COLUMNNAME_TREASURER_DATE, NAME_TREASURER_DATE, I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE
 				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_TREASURER_DATE));
+		
 		int viewItemId = item.addData(env, viewId, COLUMNNAME_AC_ACOUNT_CODE_ID, "勘定科目", I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE
 				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_AC_ACOUNT_CODE_ID));
 		X_Fx_ViewItem acode = new X_Fx_ViewItem(env, viewItemId);
@@ -42,6 +43,9 @@ public class FxCashBookView extends FD_DB implements I_Fx_CashBook_View, I_AC_Ca
 		acode.setValue(env, I_Fx_ViewItem.COLUMNNAME_SEARCH_DISP_ID
 				, getTableColumnID(env, I_AC_Acount_Code.Table_Name, I_AC_Acount_Code.COLUMNNAME_ACOUNT_CODE_NAME));
 		acode.save(env);
+		
+		item.addData(env, viewId, COLUMNNAME_BALANCE_CODE, NAME_BALANCE_CODE, I_Fx_ViewItem.VIEWTYPE_ID_FX_LIST
+				, getTableColumnID(env, I_AC_CashBook.Table_Name, I_AC_CashBook.COLUMNNAME_BALANCE_CODE));
 	}
 
 }

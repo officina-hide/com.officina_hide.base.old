@@ -26,6 +26,8 @@ public interface I_AC_CashBook {
 	public final String COMMENT_AC_ACOUNT_CODE_ID = "出納の勘定科目の情報ID";
 	/** 収支区分 */
 	public final String COLUMNNAME_BALANCE_CODE = "Income_Balance_Code";
+	public final String NAME_BALANCE_CODE = "収支区分";
+	public final String COMMENT_BALANCE_CODE = "出納の収支を表す区分";
 	/** 金額 */
 	public final String COLUMNNAME_CASH_AMOUNT = "Cash_Amount";
 	/** 備考 */
