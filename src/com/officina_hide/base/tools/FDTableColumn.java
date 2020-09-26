@@ -56,7 +56,7 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 		num.add(env, I_FD_TableColumn.Table_ID, 1000001, 0);
 
 		//テーブル項目情報追加
-		add(env, Table_ID, Table_Name+"_ID", "テーブル項目情報ID", "テーブル項目を識別するための情報ID"
+		add(env, Table_ID, COLUMNNAME_FD_TABLECOLUMN_ID, NAME_FD_TABLECOLUMN_ID, COMMENT_FD_TABLECOLUMN_ID
 				, I_DB.COLUMN_TYPE_INFORMATION_ID, 0	, 10, IS_PRIMARY_YES);
 		add(env, Table_ID, COLUMNNAME_FD_TABLE_ID, "テーブル情報ID", "テーブル項目を紐付けるテーブルの情報ID"
 				, COLUMN_TYPE_INFORMATION_ID, 0, 20, IS_PRIMARY_NO);
@@ -100,8 +100,9 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 	 * @param size テーブル項目桁数
 	 * @param sortNo テーブル項目並び順
 	 * @param isPKey プライマリキー判定
+	 * @return 
 	 */
-	public void add(FD_EnvData env, int tableId, String tableColumnName
+	public int add(FD_EnvData env, int tableId, String tableColumnName
 			, String name, String comment, String type, int size, int sortNo, String isPKey) {
 		X_FD_TableColumn column = new X_FD_TableColumn(env);
 		column.setValue(env, COLUMNNAME_FD_TABLECOLUMN_ID, getNewID(env, Table_ID));
@@ -121,6 +122,8 @@ public class FDTableColumn extends FD_DB implements I_FD_TableColumn {
 			column.setValue(env, COLUMNNAME_IS_NULL, IS_NULL_NO);
 		}
 		column.save(env);
+		
+		return column.getIntOfValue(COLUMNNAME_FD_TABLECOLUMN_ID);
 	}
 
 }

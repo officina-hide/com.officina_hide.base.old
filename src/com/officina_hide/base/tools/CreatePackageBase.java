@@ -72,6 +72,9 @@ public class CreatePackageBase extends FD_DB {
 		table.addColumnData(env);
 		num.addColumnData(env);
 		ref.addColumnData(env);
+		//テーブル項目リスト情報
+		FDTableColumnList columnList = new FDTableColumnList();
+		columnList.createTable(env);
 		
 		//クライアント情報
 		FDClient client = new FDClient();
@@ -98,9 +101,11 @@ public class CreatePackageBase extends FD_DB {
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD, "複数行テキスト");
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE, "日付");
 		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE, "テーブル");
+		ref.addData(env, I_Fx_ViewItem.VIEWTYPE_ID_FX_LIST, "リスト");
 		//画面項目情報
 		FxViewItem viewItem = new FxViewItem();
 		viewItem.createTable(env);
+		
 		
 //		view.addData(env,  "Fx_Login", "ログイン画面");
 //		view.addData(env,  "Fx_Menu", "総合メニュー画面"); 

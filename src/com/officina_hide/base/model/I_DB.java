@@ -20,6 +20,9 @@ public interface I_DB {
 	public static final String COLUMN_TYPE_NUMBER = "FD_Number";
 	/** 項目種別 : YESNO */
 	public static final String COLUMN_TYPE_YESNO = "FD_YesNo";
+	/** 項目種別 : リスト */
+	public static final String COLUMN_TYPE_LIST = "FD_List";
+	public static final String NAME_TYPE_LIST = "リスト";
 
 
 	/**

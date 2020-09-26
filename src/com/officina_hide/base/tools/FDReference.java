@@ -82,6 +82,7 @@ public class FDReference extends FD_DB implements I_FD_Reference {
 		addData(env, "FD_Date", "日時");
 		addData(env, "FD_YESNO", "YESNO");
 		addData(env, "FD_Number", "自然数");
+		addData(env, COLUMN_TYPE_LIST, NAME_TYPE_LIST);
 	}
 
 	/**

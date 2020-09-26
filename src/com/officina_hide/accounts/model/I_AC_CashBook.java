@@ -32,4 +32,8 @@ public interface I_AC_CashBook {
 	public final String COLUMNNAME_CASH_AMOUNT = "Cash_Amount";
 	/** 備考 */
 	public final String COLUMNNAME_FD_MEMO = "FD_Memo";
+	
+	/** 収支区分 : 収入 */
+	public final String BALANCE_CODE_INCOME = "収入";
+	public final String BALANCE_CODE_OUTCOME = "支出";
 }

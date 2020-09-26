@@ -8,6 +8,7 @@ import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.tools.FDNumbering;
 import com.officina_hide.base.tools.FDTable;
 import com.officina_hide.base.tools.FDTableColumn;
+import com.officina_hide.base.tools.FDTableColumnList;
 
 /**
  * 現金出納情報<br>
@@ -36,8 +37,8 @@ public class ACCashBook extends FD_DB implements I_AC_CashBook {
 				, COLUMN_TYPE_DATE, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_AC_ACOUNT_CODE_ID, NAME_AC_ACOUNT_CODE_ID, COMMENT_AC_ACOUNT_CODE_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 30, I_FD_TableColumn.IS_PRIMARY_NO);
-		column.add(env, tableId, COLUMNNAME_BALANCE_CODE, NAME_BALANCE_CODE, COMMENT_BALANCE_CODE
-				, COLUMN_TYPE_NUMBER, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
+		int columnId = column.add(env, tableId, COLUMNNAME_BALANCE_CODE, NAME_BALANCE_CODE, COMMENT_BALANCE_CODE
+				, COLUMN_TYPE_LIST, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_CASH_AMOUNT, "金額", "収支の金額"
 				, COLUMN_TYPE_NUMBER, 0, 50, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_FD_MEMO, "備考", "収支の説明"
@@ -58,6 +59,11 @@ public class ACCashBook extends FD_DB implements I_AC_CashBook {
 		//採番情報登録
 		FDNumbering num = new FDNumbering();
 		num.add(env, tableId, 1000001, 0);
+		
+		//収支コードのリスト情報登録
+		FDTableColumnList columnList = new FDTableColumnList();
+		columnList.add(env, columnId, BALANCE_CODE_INCOME);
+		columnList.add(env, columnId, BALANCE_CODE_OUTCOME);
 		
 		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "現金出納情報テーブル生成完了");		
 	}

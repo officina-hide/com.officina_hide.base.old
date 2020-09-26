@@ -9,7 +9,8 @@ public interface I_FD_TableColumn {
 
 	/** テーブル項目情報ID　*/
 	public final String COLUMNNAME_FD_TABLECOLUMN_ID = "FD_TableColumn_ID";
-
+	public final String NAME_FD_TABLECOLUMN_ID = "テーブル項目情報ID";
+	public final String COMMENT_FD_TABLECOLUMN_ID = "	テーブル項目情報を識別する為の情報ID";
 	/** テーブル情報ID */
 	public final String COLUMNNAME_FD_TABLE_ID = "FD_Table_ID";
 

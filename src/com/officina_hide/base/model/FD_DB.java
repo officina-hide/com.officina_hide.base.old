@@ -350,7 +350,10 @@ public class FD_DB implements I_DB {
 	 */
 	public int getIntOfValue(String itemName) {
 		try {
-			int data = (int) getItemData(itemName);
+			int data = 0;
+			if(getItemData(itemName) != null) {
+				data = (int) getItemData(itemName);
+			}
 			return data;
 		} catch (ClassCastException e) {
 			return 0;
@@ -823,6 +826,7 @@ public class FD_DB implements I_DB {
 			switch(map.get("Column_Type_Name").toString()) {
 			case COLUMN_TYPE_INFORMATION_ID:
 			case COLUMN_TYPE_NUMBER:
+			case COLUMN_TYPE_LIST:
 				items.append("INT UNSIGNED").append(" ");
 				break;
 			case COLUMN_TYPE_TEXT:

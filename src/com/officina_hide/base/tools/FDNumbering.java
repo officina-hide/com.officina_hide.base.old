@@ -87,7 +87,9 @@ public class FDNumbering extends FD_DB implements I_FD_Numbering {
 	 */
 	public void add(FD_EnvData env, int tableId, int start, int current) {
 		X_FD_Numbering num = new X_FD_Numbering(env);
-		num.setValue(env, COLUMNNAME_FD_NUMBERING_ID, tableId);
+		if(tableId < 1000) {
+			num.setValue(env, COLUMNNAME_FD_NUMBERING_ID, tableId);
+		}
 		num.setValue(env, COLUMNNAME_FD_TABLE_ID, tableId);
 		num.setValue(env, COLUMNNAME_START_NUMBER, start);
 		num.setValue(env, COLUMNNAME_CURRENT_NUMBER, current);
