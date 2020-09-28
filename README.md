@@ -5,5 +5,6 @@
 以下の機能を構築中です。  
 ・ドキュメント管理  
 ・会計機能（取り敢えずは金銭出納帳）  
+・プロジェクト管理機能  
 【English】  
 This package is developed for the purpose of making it possible for anyone to build a system that suits their purposes by allowing the design, construction, and verification cycles to be performed freely.
