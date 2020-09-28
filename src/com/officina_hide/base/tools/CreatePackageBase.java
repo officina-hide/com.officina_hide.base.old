@@ -10,6 +10,7 @@ import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_Table;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.documents.tools.CreateDocumnetPackage;
+import com.officina_hide.projects.tools.CreateProjectPackage;
 
 /**
  * パッケージで使用する為の基本設定を行う<br>
@@ -18,6 +19,7 @@ import com.officina_hide.documents.tools.CreateDocumnetPackage;
  * @version 2.00 システム機能の作りこみを優先する。<br>
  * @version 2.10 ドキュメント管理機能の構築を開始する。<br>
  * @version 2.11 会計管理機能の構築を開始する<br>
+ * @version 2.12 プロジェクト管理機能の構築を開始する。<br>
  * @since 2020/07/13
  * @param args 
  */
@@ -132,6 +134,12 @@ public class CreatePackageBase extends FD_DB {
 		 * 今回のバージョンでは、現金出納を中心にパッケージを作成する。
 		 */
 		new CreateAccountPackage(env);
+		
+		/*
+		 * プロジェクト管理に必要な設定を行う。
+		 * @sinse 2.12 2020/09/28
+		 */
+		new CreateProjectPackage(env);
 		
 //		CreateUserTalbe createUserTable = new CreateUserTalbe();
 //		createUserTable.createUserTable(env);

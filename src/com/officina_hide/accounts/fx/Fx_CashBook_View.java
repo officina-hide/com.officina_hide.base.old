@@ -21,11 +21,15 @@ import com.officina_hide.base.model.X_Fx_ViewItem;
 import com.officina_hide.base.tools.FDProcess;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -167,12 +171,33 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 					});
 					TableBox.getChildren().addAll(text, searchButton, clearButton, dispText);
 					break;
+				case I_Fx_ViewItem.VIEWTYPE_ID_FX_LIST:
+					item.setItemNode(createListNode());
+					break;
 				}
 				fxItemList.add(item);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * リスト項目ノート生成<br>
+	 * @author officine-hide.com
+	 * @since 2.11 2020/09/28
+	 * @return リスト項目ノード
+	 */
+	private Node createListNode() {
+		HBox listBox = new HBox(5);
+		
+		//テーブル項目リスト情報からリストを取得する。
+		String[] strList = new String[]{"収入","支出"};
+		ObservableList<String> list = FXCollections.observableArrayList(strList);
+
+		ChoiceBox<String> selectBox = new ChoiceBox<>(list);
+		listBox.getChildren().add(selectBox);
+		return listBox;
 	}
 
 	/**
