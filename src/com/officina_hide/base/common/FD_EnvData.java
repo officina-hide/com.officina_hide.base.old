@@ -1,7 +1,9 @@
 package com.officina_hide.base.common;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import com.officina_hide.base.tools.FDProcess;
 
@@ -13,6 +15,28 @@ import com.officina_hide.base.tools.FDProcess;
  * @since 2020/07/13
  */
 public class FD_EnvData {
+	/** データベースホストURI */
+	private static final String DB_HOST = "DB_host";
+	/** データベース名 */
+	private static final String DB_NAME = "DB_Name";
+	/** データベース使用ユーザー */
+	private static final String DB_USER = "DB_User";
+	/** データベース使用ユーザーパスワード */
+	private static final String DB_PASWORD = "DB_Passward";
+	/** システムユーザーID */
+	private static final String SYSTEM_USER_ID = "System_User_ID";
+	/** ログインユーザーID */
+	private static final String LOGIN_USER_ID = "Login_User_ID";
+	/** ログ保管フォルダーPath */
+	private static final String LOG_FILE_PATH = "Log_Path";
+
+	/*
+	 * 改造案<br>
+	 * @sinse 2020/09/29 ueno
+	 * 環境情報をプロパティ化する。<br>
+	 * 開発用フロパティと自分の利用用プロパティを作成し、開発済みでデータ作成を続けていく場合に分けて使用する。<br>
+	 * ユーザーデータの互換性を保つためのツールを作成する。<br>
+	 */
 	
 	/**
 	 * コンストラクター<br>
@@ -21,7 +45,40 @@ public class FD_EnvData {
 	 * @since 1.20 2020/08/03
 	 */
 	public FD_EnvData() {
-		getEnvData();
+		Properties prop = new Properties();
+		
+		try {
+			String currentPath = new File(".").getCanonicalPath();
+			prop.load(new FileInputStream(new File(currentPath+"\\data\\base.properties")));
+			setEnv(prop);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		getEnvData();
+	}
+
+	/**プロパティから環境情報セット<br>
+	 * @author officine-hide.com
+	 * @since 2,12 2020/09/29
+	 * @param prop プロパティ情報
+	 */
+	private void setEnv(Properties prop) {
+		setDB_Host(prop.getProperty(DB_HOST));
+		setDB_Name(prop.getProperty(DB_NAME));
+		setDB_User(prop.getProperty(DB_USER));
+		setDB_Password(prop.getProperty(DB_PASWORD));
+		setSystemUserID(Integer.parseInt(prop.getProperty(SYSTEM_USER_ID)));
+		setLoginUserID(Integer.parseInt(prop.getProperty(LOGIN_USER_ID)));
+		String logPath = prop.getProperty(LOG_FILE_PATH);
+		if(logPath.indexOf("$currentPath$") >= 0) {
+			try {
+				String currentPath = new File(".").getCanonicalPath();
+				logPath = logPath.replaceAll("\\$currentPath\\$", currentPath.replaceAll("\\\\", "\\\\\\\\"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		setLogFile_Path(logPath);
 	}
 
 	/**
@@ -30,7 +87,16 @@ public class FD_EnvData {
 	 * @param processName プロセス名
 	 */
 	public FD_EnvData(String processName) {
-		getEnvData();
+		Properties prop = new Properties();
+		
+		try {
+			String currentPath = new File(".").getCanonicalPath();
+			prop.load(new FileInputStream(new File(currentPath+"\\data\\base.properties")));
+			setEnv(prop);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		getEnvData();
 		//ログOpen(DBモード)
 		this.getLog().open(this, FD_Logging.LOG_DB_OUT, FD_Logging.MODE_DEBAG);
 		//プロセススタート
@@ -38,28 +104,28 @@ public class FD_EnvData {
 		process.startProcess(this, processName);
 	}
 
-	/**
-	 * 環境情報取得<br>
-	 * @author ueno hideo
-	 * @since 2020/08/03
-	 * TODO 当面はここで環境情報を直に設定する。(2020/08/03 ueno)
-	 */
-	private void getEnvData() {
-		setDB_Host("www.officina-hide.com");
-		setDB_Name("datatest");
-		setDB_User("root");
-		setDB_Password("kan2*Sin");
-		setSystemUserID(1000001);
-		setLoginUserID(1000001);
-		setModelURI("com.officina_hide.base.model");
-		try {
-			String currentPath = new File(".").getCanonicalPath();
-			setLogFile_Path(currentPath + "\\log");
-			setModelPath(currentPath + "\\src\\com\\officina_hide\\base\\model");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * 環境情報取得<br>
+//	 * @author ueno hideo
+//	 * @since 2020/08/03
+//	 * TODO 当面はここで環境情報を直に設定する。(2020/08/03 ueno)
+//	 */
+//	private void getEnvData() {
+//		setDB_Host("www.officina-hide.com");
+//		setDB_Name("datatest");
+//		setDB_User("root");
+//		setDB_Password("kan2*Sin");
+//		setSystemUserID(1000001);
+//		setLoginUserID(1000001);
+//		setModelURI("com.officina_hide.base.model");
+//		try {
+//			String currentPath = new File(".").getCanonicalPath();
+//			setLogFile_Path(currentPath + "\\log");
+//			setModelPath(currentPath + "\\src\\com\\officina_hide\\base\\model");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * ログ情報
