@@ -13,6 +13,7 @@ import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_DB;
 import com.officina_hide.base.model.I_FD_Reference;
 import com.officina_hide.base.model.I_FD_TableColumn;
+import com.officina_hide.base.model.I_FD_TableColumnList;
 import com.officina_hide.base.model.I_Fx_View;
 import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_FD_TableColumn;
@@ -172,7 +173,7 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 					TableBox.getChildren().addAll(text, searchButton, clearButton, dispText);
 					break;
 				case I_Fx_ViewItem.VIEWTYPE_ID_FX_LIST:
-					item.setItemNode(createListNode());
+					item.setItemNode(createListNode(env, item));
 					break;
 				}
 				fxItemList.add(item);
@@ -186,18 +187,58 @@ public class Fx_CashBook_View extends Application implements I_Fx_CashBook_View 
 	 * リスト項目ノート生成<br>
 	 * @author officine-hide.com
 	 * @since 2.11 2020/09/28
+	 * @param env 環境情報
+	 * @param item Fx項目情報
 	 * @return リスト項目ノード
 	 */
-	private Node createListNode() {
+	private Node createListNode(FD_EnvData env, Fx_Item item) {
 		HBox listBox = new HBox(5);
 		
 		//テーブル項目リスト情報からリストを取得する。
-		String[] strList = new String[]{"収入","支出"};
+		String[] strList = getColumnList(env
+				, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
 		ObservableList<String> list = FXCollections.observableArrayList(strList);
 
 		ChoiceBox<String> selectBox = new ChoiceBox<>(list);
 		listBox.getChildren().add(selectBox);
 		return listBox;
+	}
+
+	/**
+	 * リスト配列取得<br>
+	 * @author officine-hide.com
+	 * @since 2.12 2020/10/01
+	 * @param env 環境情報
+	 * @param columnId 対象テーブル項目情報ID
+	 * @return リスト配列
+	 */
+	private String[] getColumnList(FD_EnvData env, int columnId) {
+		String[] strList = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		StringBuffer sql = new StringBuffer();
+		try {
+			sql.append("SELECT * FROM ").append(I_FD_TableColumnList.Table_Name).append(" ");
+			sql.append("WHERE ").append(I_FD_TableColumnList.COLUMNNAME_FD_TABLECOLUMN_ID).append(" = ").append(columnId);
+			DB.connection(env);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			List<String> list = new ArrayList<>();
+			while(rs.next()) {
+				list.add(rs.getString(I_FD_TableColumnList.COLUMNNAME_LIST_NAME));
+			}
+			if(list.size() > 0) {
+				strList = new String[list.size()];
+				for(int ix = 0; ix < list.size(); ix++) {
+					strList[ix] = list.get(ix);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(rs, stmt);
+		}
+		return strList;
 	}
 
 	/**
