@@ -31,6 +31,9 @@ public class CreateProjectPackage {
 		//ToDo情報
 		PJToDo todo = new PJToDo();
 		todo.createTable(env);
+		//ToDo画面情報登録
+		FxToDoView ft = new FxToDoView();
+		ft.createViewData(env);
 
 		//終了メッセージ
 		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, "プロジェクト管理リソース構築終了");

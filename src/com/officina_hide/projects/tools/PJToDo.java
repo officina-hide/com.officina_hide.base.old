@@ -1,6 +1,7 @@
 package com.officina_hide.projects.tools;
 
 import com.officina_hide.base.common.FD_EnvData;
+import com.officina_hide.base.common.FD_Logging;
 import com.officina_hide.base.model.FD_DB;
 import com.officina_hide.base.model.I_FD_TableColumn;
 import com.officina_hide.base.tools.FDNumbering;
@@ -49,6 +50,8 @@ public class PJToDo extends FD_DB implements I_PJ_ToDo {
 		
 		//テーブル生成
 		createDBTable(env, Table_Name);
+		
+		env.getLog().add(env, FD_Logging.TYPE_MESSAGE, FD_Logging.MODE_NORMAL, Name+"テーブル構築");
 	}
 
 }

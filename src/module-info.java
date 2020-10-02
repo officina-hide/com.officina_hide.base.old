@@ -5,4 +5,5 @@ module com.officina_hide {
 	
 	opens com.officina_hide.fx.view;
 	opens com.officina_hide.accounts.fx;
+	opens com.officina_hide.projects.fx;
 }
