@@ -356,7 +356,12 @@ public class FD_DB implements I_DB {
 			}
 			return data;
 		} catch (ClassCastException e) {
-			return 0;
+			try {
+				int data = Integer.parseInt((String) getItemData(itemName));
+				return data;
+			} catch (NumberFormatException | ClassCastException e1) {
+				return 0;
+			}
 		}
 	}
 

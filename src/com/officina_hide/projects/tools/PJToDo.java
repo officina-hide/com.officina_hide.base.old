@@ -34,6 +34,8 @@ public class PJToDo extends FD_DB implements I_PJ_ToDo {
 				, COLUMN_TYPE_INFORMATION_ID, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_TODO_TITLE, NAME_TODO_TITLE, COMMENT_TODO_TITLE
 				, COLUMN_TYPE_TEXT, 100, 30, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_TODO_MEMO, NAME_TODO_MEMO, COMMENT_TODO_MEMO
+				, COLUMN_TYPE_FIELD_TEXT, 0, 40, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, tableId, COLUMNNAME_FD_CREATE, "登録日", "情報の登録日"
 				, COLUMN_TYPE_DATE, 0, 900, I_FD_TableColumn.IS_PRIMARY_NO);

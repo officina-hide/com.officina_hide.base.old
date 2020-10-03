@@ -44,6 +44,10 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 				, COLUMN_TYPE_INFORMATION_ID, 0, 80, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_SEARCH_DISP_ID, NAME_SEARCH_DISP_ID, COMMENT_SEARCH_TABLE_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 90, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_FIELD_LENGTH, NAME_FIELD_LENGTH, COMMENT_FIELD_LENGTH
+				, COLUMN_TYPE_NUMBER, 0, 100, I_FD_TableColumn.IS_PRIMARY_NO);
+		column.add(env, tableId, COLUMNNAME_FIELD_ROWS, NAME_FIELD_ROWS, COMMENT_FIELD_ROWS
+				, COLUMN_TYPE_NUMBER, 0, 110, I_FD_TableColumn.IS_PRIMARY_NO);
 		
 		column.add(env, tableId, COLUMNNAME_FD_CREATE, NAME_FD_CREATE, COMMENT_FD_CREATE
 				, COLUMN_TYPE_DATE, 0, 910, I_FD_TableColumn.IS_PRIMARY_NO);
@@ -74,9 +78,10 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 	 * @param name 画面項目表示名
 	 * @param typeName 画面項目属性名
 	 * @param columnId 画面項目ID 
+	 * @param additionColumn 追加登録項目
 	 * @return 画面項目情報ID
 	 */
-	public int addData(FD_EnvData env, int viewID, String viewItemName, String name, String typeName, int columnId) {
+	public int addData(FD_EnvData env, int viewID, String viewItemName, String name, String typeName, int columnId, String additionColumn) {
 		X_Fx_ViewItem item = new X_Fx_ViewItem(env);
 		int viewItemId = getNewID(env, getTableID(env, Table_Name));
 		int typeId = getReferenceID(env, typeName);
@@ -86,6 +91,15 @@ public class FxViewItem extends FD_DB implements I_Fx_ViewItem {
 		item.setValue(env, COLUMNNAME_FD_NAME, name);
 		item.setValue(env, COLUMNNAME_VIEWITEM_TYPE_ID, typeId);
 		item.setValue(env, COLUMNNAME_TABLECOLUMN_ID, columnId);
+
+		//追加カラム処理
+		if(additionColumn != null && additionColumn.split(",").length > 0) {
+			for(int ix = 0; ix < additionColumn.split(",").length; ix++) {
+				String columnData = additionColumn.split(",")[ix];
+				item.setValue(env, columnData.split("=")[0], columnData.split("=")[1]);
+			}
+		}
+		
 		item.save(env);
 		
 		return item.getIntOfValue(COLUMNNAME_FX_VIEWITEM_ID);

@@ -51,6 +51,14 @@ public interface I_Fx_ViewItem {
 	public final String COLUMNNAME_SEARCH_DISP_ID = "Search_Disp_ID";
 	public final String NAME_SEARCH_DISP_ID = "検索対象表示項目";
 	public final String COMMENT_SEARCH_DISP_ID = "項目属性がFx_Tableの時に、画面項目に表示する対象となる項目の情報ID";
+	/** 表示桁数 */
+	public final String COLUMNNAME_FIELD_LENGTH = "Field_Length";
+	public final String NAME_FIELD_LENGTH = "表示桁数";
+	public final String COMMENT_FIELD_LENGTH = "テキストフィールドの時に画面に表示する桁数";
+	/** 表示行数 */
+	public final String COLUMNNAME_FIELD_ROWS = "Field_Rows";
+	public final String NAME_FIELD_ROWS = "表示行数";
+	public final String COMMENT_FIELD_ROWS = "テキストフィールドの時に画面に表示する行数";
 	
 	/**
 	 * 画面項目属性

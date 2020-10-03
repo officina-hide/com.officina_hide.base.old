@@ -26,5 +26,8 @@ public interface I_PJ_ToDo {
 	public final String COLUMNNAME_TODO_TITLE = "ToDo_Title";
 	public final String NAME_TODO_TITLE  = "ToDo件名";
 	public final String COMMENT_TODO_TITLE  = "ToDoの内容を表わす件名";
-
+	/** ToDo内容 */
+	public final String COLUMNNAME_TODO_MEMO = "ToDo_Memo";
+	public final String NAME_TODO_MEMO = "ToDo内容";
+	public final String COMMENT_TODO_MEMO = "ToDoの具体的な内容";
 }
