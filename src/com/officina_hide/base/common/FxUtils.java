@@ -55,7 +55,6 @@ public class FxUtils {
 	 * @param root ルート
 	 */
 	public void createItem(VBox root) {
-		root.setPadding(new Insets(10, 20, 10, 20));
 		for(Fx_Item item : fxItemList) {
 			HBox row = new HBox(5);
 			row.setAlignment(Pos.CENTER_LEFT);
@@ -115,6 +114,8 @@ public class FxUtils {
 				case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD:
 					TextArea textArea = new TextArea();
 					textArea.setStyle("-fx-font-family: Meiryo UI; -fx-font-size: 12px;");
+					textArea.setPrefColumnCount(item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_FIELD_LENGTH));
+					textArea.setPrefRowCount(item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_FIELD_ROWS));
 					item.setItemNode(textArea);
 					break;
 				case I_Fx_ViewItem.VIEWTYPE_ID_FX_DATE:
@@ -270,6 +271,10 @@ public class FxUtils {
 		} finally {
 			DB.close(rs, stmt);
 		}
+	}
+
+	public List<Fx_Item> getFxItemList() {
+		return fxItemList;
 	}
 
 }
