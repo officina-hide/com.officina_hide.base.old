@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.officina_hide.accounts.fx.Fx_Item;
 import com.officina_hide.base.common.FD_EnvData;
-import com.officina_hide.base.common.FD_Item;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.common.FxUtils;
 import com.officina_hide.base.model.I_Fx_View;
@@ -87,7 +86,9 @@ public class Fx_ToDo_View extends Application implements I_Fx_ToDo_View {
 	private void saveButtonClicked(MouseEvent event, List<Fx_Item> list) {
 		X_PJ_ToDo todo = new X_PJ_ToDo(env);
 		for(Fx_Item item : list) {
+			switch(item.getItemType()) {
 			
+			}
 		}
 	}
 
