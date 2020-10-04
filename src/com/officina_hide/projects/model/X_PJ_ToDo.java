@@ -22,4 +22,14 @@ public class X_PJ_ToDo extends FD_DB implements I_PJ_ToDo {
 		createItemList(env, getTableID(env, Table_Name));
 	}
 
+	/**
+	 * 情報保存<br>
+	 * @author officine-hide.com
+	 * @since 2.12 2020/10/05
+	 * @param env 環境情報
+	 */
+	public void save(FD_EnvData env) {
+		save(env, Table_Name);
+	}
+
 }

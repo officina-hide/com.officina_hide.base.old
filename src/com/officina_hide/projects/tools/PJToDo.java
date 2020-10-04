@@ -28,9 +28,9 @@ public class PJToDo extends FD_DB implements I_PJ_ToDo {
 		
 		//テーブル項目情報登録
 		FDTableColumn column = new FDTableColumn();
-		column.add(env, tableId, COMMENT_PJ_TODO_ID, NAME_PJ_TODO_ID, COMMENT_PJ_TODO_ID
+		column.add(env, tableId, COLUMNNAME_PJ_TODO_ID, NAME_PJ_TODO_ID, COMMENT_PJ_TODO_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 10, I_FD_TableColumn.IS_PRIMARY_YES);
-		column.add(env, tableId, COMMENT_FD_CLIENT_ID, NAME_FD_CLIENT_ID, COMMENT_FD_CLIENT_ID
+		column.add(env, tableId, COLUMNNAME_FD_CLIENT_ID, NAME_FD_CLIENT_ID, COMMENT_FD_CLIENT_ID
 				, COLUMN_TYPE_INFORMATION_ID, 0, 20, I_FD_TableColumn.IS_PRIMARY_NO);
 		column.add(env, tableId, COLUMNNAME_TODO_TITLE, NAME_TODO_TITLE, COMMENT_TODO_TITLE
 				, COLUMN_TYPE_TEXT, 100, 30, I_FD_TableColumn.IS_PRIMARY_NO);

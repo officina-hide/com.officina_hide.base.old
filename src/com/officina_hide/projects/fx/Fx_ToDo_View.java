@@ -7,6 +7,7 @@ import com.officina_hide.base.common.FD_EnvData;
 import com.officina_hide.base.common.FD_WhereData;
 import com.officina_hide.base.common.FxUtils;
 import com.officina_hide.base.model.I_Fx_View;
+import com.officina_hide.base.model.I_Fx_ViewItem;
 import com.officina_hide.base.model.X_Fx_View;
 import com.officina_hide.projects.model.I_Fx_ToDo_View;
 import com.officina_hide.projects.model.X_PJ_ToDo;
@@ -15,6 +16,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -86,10 +89,19 @@ public class Fx_ToDo_View extends Application implements I_Fx_ToDo_View {
 	private void saveButtonClicked(MouseEvent event, List<Fx_Item> list) {
 		X_PJ_ToDo todo = new X_PJ_ToDo(env);
 		for(Fx_Item item : list) {
+			String columnName = item.getViewItem().getTableColumnName(env, item.getViewItem().getIntOfValue(I_Fx_ViewItem.COLUMNNAME_TABLECOLUMN_ID));
 			switch(item.getItemType()) {
-			
+			case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT:
+				TextField textField = (TextField) item.getItemNode();
+				todo.setValue(env, columnName, textField.getText());
+				break;
+			case I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD:
+				TextArea textArea = (TextArea) item.getItemNode();
+				todo.setValue(env, columnName, textArea.getText());
+				break;
 			}
 		}
+		todo.save(env);
 	}
 
 	public static void main(String[] args) {
