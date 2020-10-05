@@ -29,6 +29,8 @@ public class FxToDoView extends FD_DB  implements I_Fx_ToDo_View, I_PJ_ToDo {
 		
 		//画面項目情報登録
 		FxViewItem item = new FxViewItem();
+		item.addData(env, viewId, COLUMNNAME_FD_CLIENT_ID, NAME_FD_CLIENT_ID, I_Fx_ViewItem.VIEWTYPE_ID_FX_TABLE
+				, getTableColumnID(env, I_PJ_ToDo.Table_Name, COLUMNNAME_PJ_TODO_ID), null);
 		item.addData(env, viewId, COLUMNNAME_TODO_TITLE, NAME_TODO_TITLE, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXT
 				, getTableColumnID(env, I_PJ_ToDo.Table_Name, I_PJ_ToDo.COLUMNNAME_TODO_TITLE), null);
 		item.addData(env, viewId, COLUMNNAME_TODO_MEMO, NAME_TODO_MEMO, I_Fx_ViewItem.VIEWTYPE_ID_FX_TEXTFIELD
